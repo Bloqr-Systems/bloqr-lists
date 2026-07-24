@@ -7,9 +7,9 @@ module.exports = {
     title: `AdGuard Tools and Utilities`,
     description: `A comprehensive multi-language toolkit for ad-blocking, network protection, and AdGuard DNS management`,
     author: `Ad-Blocking Contributors`,
-    siteUrl: `https://jaypatrick.github.io/ad-blocking`,
+    siteUrl: `https://bloqr-systems.github.io/bloqr-lists/`,
   },
-  pathPrefix: `/ad-blocking`,
+  pathPrefix: `/bloqr-lists`,
   plugins: [
     `gatsby-plugin-image`,
     `gatsby-plugin-sharp`,
