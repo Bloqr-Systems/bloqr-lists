@@ -1,9 +1,5 @@
 #Requires -Modules Pester
-
-BeforeAll {
-    # Import the CompilerLogger class directly
-    using module (Join-Path $PSScriptRoot '..' 'Classes' 'CompilerLogger.psm1')
-}
+using module ..\Classes\CompilerLogger.psm1
 
 Describe 'CompilerLogger Class Tests' {
     Context 'Constructor Tests' {

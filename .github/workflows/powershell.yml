@@ -29,7 +29,7 @@ jobs:
         shell: pwsh
         run: |
           Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser -SkipPublisherCheck
-          $results = Invoke-ScriptAnalyzer -Path src/adguard-api-powershell, src/powershell -Recurse -Severity Warning,Error
+          $results = Invoke-ScriptAnalyzer -Path @('src/adguard-api-powershell', 'src/powershell') -Recurse -Severity Warning,Error
           $results | Format-Table -AutoSize
           $errors = $results | Where-Object { $_.Severity -eq 'Error' }
           if ($errors.Count -gt 0) {

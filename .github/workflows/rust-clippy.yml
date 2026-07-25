@@ -65,7 +65,7 @@ jobs:
       - name: Run clippy
         run: |
           # Run clippy on non-generated packages only (adguard-api-lib is OpenAPI-generated, excluded)
-          cargo clippy -p rules-compiler -p adguard-validation-core -p adguard-validation-cli \
+          cargo clippy --no-deps -p rules-compiler -p adguard-validation-core -p adguard-validation-cli \
             -p adguard-api-cli \
             --all-features -- -W clippy::all -W clippy::correctness -W clippy::suspicious
 
@@ -102,7 +102,7 @@ jobs:
 
       - name: Run clippy for security analysis
         run: |
-          cargo clippy -p rules-compiler -p adguard-validation-core -p adguard-validation-cli \
+          cargo clippy --no-deps -p rules-compiler -p adguard-validation-core -p adguard-validation-cli \
             -p adguard-api-cli \
             --all-features --message-format=json | clippy-sarif | tee rust-clippy-results.sarif | sarif-fmt
         continue-on-error: true

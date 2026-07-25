@@ -1,9 +1,5 @@
 #Requires -Version 7.0
-
-BeforeAll {
-    # Import the class
-    using module ..\Classes\WebhookStatistics.psm1
-}
+using module ..\Classes\WebhookStatistics.psm1
 
 Describe "WebhookStatistics Class Tests" {
     

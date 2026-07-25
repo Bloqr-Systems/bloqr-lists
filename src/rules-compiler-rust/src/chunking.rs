@@ -220,9 +220,9 @@ fn split_by_source(
     let mut chunks = Vec::new();
 
     // Calculate sources per chunk to keep chunks balanced
-    let sources_per_chunk = (sources.len() + options.max_parallel - 1) / options.max_parallel;
+    let sources_per_chunk = sources.len().div_ceil(options.max_parallel);
     let sources_per_chunk = std::cmp::max(1, sources_per_chunk);
-    let total_chunks = (sources.len() + sources_per_chunk - 1) / sources_per_chunk;
+    let total_chunks = sources.len().div_ceil(sources_per_chunk);
 
     tracing::info!(
         "Creating {} chunks with ~{} sources each",
@@ -312,7 +312,7 @@ pub fn estimate_speedup(total_rules: usize, options: &ChunkingOptions) -> f64 {
     }
 
     // Simple linear model
-    let num_chunks = (total_rules + options.chunk_size - 1) / options.chunk_size;
+    let num_chunks = total_rules.div_ceil(options.chunk_size);
     let num_chunks = num_chunks as f64;
 
     // Theoretical speedup = min(numChunks, maxParallel)
@@ -345,7 +345,7 @@ pub async fn compile_chunks_async(
         let batch: Vec<_> = chunks[batch_start..batch_end].to_vec();
 
         let batch_number = batch_start / options.max_parallel + 1;
-        let total_batches = (chunks.len() + options.max_parallel - 1) / options.max_parallel;
+        let total_batches = chunks.len().div_ceil(options.max_parallel);
 
         tracing::info!(
             "Processing batch {}/{} (chunks {}-{})",
@@ -534,7 +534,7 @@ async fn compile_single_chunk_async(
 }
 
 fn get_compiler_command(config_path: &str, output_path: &str) -> Result<(String, Vec<String>)> {
-    if let Some(compiler_path) = which::which("hostlist-compiler").ok() {
+    if let Ok(compiler_path) = which::which("hostlist-compiler") {
         return Ok((
             compiler_path.display().to_string(),
             vec![
@@ -546,7 +546,7 @@ fn get_compiler_command(config_path: &str, output_path: &str) -> Result<(String,
         ));
     }
 
-    if let Some(npx_path) = which::which("npx").ok() {
+    if let Ok(npx_path) = which::which("npx") {
         return Ok((
             npx_path.display().to_string(),
             vec![

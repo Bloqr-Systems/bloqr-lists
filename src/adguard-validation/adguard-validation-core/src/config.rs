@@ -3,28 +3,24 @@
 use serde::{Deserialize, Serialize};
 
 /// Verification mode for hash checking.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
 #[serde(rename_all = "lowercase")]
 pub enum VerificationMode {
     /// Strict mode: all sources must have hashes, any mismatch fails.
     Strict,
     /// Warning mode: hash mismatches generate warnings but don't fail.
+    #[default]
     Warning,
     /// Disabled: no hash verification.
     Disabled,
 }
 
-impl Default for VerificationMode {
-    fn default() -> Self {
-        Self::Warning
-    }
-}
-
 /// Archiving mode.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
 #[serde(rename_all = "lowercase")]
 pub enum ArchivingMode {
     /// Automatic archiving after compilation.
+    #[default]
     Automatic,
     /// Interactive: prompt user before archiving.
     Interactive,
@@ -32,28 +28,17 @@ pub enum ArchivingMode {
     Disabled,
 }
 
-impl Default for ArchivingMode {
-    fn default() -> Self {
-        Self::Automatic
-    }
-}
-
 /// File conflict resolution strategy.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
 #[serde(rename_all = "lowercase")]
 pub enum ConflictStrategy {
     /// Rename file with incrementing number.
+    #[default]
     Rename,
     /// Overwrite existing file.
     Overwrite,
     /// Error if file exists.
     Error,
-}
-
-impl Default for ConflictStrategy {
-    fn default() -> Self {
-        Self::Rename
-    }
 }
 
 /// Hash verification configuration.
@@ -126,7 +111,7 @@ impl Default for OutputConfig {
 }
 
 /// Main validation configuration.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
 #[serde(default)]
 pub struct ValidationConfig {
     /// Hash verification settings.
@@ -135,16 +120,6 @@ pub struct ValidationConfig {
     pub archiving: ArchivingConfig,
     /// Output settings.
     pub output: OutputConfig,
-}
-
-impl Default for ValidationConfig {
-    fn default() -> Self {
-        Self {
-            hash_verification: HashVerificationConfig::default(),
-            archiving: ArchivingConfig::default(),
-            output: OutputConfig::default(),
-        }
-    }
 }
 
 impl ValidationConfig {
