@@ -31,12 +31,29 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Setup .NET
+        if: matrix.language == 'csharp'
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
           languages: ${{ matrix.language }}
 
+      # C# is built explicitly (not via autobuild) so CodeQL only scans the
+      # .NET solutions: the repo's root build.sh drives every language's
+      # build and would fail here since Deno/Python/etc. aren't set up in
+      # this job.
+      - name: Build .NET projects
+        if: matrix.language == 'csharp'
+        run: |
+          dotnet build src/adguard-api-dotnet/AdGuard.ApiClient.slnx
+          dotnet build src/rules-compiler-dotnet/RulesCompiler.slnx
+
       - name: Autobuild
+        if: matrix.language != 'csharp'
         uses: github/codeql-action/autobuild@v3
 
       - name: Perform CodeQL Analysis
