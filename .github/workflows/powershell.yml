@@ -30,7 +30,10 @@ jobs:
         run: |
           Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser -SkipPublisherCheck
           $results = @()
-          $results += Invoke-ScriptAnalyzer -Path 'src/adguard-api-powershell' -Recurse -Severity Warning,Error
+          # PSAvoidUsingUsernameAndPasswordParams is excluded for the AdGuard API client:
+          # it is OpenAPI-generated and its Username/Password parameters are real DNS API
+          # auth fields, not a credential-handling mistake.
+          $results += Invoke-ScriptAnalyzer -Path 'src/adguard-api-powershell' -Recurse -Severity Warning,Error -ExcludeRule PSAvoidUsingUsernameAndPasswordParams
           $results += Invoke-ScriptAnalyzer -Path 'src/powershell' -Recurse -Severity Warning,Error
           $results | Format-Table -AutoSize
           $errors = $results | Where-Object { $_.Severity -eq 'Error' }
