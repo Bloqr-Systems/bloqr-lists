@@ -23,9 +23,9 @@
     - Linux (Ubuntu 18.04+, Debian 10+, RHEL 8+, etc.) with PowerShell 7+
 #>
 
-# Import the OOP modules from src/powershell-modules/
-using module ..\powershell-modules\Common\Common.psm1
-using module ..\powershell-modules\AdGuardWebhook\AdGuardWebhook.psm1
+# Import the OOP modules from src/powershell/
+using module ..\powershell\Common\Common.psm1
+using module ..\powershell\AdGuardWebhook\AdGuardWebhook.psm1
 
 function Invoke-AdGuardWebhook {
     <#

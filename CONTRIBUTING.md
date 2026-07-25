@@ -120,7 +120,7 @@ ruff check rules_compiler/
 cargo clippy --workspace
 
 # PowerShell
-Invoke-ScriptAnalyzer -Path src/powershell-modules -Recurse
+Invoke-ScriptAnalyzer -Path src/powershell -Recurse
 ```
 
 ### 5. Commit Changes
@@ -220,7 +220,7 @@ cd src/rules-compiler-typescript && deno task test
 cd src/rules-compiler-dotnet && dotnet test
 cd src/rules-compiler-python && pytest
 cd src/rules-compiler-rust && cargo test
-cd src/powershell-modules && Invoke-Pester
+cd src/powershell && Invoke-Pester
 ```
 
 ## Pull Request Process

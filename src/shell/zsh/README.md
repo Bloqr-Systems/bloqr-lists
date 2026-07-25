@@ -325,7 +325,7 @@ If migrating from bash scripts:
 - [Shell Scripts Overview](../README.md)
 - [Bash Implementation](../bash/README.md)
 - [Environment Variables Reference](../../../docs/ENVIRONMENT_VARIABLES.md)
-- [PowerShell Modules](../../powershell-modules/README.md)
+- [PowerShell Modules](../../powershell/README.md)
 
 ## Contributing
 
