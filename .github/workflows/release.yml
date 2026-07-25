@@ -45,6 +45,23 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.slnx') }}
+          restore-keys: ${{ runner.os }}-nuget-
+
+      - name: Restore AdGuard API Client dependencies
+        shell: bash
+        run: |
+          dotnet restore src/adguard-api-dotnet/AdGuard.ApiClient.slnx
+
+      - name: Restore Rules Compiler dependencies
+        shell: bash
+        run: |
+          dotnet restore src/rules-compiler-dotnet/RulesCompiler.slnx
+
       - name: Publish AdGuard.ConsoleUI
         shell: bash
         run: |
@@ -120,6 +137,16 @@ jobs:
         with:
           toolchain: stable
           target: ${{ matrix.target }}
+
+      - name: Cache Cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-cargo-
 
       - name: Build Rust compiler
         shell: bash
@@ -241,7 +268,7 @@ jobs:
             - Windows: `.\AdGuard.ConsoleUI.exe`, `.\RulesCompiler.Console.exe`, or `.\rules-compiler.exe`
             - Linux/macOS: `./AdGuard.ConsoleUI`, `./RulesCompiler.Console`, or `./rules-compiler`
 
-            For detailed documentation, see the [README](https://github.com/jaypatrick/ad-blocking/blob/main/README.md).
+            For detailed documentation, see the [README](https://github.com/Bloqr-Systems/bloqr-lists/blob/main/README.md).
           draft: false
           prerelease: false
         env:
