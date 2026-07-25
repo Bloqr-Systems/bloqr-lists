@@ -1,7 +1,7 @@
-# Ad-Blocking Repository
-A comprehensive multi-language toolkit for ad-blocking, network protection, and AdGuard DNS management. Features filter rule compilers in **5 languages** (TypeScript, .NET, Python, Rust, PowerShell), plus complete **API SDKs for AdGuard DNS** in both C# and Rust with interactive console interfaces.
+# bloqr-lists
+A comprehensive multi-language toolkit for ad-blocking, network protection, and AdGuard DNS management. Features filter rule compilers in **4 core languages** (TypeScript, .NET, Python, Rust) plus **PowerShell modules**, complete **API SDKs** in C#, TypeScript, and Rust with interactive console interfaces, validation tools, and shell script wrappers.
 
-📚 **[View Documentation Website](https://jaypatrick.github.io/ad-blocking)** - User-friendly documentation for all features and recent improvements.
+🚀 **Active Development** - Multi-language support, Docker development environment, comprehensive CI/CD integration, and extensive test coverage across all components.
 
 ## Table of Contents
 
@@ -19,6 +19,8 @@ A comprehensive multi-language toolkit for ad-blocking, network protection, and 
 - [AdGuard API Clients](#adguard-api-clients)
   - [C# SDK](#c-sdk)
   - [Rust SDK](#rust-sdk)
+  - [TypeScript SDK](#typescript-sdk)
+- [Validation & Tools](#validation--tools)
 - [Console Applications](#console-applications)
   - [.NET Console UI](#net-console-ui)
   - [Rust CLI](#rust-cli)
@@ -34,15 +36,15 @@ A comprehensive multi-language toolkit for ad-blocking, network protection, and 
 
 > 🔒 **Security First**: All compilers include **mandatory validation** to protect against malicious filter lists, tampering, and man-in-the-middle attacks. [Learn why validation matters →](docs/WHY_VALIDATION_MATTERS.md)
 
-### Rules Compilers (5 Languages)
+### Rules Compilers (4 Languages + PowerShell)
 
 | Language | Runtime | Distribution | Key Features |
 |----------|---------|--------------|--------------|
-| **TypeScript** | Deno 2.0+ | Deno | Secure by default, built-in TypeScript, optional Rust frontend |
-| **C#/.NET** | .NET 10 | NuGet/Binary | Interactive CLI, config validation, DI support |
-| **Python** | Python 3.9+ | pip | Type hints, PyPI-ready packaging |
-| **Rust** | Native binary | Cargo/Binary | Zero-runtime deps, LTO optimization |
-| **PowerShell** | PowerShell 7+ | Module | Pipeline-friendly, Pester tests |
+| **TypeScript** | Deno 2.0+ | Deno | Secure by default, built-in TypeScript, interactive CLI |
+| **C#/.NET** | .NET 10 | Binary/NuGet | Interactive CLI, config validation, DI support, Spectre.Console UI |
+| **Python** | Python 3.9+ | pip | Type hints, PyPI-ready packaging, full library API |
+| **Rust** | Native binary | Cargo/Binary | Zero-runtime deps, LTO optimization, workspace unified |
+| **PowerShell** | PowerShell 7+ | Modules | Modern class-based modules, Pester tests, webhook support |
 
 All compilers use **[@jk-com/adblock-compiler](https://github.com/jaypatrick/hostlistcompiler)** - a modern, SOLID-compliant TypeScript package distributed via JSR. [📘 See comprehensive guide →](docs/guides/adblock-compiler-guide.md)
 
@@ -88,7 +90,7 @@ Both SDKs provide complete coverage of AdGuard DNS API v1.11 including devices, 
 ## Project Structure
 
 ```
-ad-blocking/
+bloqr-lists/
 ├── .github/                           # GitHub configuration
 │   ├── workflows/                     # CI/CD pipelines
 │   │   ├── dotnet.yml                 # .NET build and test
@@ -207,14 +209,14 @@ The launcher provides guided navigation with numbered menus, colored output, and
 
 | Requirement | Version | Required For |
 |-------------|---------|--------------|
-| [Deno](https://deno.land/) | 2.0+ | TypeScript compiler, TypeScript API client |
-| [hostlist-compiler](https://github.com/AdguardTeam/HostlistCompiler) | Latest | All compilers |
-| [.NET SDK](https://dotnet.microsoft.com/download/dotnet/10.0) | 10.0+ | .NET compiler, API client |
-| [Python](https://www.python.org/) | 3.9+ | Python compiler |
-| [Rust](https://rustup.rs/) | 1.83+ | Rust workspace (all Rust projects) |
-| [PowerShell](https://github.com/PowerShell/PowerShell) | 7+ | PowerShell scripts |
+| [Deno](https://deno.land/) | 2.0+ | TypeScript compiler, TypeScript API client, Linear import tool |
+| [.NET SDK](https://dotnet.microsoft.com/download/dotnet/10.0) | 10.0+ | .NET compiler, .NET API client, Console UI |
+| [Rust](https://rustup.rs/) | 1.85+ | Rust workspace (rules compiler, API client, validation tools) |
+| [Python](https://www.python.org/) | 3.9+ | Python rules compiler |
+| [PowerShell](https://github.com/PowerShell/PowerShell) | 7+ | PowerShell modules and scripts |
+| [Docker](https://www.docker.com/) | 24.0+ | Development environment (optional but recommended) |
 
-> **Note**: All Rust projects are now part of a unified workspace. See [RUST_WORKSPACE.md](RUST_WORKSPACE.md) for details.
+> **Note**: All Rust projects are unified in a single workspace at the repository root. See [docs/RUST_WORKSPACE.md](docs/RUST_WORKSPACE.md) for details.
 
 ### Install Deno
 
@@ -231,8 +233,8 @@ The `@jk-com/adblock-compiler` package is accessed via Deno's JSR integration.
 ### Clone and Setup
 
 ```bash
-git clone https://github.com/jaypatrick/ad-blocking.git
-cd ad-blocking
+git clone https://github.com/bloqr-systems/bloqr-lists.git
+cd bloqr-lists
 
 # TypeScript compiler
 cd src/rules-compiler-typescript && deno cache src/mod.ts
@@ -618,10 +620,12 @@ deno task test:coverage             # With coverage
 ```
 
 **Features**:
-- Deno 2.0+ runtime with secure-by-default permissions
+- Deno 2.0+ runtime with npm compatibility and secure-by-default permissions
 - Built-in TypeScript support, no build step required
 - Interactive console mode with menu-driven interface
-- Deno native testing and linting
+- Dual-mode operation: CLI and interactive modes
+- Library API export via `@rules-compiler/typescript/lib`
+- Deno native testing and linting with coverage
 
 ### .NET Compiler
 
@@ -825,64 +829,52 @@ See [Shell Scripts README](src/shell/README.md) for detailed documentation.
 
 ### PowerShell Modules
 
-**Location**: `src/adguard-api-powershell/`
+Two PowerShell module implementations are provided:
 
-#### RulesCompiler Module
+#### Modern Canonical Modules (`src/powershell/`)
 
-PowerShell API for compiling AdGuard filter rules.
+Class-based, actively-developed PowerShell 7+ modules following best practices:
+
+- **Common** - Shared `CompilerLogger` and `CompilerResult` classes
+- **RulesCompiler** - Rules compilation with class-based configuration
+- **AdGuardWebhook** - Webhook invocation with statistics tracking
 
 ```powershell
-# Import module
-Import-Module ./src/adguard-api-powershell/Invoke-RulesCompiler.psm1
-
-# Available functions
-Get-CompilerVersion | Format-List           # Version info
-Invoke-RulesCompiler                         # Compile rules
-Invoke-RulesCompiler -CopyToRules            # Compile and copy
-
-# Interactive harness
-./src/adguard-api-powershell/RulesCompiler-Harness.ps1
+# Import modules
+Import-Module ./src/powershell/Common/Common.psd1
+Import-Module ./src/powershell/RulesCompiler/RulesCompiler.psd1
+Import-Module ./src/powershell/AdGuardWebhook/AdGuardWebhook.psd1
 
 # Run Pester tests
-Invoke-Pester -Path ./src/adguard-api-powershell/Tests/
+Invoke-Pester -Path ./src/powershell -Recurse
+
+# Lint with PSScriptAnalyzer
+Invoke-ScriptAnalyzer -Path src/powershell -Recurse
 ```
 
-**Exported Functions**:
+#### Legacy Compatibility Modules (`src/adguard-api-powershell/`)
 
-| Function | Description |
-|----------|-------------|
-| `Read-CompilerConfiguration` | Parse config file (JSON, YAML, TOML) |
-| `Invoke-FilterCompiler` | Run hostlist-compiler |
-| `Write-CompiledOutput` | Write output file |
-| `Invoke-RulesCompiler` | Full compilation pipeline |
-| `Get-CompilerVersion` | Get version info |
+Maintained for backward compatibility with existing scripts.
 
-#### Webhook Module (v1.0.0 - NEW!)
-
-Modernized PowerShell module for invoking AdGuard DNS webhooks with rich features.
-
+**RulesCompiler Module**:
 ```powershell
-# Import module
-Import-Module ./src/adguard-api-powershell/Invoke-WebHook.psm1
-
-# Basic invocation
-Invoke-AdGuardWebhook -WebhookUrl "https://api.adguard-dns.io/webhook/xxx"
-
-# Continuous mode with statistics
-Invoke-AdGuardWebhook -WebhookUrl $url -Continuous -ShowStatistics
-
-# Load from configuration file
-Invoke-AdGuardWebhook -ConfigFile webhook-config.json -ShowStatistics
-
-# Save configuration
-Invoke-AdGuardWebhook -WebhookUrl $url -SaveConfig config.json
-
-# Quiet mode with JSON output
-Invoke-AdGuardWebhook -WebhookUrl $url -Quiet -Format Json
+Import-Module ./src/adguard-api-powershell/Invoke-RulesCompiler.psm1
+Invoke-RulesCompiler                      # Compile rules
+Invoke-RulesCompiler -CopyToRules         # Compile and copy
+Get-CompilerVersion | Format-List         # Version info
+./src/adguard-api-powershell/RulesCompiler-Harness.ps1  # Interactive harness
 ```
 
-**New Features (v1.0.0)**:
-- ✅ Rich console output with colored icons and emojis
+**Webhook Module** (v1.0.0):
+```powershell
+Import-Module ./src/adguard-api-powershell/Invoke-WebHook.psm1
+Invoke-AdGuardWebhook -WebhookUrl $url
+Invoke-AdGuardWebhook -WebhookUrl $url -Continuous -ShowStatistics
+Invoke-AdGuardWebhook -ConfigFile config.json -SaveConfig config.json
+```
+
+**Features**:
+- ✅ Rich console output with colored output
 - 📊 Progress bars for continuous operations
 - 📊 Statistics tracking (success/failure rates, elapsed time)
 - 💾 Configuration file support (JSON/YAML)
@@ -891,34 +883,7 @@ Invoke-AdGuardWebhook -WebhookUrl $url -Quiet -Format Json
 - 🎯 Parameter validation with ranges
 - 🔙 Backward compatible alias (`Invoke-Webhook`)
 
-**Configuration File Example**:
-```json
-{
-  "WebhookUrl": "https://api.adguard-dns.io/webhook/xxx",
-  "WaitTime": 500,
-  "RetryCount": 10,
-  "RetryInterval": 5,
-  "Continuous": false
-}
-```
-
-#### Utility Scripts (Enhanced)
-
-All utility scripts have been enhanced with modern features:
-
-**Regenerate-Client.ps1** - New options:
-- `-DryRun`: Preview changes without modification
-- `-Compare`: Show detailed diffs
-- `-Clean`: Remove backup files
-- `-LogFile`: Persistent logging
-- `-OutputFormat`: Text, Json, or Markdown
-
-**Update-ApiClient.ps1** - New options:
-- `-Force`: Skip confirmations
-- `-CI`: Non-interactive mode
-- Step progress indicators with colored icons
-
-See [PowerShell Modules README](src/adguard-api-powershell/README.md) for complete documentation
+See individual module READMEs in `src/powershell/` and `src/adguard-api-powershell/` for complete documentation.
 
 ## AdGuard API Clients
 
@@ -1046,7 +1011,8 @@ deno task start
 - Repository pattern with high-level abstractions
 - Automatic retry with exponential backoff using axios-retry
 - Interactive CLI with inquirer prompts
-- Deno 2.0+ runtime with secure-by-default permissions
+- Deno 2.0+ runtime with npm compatibility and secure-by-default permissions
+- Library API export via `@adguard/api-typescript/lib`
 - Full test coverage with Deno test
 
 **Usage Example**:
@@ -1076,19 +1042,51 @@ const stats = await client.statisticsRepository.getSummary();
 
 ### API Coverage (All SDKs)
 
+All three SDK implementations (C#, TypeScript, Rust) provide complete coverage of:
+
 | API | Description |
 |-----|-------------|
-| `AccountApi` | Account limits and information |
-| `AuthenticationApi` | OAuth token generation |
-| `DevicesApi` | Device CRUD operations |
-| `DNSServersApi` | DNS server profile management |
-| `DedicatedIPAddressesApi` | Dedicated IPv4 management |
-| `FilterListsApi` | Filter list retrieval |
-| `QueryLogApi` | Query log operations |
-| `StatisticsApi` | DNS query statistics |
-| `WebServicesApi` | Web services for blocking |
+| **Account** | Account limits and information |
+| **Authentication** | OAuth token generation |
+| **Devices** | Device CRUD operations |
+| **DNS Servers** | DNS server profile management |
+| **Dedicated IPs** | Dedicated IPv4 address management |
+| **Filter Lists** | Filter list retrieval and management |
+| **Query Logs** | Query log operations and filtering |
+| **Statistics** | DNS query statistics (24h, 7d, 30d) |
+| **Web Services** | Web services for content blocking |
 
-See [API Client Usage Guide](docs/guides/api-client-usage.md) for detailed C# examples.
+See [API Client Usage Guide](docs/guides/api-client-usage.md) for detailed examples across all SDKs.
+
+## Validation & Tools
+
+### AdGuard Validation
+
+**Location**: `src/adguard-validation/` (part of root Rust workspace)
+
+Rust library and CLI for validating filter and configuration files.
+
+- **adguard-validation-core** - Core validation logic library
+- **adguard-validation-cli** - Command-line validation tool
+
+```bash
+# Build and run validation
+cargo build --release -p adguard-validation-cli
+./target/release/adguard-validation-cli --help
+```
+
+### Linear Import Tool
+
+**Location**: `src/linear/`
+
+TypeScript tool for importing documentation into Linear project management using Deno 2.0+.
+
+```bash
+cd src/linear
+deno task import              # Run import
+deno task import:docs         # Import documentation
+deno task import:dry-run      # Preview import
+```
 
 ## Console Applications
 
@@ -1439,28 +1437,26 @@ GitHub Actions workflows:
 
 ### Releases
 
-The repository automatically builds and publishes binaries when a new version tag is pushed. See the [Release Guide](docs/release-guide.md) for details.
+The repository can build and publish binaries for distribution. See [Release Guide](docs/release-guide.md) for build and distribution details.
 
-Pre-built binaries are available for:
-- **AdGuard.ConsoleUI** (Windows, Linux, macOS)
-- **RulesCompiler.Console** (Windows, Linux, macOS)
-- **rules-compiler** Rust binary (Windows, Linux, macOS)
-- **rules-compiler** Python wheel (cross-platform)
-
-Download the latest release from the [Releases page](https://github.com/jaypatrick/ad-blocking/releases).
+Available binaries/packages:
+- **AdGuard.ConsoleUI** (.NET Console application)
+- **RulesCompiler.Console** (.NET rules compiler CLI)
+- **rules-compiler** (Rust binary - single statically-linked executable)
+- **rules-compiler** (Python wheel - pip-installable package)
 
 ## Documentation
 
-### 📚 Documentation Website
+### 📚 Documentation Resources
 
-**[https://jaypatrick.github.io/ad-blocking](https://jaypatrick.github.io/ad-blocking)**
+The repository includes comprehensive documentation:
 
-A user-friendly Gatsby-powered website with:
-- Organized documentation by category (Getting Started, Guides, API, Technical)
-- Recent improvements and changelog
-- Responsive design for desktop and mobile
-- Full-text search across all documentation
-- Direct links to all 58+ markdown files
+- **[CLAUDE.md](CLAUDE.md)** - AI assistant development guidelines with complete project overview
+- **[docs/](docs/)** - Getting started guides, configuration reference, Docker guide
+- **[Compiler Comparison](docs/compiler-comparison.md)** - Choose the right compiler for your needs
+- **[Configuration Reference](docs/configuration-reference.md)** - Complete schema documentation
+- **[API Client Usage Guide](docs/guides/api-client-usage.md)** - SDK implementation examples
+- **Per-project READMEs** - Detailed documentation in each src/ directory
 
 ### Getting Started
 
