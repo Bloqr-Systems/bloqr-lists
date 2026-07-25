@@ -45,6 +45,16 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
+      - name: Restore AdGuard API Client dependencies
+        shell: bash
+        run: |
+          dotnet restore src/adguard-api-dotnet/AdGuard.ApiClient.slnx
+
+      - name: Restore Rules Compiler dependencies
+        shell: bash
+        run: |
+          dotnet restore src/rules-compiler-dotnet/RulesCompiler.slnx
+
       - name: Publish AdGuard.ConsoleUI
         shell: bash
         run: |
