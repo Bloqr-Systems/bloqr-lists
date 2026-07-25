@@ -82,12 +82,12 @@ const Layout = ({ children, pageTitle }) => {
         <div className="container">
           <p>
             AdGuard Tools and Utilities - Licensed under{" "}
-            <a href="https://github.com/jaypatrick/ad-blocking/blob/main/LICENSE">
+            <a href="https://github.com/Bloqr-Systems/bloqr-lists/blob/main/LICENSE">
               GPL-3.0
             </a>
           </p>
           <p>
-            <a href="https://github.com/jaypatrick/ad-blocking">
+            <a href="https://github.com/Bloqr-Systems/bloqr-lists">
               View on GitHub
             </a>
           </p>

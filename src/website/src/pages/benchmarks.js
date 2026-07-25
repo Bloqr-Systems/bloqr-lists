@@ -312,7 +312,7 @@ Maximum speedup: 6.75x`}
           </div>
           <div className="feature">
             <h3>
-              <a href="https://github.com/jaypatrick/ad-blocking/tree/main/benchmarks">
+              <a href="https://github.com/Bloqr-Systems/bloqr-lists/tree/main/benchmarks">
                 View Benchmark Code
               </a>
             </h3>
