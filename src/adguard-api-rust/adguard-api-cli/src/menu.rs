@@ -130,6 +130,7 @@ impl MenuHelper {
     }
 
     /// Display a divider
+    #[allow(dead_code)]
     pub fn divider() {
         const DIVIDER_WIDTH: usize = 80;
         println!("{}", style("─".repeat(DIVIDER_WIDTH)).dim());

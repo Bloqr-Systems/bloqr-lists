@@ -56,9 +56,7 @@ impl CompilationEventHandler for HashAuditHandler {
     fn on_hash_verified(&self, args: &HashVerifiedEventArgs) {
         eprintln!(
             "[AUDIT] Hash verified for {} ({}): ✓ Match (computed in {:.2}ms)",
-            args.item_type,
-            args.item_identifier,
-            args.computation_duration_ms
+            args.item_type, args.item_identifier, args.computation_duration_ms
         );
     }
 
@@ -81,6 +79,13 @@ impl CompilationEventHandler for HashAuditHandler {
             eprintln!("  [ERROR] Aborting compilation due to hash mismatch");
         }
     }
+}
+
+fn main() {
+    println!("HashAuditHandler is a CompilationEventHandler you can register with the compiler.");
+    println!("See the struct and trait impl in this file for a usage example.");
+    let _strict = HashAuditHandler::new();
+    let _permissive = HashAuditHandler::new_permissive();
 }
 
 #[cfg(test)]

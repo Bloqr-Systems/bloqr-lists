@@ -63,9 +63,10 @@ ad-blocking/
 │   ├── rules-compiler-rust/        # Rust rules compiler
 │   ├── rules-compiler-typescript/  # TypeScript rules compiler
 │   ├── rules-compiler-python/      # Python rules compiler
-│   ├── powershell-modules/         # PowerShell modules
-│   ├── shell-scripts/              # Shell script utilities
+│   ├── powershell/                 # PowerShell modules (canonical)
+│   ├── shell/                      # Shell script utilities (bash/zsh)
 │   ├── adguard-validation/         # Rust validation library
+│   ├── website/                    # Gatsby documentation site
 │   └── linear/                     # Linear integration
 └── .github/                # GitHub workflows and configuration
 ```

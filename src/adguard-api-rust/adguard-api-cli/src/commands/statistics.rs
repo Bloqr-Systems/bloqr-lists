@@ -55,7 +55,7 @@ async fn show_statistics(app_config: &AppConfig, hours: i64) -> Result<()> {
             let total_blocked: i64 = data.iter().map(|s| s.value.blocked).sum();
 
             let block_rate = if total_queries > 0 {
-                (total_blocked as f64 / total_queries as f64 * 100.0)
+                total_blocked as f64 / total_queries as f64 * 100.0
             } else {
                 0.0
             };

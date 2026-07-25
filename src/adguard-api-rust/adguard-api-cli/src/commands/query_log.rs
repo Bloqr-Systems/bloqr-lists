@@ -68,7 +68,7 @@ async fn view_queries(app_config: &AppConfig, hours_ago: i64) -> Result<()> {
                 for query in queries.iter().take(50) {
                     let time_millis = query.time_millis;
                     let dt = DateTime::from_timestamp_millis(time_millis)
-                        .unwrap_or_else(|| DateTime::UNIX_EPOCH);
+                        .unwrap_or(DateTime::UNIX_EPOCH);
                     let time_str = dt.format("%H:%M:%S").to_string();
 
                     let domain = query.domain.clone();

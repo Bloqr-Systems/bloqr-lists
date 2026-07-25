@@ -70,9 +70,9 @@ pub use config::{
 
 // Re-export main types from compiler module
 pub use compiler::{
-    compile_rules, compile_rules_with_events, compute_hash, compute_hash_with_events,
-    verify_hash_with_events, count_rules, CompileOptions, CompilerResult, PlatformInfo,
-    RulesCompiler, VersionInfo,
+    compile_rules, compile_rules_with_events, compute_hash, compute_hash_with_events, count_rules,
+    verify_hash_with_events, CompileOptions, CompilerResult, PlatformInfo, RulesCompiler,
+    VersionInfo,
 };
 
 // Re-export error types
@@ -108,8 +108,8 @@ pub use events::{
     FileLockType,
     // Hash verification events
     HashComputedEventArgs,
-    HashVerifiedEventArgs,
     HashMismatchEventArgs,
+    HashVerifiedEventArgs,
     SourceLoadedEventArgs,
     SourceLoadingEventArgs,
     ValidationEventArgs,
