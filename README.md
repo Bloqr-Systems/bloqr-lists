@@ -1,4 +1,4 @@
-# bloqr-lists
+# Bloqr List Utils
 A comprehensive multi-language toolkit for ad-blocking, network protection, and AdGuard DNS management. Features filter rule compilers in **4 core languages** (TypeScript, .NET, Python, Rust) plus **PowerShell modules**, complete **API SDKs** in C#, TypeScript, and Rust with interactive console interfaces, validation tools, and shell script wrappers.
 
 🚀 **Active Development** - Multi-language support, Docker development environment, comprehensive CI/CD integration, and extensive test coverage across all components.
