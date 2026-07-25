@@ -52,8 +52,8 @@
 
     # Modules that must be imported into the global environment prior to importing this module
     RequiredModules = @(
-        '..\powershell-modules\Common\Common.psd1',
-        '..\powershell-modules\AdGuardWebhook\AdGuardWebhook.psd1'
+        '..\powershell\Common\Common.psd1',
+        '..\powershell\AdGuardWebhook\AdGuardWebhook.psd1'
     )
 
     # Assemblies that must be loaded prior to importing this module

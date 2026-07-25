@@ -87,7 +87,7 @@ const GettingStartedPage = () => {
           <li>
             <strong>Clone the repository:</strong>
             <pre style={{ marginTop: "0.5rem" }}>
-              git clone https://github.com/jaypatrick/ad-blocking.git
+              git clone https://github.com/Bloqr-Systems/bloqr-lists.git
               <br />
               cd ad-blocking
             </pre>
@@ -161,7 +161,7 @@ const GettingStartedPage = () => {
           </div>
           <div className="feature">
             <h3>
-              <a href="https://github.com/jaypatrick/ad-blocking">
+              <a href="https://github.com/Bloqr-Systems/bloqr-lists">
                 Join the Community
               </a>
             </h3>

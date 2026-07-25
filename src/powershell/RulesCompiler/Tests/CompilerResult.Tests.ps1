@@ -1,9 +1,5 @@
 #Requires -Version 7.0
-
-BeforeAll {
-    # Import the class
-    using module ..\Classes\CompilerResult.psm1
-}
+using module ..\Classes\CompilerResult.psm1
 
 Describe "CompilerResult Class Tests" {
     

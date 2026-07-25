@@ -549,7 +549,7 @@ const SecurityPage = () => {
           </div>
           <div className="feature">
             <h3>
-              <a href="https://github.com/jaypatrick/ad-blocking/blob/main/SECURITY.md">
+              <a href="https://github.com/Bloqr-Systems/bloqr-lists/blob/main/SECURITY.md">
                 Security Policy
               </a>
             </h3>

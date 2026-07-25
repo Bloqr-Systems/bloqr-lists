@@ -104,7 +104,7 @@ class CompilerResult {
     # Check if result is valid
     [bool] IsValid() {
         if ($this.Success) {
-            return ($null -ne $this.OutputPath -and $this.RuleCount -ge 0)
+            return (-not [string]::IsNullOrEmpty($this.OutputPath) -and $this.RuleCount -ge 0)
         }
         return $true  # Failed results are valid if they have an error message
     }

@@ -144,7 +144,7 @@ fn run_benchmark(rule_count: usize, max_parallel: Option<usize>) -> ExitCode {
     print!("Running parallel benchmark ({max_parallel} workers)... ");
     std::io::Write::flush(&mut std::io::stdout()).ok();
 
-    let chunk_size = (rule_count + max_parallel - 1) / max_parallel;
+    let chunk_size = rule_count.div_ceil(max_parallel);
     let _start = Instant::now();
 
     // Use threads to simulate parallel processing

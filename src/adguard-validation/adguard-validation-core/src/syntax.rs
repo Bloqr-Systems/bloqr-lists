@@ -81,6 +81,9 @@ pub fn validate_syntax<P: AsRef<Path>>(path: P) -> Result<SyntaxValidationResult
 
 /// Detect filter format from content.
 fn detect_format(content: &str) -> FilterFormat {
+    static HOSTS_PATTERN: std::sync::LazyLock<Regex> =
+        std::sync::LazyLock::new(|| Regex::new(r"^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+\s+").unwrap());
+
     let mut adblock_score = 0;
     let mut hosts_score = 0;
 
@@ -100,20 +103,15 @@ fn detect_format(content: &str) -> FilterFormat {
         }
 
         // Hosts file patterns
-        if Regex::new(r"^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+\s+")
-            .unwrap()
-            .is_match(line)
-        {
+        if HOSTS_PATTERN.is_match(line) {
             hosts_score += 2;
         }
     }
 
-    if adblock_score > hosts_score {
-        FilterFormat::Adblock
-    } else if hosts_score > adblock_score {
-        FilterFormat::Hosts
-    } else {
-        FilterFormat::Unknown
+    match adblock_score.cmp(&hosts_score) {
+        std::cmp::Ordering::Greater => FilterFormat::Adblock,
+        std::cmp::Ordering::Less => FilterFormat::Hosts,
+        std::cmp::Ordering::Equal => FilterFormat::Unknown,
     }
 }
 

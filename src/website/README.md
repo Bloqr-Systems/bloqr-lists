@@ -45,7 +45,7 @@ npm run serve
 
 The site is automatically built and deployed to GitHub Pages when changes are pushed to the main branch.
 
-Site URL: https://jaypatrick.github.io/ad-blocking
+Site URL: https://bloqr-systems.github.io/bloqr-lists
 
 ## New Features
 

@@ -13,8 +13,10 @@ use std::time::Instant;
 
 use crate::config::{read_config, to_json, CompilerConfig, ConfigFormat};
 use crate::error::{CompilerError, Result};
-use crate::events::{EventDispatcher, HashComputedEventArgs, HashVerifiedEventArgs, HashMismatchEventArgs, EventTimestamp};
-
+use crate::events::{
+    EventDispatcher, EventTimestamp, HashComputedEventArgs, HashMismatchEventArgs,
+    HashVerifiedEventArgs,
+};
 
 /// Platform-specific information.
 #[derive(Debug, Clone, Default)]
@@ -450,12 +452,12 @@ pub fn compute_hash_with_events<P: AsRef<Path>>(
     dispatcher: Option<&EventDispatcher>,
 ) -> Result<String> {
     let path = path.as_ref();
-    
+
     // Compute the hash
     let hash = compute_hash(path)?;
     let metadata = fs::metadata(path)?;
     let size_bytes = metadata.len();
-    
+
     // Fire hash computed event
     if let Some(dispatcher) = dispatcher {
         let args = HashComputedEventArgs {
@@ -468,7 +470,7 @@ pub fn compute_hash_with_events<P: AsRef<Path>>(
         };
         dispatcher.raise_hash_computed(&args);
     }
-    
+
     Ok(hash)
 }
 
@@ -485,13 +487,13 @@ pub fn verify_hash_with_events<P: AsRef<Path>>(
 ) -> Result<()> {
     let path = path.as_ref();
     let start = Instant::now();
-    
+
     // Compute the hash
     let actual_hash = compute_hash(path)?;
     let metadata = fs::metadata(path)?;
     let size_bytes = metadata.len();
     let computation_duration_ms = start.elapsed().as_secs_f64() * 1000.0;
-    
+
     if actual_hash == expected_hash {
         // Hash matches - fire verified event
         if let Some(dispatcher) = dispatcher {
@@ -527,12 +529,12 @@ pub fn verify_hash_with_events<P: AsRef<Path>>(
                 allow_continuation: false,
             };
             dispatcher.raise_hash_mismatch(&mut args);
-            
+
             if args.allow_continuation {
                 return Ok(());
             }
         }
-        
+
         Err(CompilerError::HashMismatch {
             path: path.display().to_string(),
             expected: expected_hash.to_string(),
@@ -906,7 +908,8 @@ pub fn compile_rules_with_events<P: AsRef<Path>>(
         })?;
 
         // Compute hash of copied file to verify integrity
-        let _dest_hash = compute_hash_with_events(&dest_path, "copied_rules_file", Some(dispatcher))?;
+        let _dest_hash =
+            compute_hash_with_events(&dest_path, "copied_rules_file", Some(dispatcher))?;
 
         result.copied_to_rules = true;
         result.rules_destination = Some(dest_path);

@@ -180,7 +180,7 @@ fn is_valid_filter_content(content: &str) -> bool {
         }
 
         for pattern in &patterns {
-            if Regex::new(pattern).map_or(false, |re| re.is_match(line)) {
+            if Regex::new(pattern).is_ok_and(|re| re.is_match(line)) {
                 found_patterns += 1;
                 break;
             }

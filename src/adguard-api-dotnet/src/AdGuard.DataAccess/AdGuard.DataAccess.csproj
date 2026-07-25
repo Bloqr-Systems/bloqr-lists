@@ -9,7 +9,12 @@
     <RootNamespace>AdGuard.DataAccess</RootNamespace>
     <AssemblyName>AdGuard.DataAccess</AssemblyName>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <!-- NU1903: known advisory in the SQLitePCLRaw.lib.e_sqlite3 version pulled in
+         transitively by Microsoft.EntityFrameworkCore.Sqlite 10.0.2. Restore-time
+         NuGet audit warnings should never be hard build errors (a new disclosure
+         for any dependency would break every clean build); suppress here and
+         track upgrading EF Core Sqlite separately. -->
+    <NoWarn>$(NoWarn);CS1591;NU1903</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
