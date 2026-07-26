@@ -73,7 +73,7 @@ All compilers use **[@jk-com/adblock-compiler](https://github.com/jaypatrick/hos
 | **TypeScript SDK** | Deno 2.0+ | Full API coverage, repository pattern, retry policies, interactive CLI |
 | **Rust SDK** | Rust 2024 | Auto-generated from OpenAPI, Tokio async runtime, single binary |
 
-Both SDKs provide complete coverage of AdGuard DNS API v1.11 including devices, DNS servers, query logs, statistics, filter lists, web services, and dedicated IP management.
+Both SDKs provide complete coverage of AdGuard DNS API v1.15 including devices, DNS servers, query logs, statistics, filter lists, web services, and dedicated IP management.
 
 ### Interactive Console Applications
 
@@ -103,8 +103,8 @@ bloqr-lists/
 │   └── ISSUE_TEMPLATE/                # Issue templates
 ├── api/                               # OpenAPI specifications (centralized)
 │   ├── README.md                      # API spec documentation
-│   ├── openapi.json                   # AdGuard DNS API v1.11 (primary)
-│   └── openapi.yaml                   # AdGuard DNS API v1.11 (optional)
+│   ├── openapi.json                   # AdGuard DNS API v1.15 (primary)
+│   └── openapi.yaml                   # AdGuard DNS API v1.15 (optional)
 ├── docs/                              # Documentation
 │   ├── api/                           # Auto-generated API reference
 │   ├── guides/                        # Usage guides and tutorials
@@ -887,7 +887,7 @@ See individual module READMEs in `src/powershell/` and `src/adguard-api-powershe
 
 ## AdGuard API Clients
 
-Complete SDK implementations for the [AdGuard DNS API v1.11](https://api.adguard-dns.io/static/swagger/swagger.json) in C#, TypeScript, and Rust.
+Complete SDK implementations for the [AdGuard DNS API v1.15](https://api.adguard-dns.io/static/swagger/swagger.json) in C#, TypeScript, and Rust.
 
 ### C# SDK
 

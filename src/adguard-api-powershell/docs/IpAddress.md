@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 
 - Prepare the resource
 ```powershell
-$IpAddress = Initialize-PSAdGuardDNSIpAddress  -IpAddress null `
+$IpAddress = Initialize-PSAdGuardDNSIpAddress  -IpAddress 94.140.14.15 `
  -Type null
 ```
 

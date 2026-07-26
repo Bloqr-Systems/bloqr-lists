@@ -50,9 +50,7 @@ fn test_api_modules_exist() {
     // Just importing these modules verifies they exist
     use adguard_api_lib::apis::account_api;
     use adguard_api_lib::apis::devices_api;
-    use adguard_api_lib::apis::{
-        dns_servers_api, filter_lists_api, statistics_api, web_services_api,
-    };
+    use adguard_api_lib::apis::{dns_servers_api, reference_data_api, statistics_api};
 
     // The fact that these modules can be imported means they exist
     let _ = account_api::GetAccountLimitsError::UnknownValue(serde_json::Value::Null);
@@ -60,7 +58,7 @@ fn test_api_modules_exist() {
         device_id: "test".to_string(),
     };
     let _: Option<fn() -> dns_servers_api::ListDnsServersError> = None;
-    let _: Option<fn() -> filter_lists_api::ListFilterListsError> = None;
+    let _: Option<fn() -> reference_data_api::ListFilterListsError> = None;
     let _: Option<fn() -> statistics_api::GetCategoriesQueriesStatsError> = None;
-    let _: Option<fn() -> web_services_api::ListWebServicesError> = None;
+    let _: Option<fn() -> reference_data_api::ListWebServicesError> = None;
 }

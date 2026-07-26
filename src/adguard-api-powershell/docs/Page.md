@@ -3,7 +3,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Current** | **Boolean** | Is current page | 
+**Current** | **Boolean** | Whether this is the current page | 
 **PageCursor** | **String** | Pagination cursor | 
 **PageNumber** | **Int32** | Page number | 
 

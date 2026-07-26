@@ -4,7 +4,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **DayOfWeek** | [**DayOfWeek**](DayOfWeek.md) |  | 
-**Enabled** | **Boolean** | Shows enabled/disabled day | [optional] 
+**Enabled** | **Boolean** | Whether this day schedule is enabled | [optional] 
 **FromTime** | [**ScheduleTime**](ScheduleTime.md) |  | [optional] 
 **ToTime** | [**ScheduleTime**](ScheduleTime.md) |  | [optional] 
 

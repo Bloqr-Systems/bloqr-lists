@@ -12,8 +12,8 @@ Name | Type | Description | Notes
 - Prepare the resource
 ```powershell
 $BlockingModeSettingsUpdate = Initialize-PSAdGuardDNSBlockingModeSettingsUpdate  -BlockingMode null `
- -Ipv4BlockingAddress null `
- -Ipv6BlockingAddress null
+ -Ipv4BlockingAddress 0.0.0.0 `
+ -Ipv6BlockingAddress ::
 ```
 
 - Convert the resource to JSON

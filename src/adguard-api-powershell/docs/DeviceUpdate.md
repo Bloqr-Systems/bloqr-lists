@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 ```powershell
 $DeviceUpdate = Initialize-PSAdGuardDNSDeviceUpdate  -DeviceType null `
  -DnsServerId a9f29be1 `
- -Name My android
+ -Name My phone
 ```
 
 - Convert the resource to JSON

@@ -14,6 +14,8 @@ Method | HTTP request | Description
 > clear_query_log()
 Clears query log
 
+Clears all query log entries for the current account. Use this endpoint to remove stored DNS query records. 
+
 ### Parameters
 
 This endpoint does not need any parameter.
@@ -36,8 +38,10 @@ This endpoint does not need any parameter.
 
 ## get_query_log
 
-> models::QueryLogResponse get_query_log(time_from_millis, time_to_millis, devices, countries, companies, statuses, categories, search, limit, cursor)
+> models::QueryLogResponse get_query_log(time_from_millis, time_to_millis, dns_servers, devices, countries, companies, statuses, categories, search, limit, cursor)
 Gets query log
+
+Returns the query log for the specified time period. Use filters to narrow the result set and cursor to paginate through the results. The log contains DNS query records with filtering, device, and domain information. 
 
 ### Parameters
 
@@ -46,14 +50,15 @@ Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **time_from_millis** | **i64** | Time from in milliseconds (inclusive) | [required] |
 **time_to_millis** | **i64** | Time to in milliseconds (inclusive) | [required] |
+**dns_servers** | Option<[**Vec<String>**](String.md)> | Filter by DNS servers |  |
 **devices** | Option<[**Vec<String>**](String.md)> | Filter by devices |  |
 **countries** | Option<[**Vec<String>**](String.md)> | Filter by countries |  |
 **companies** | Option<[**Vec<String>**](String.md)> | Filter by companies |  |
 **statuses** | Option<[**Vec<models::FilteringActionStatus>**](models::FilteringActionStatus.md)> | Filter by statuses |  |
 **categories** | Option<[**Vec<models::CategoryType>**](models::CategoryType.md)> | Filter by categories |  |
 **search** | Option<**String**> | Filter by domain name |  |
-**limit** | Option<**i32**> | Limit the number of records to be returned |  |[default to 20]
-**cursor** | Option<**String**> | Pagination cursor. Use cursor from response to paginate through the pages. |  |
+**limit** | Option<**i32**> | Pagination limit |  |[default to 20]
+**cursor** | Option<**String**> | Pagination cursor from previous response |  |
 
 ### Return type
 
@@ -66,7 +71,7 @@ Name | Type | Description  | Required | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: */*
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

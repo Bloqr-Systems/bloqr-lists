@@ -1,21 +1,20 @@
 [package]
 name = "adguard-api-lib"
-version.workspace = true
-edition.workspace = true
-authors.workspace = true
-license.workspace = true
-repository.workspace = true
-description = "Rust API client library for AdGuard DNS API"
+version = "1.0.0"
+authors = ["OpenAPI Generator team and contributors"]
+description = "DNS API documentation"
+# Override this license by providing a License Object in the OpenAPI.
+license = "Unlicense"
+edition = "2021"
 
 [dependencies]
-serde = { workspace = true }
-serde_json = { workspace = true }
-url = { workspace = true }
-reqwest = { workspace = true, features = ["json", "multipart"] }
-tokio = { workspace = true }
-serde_repr = { workspace = true }
+serde = { version = "^1.0", features = ["derive"] }
+serde_json = "^1.0"
+serde_repr = "^0.1"
+url = "^2.5"
+reqwest = { version = "^0.12", default-features = false, features = ["json", "multipart"] }
 
 [features]
-default = ["rustls-tls"]
+default = ["native-tls"]
 native-tls = ["reqwest/native-tls"]
-rustls-tls = []
+rustls-tls = ["reqwest/rustls-tls"]

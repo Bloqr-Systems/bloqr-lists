@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**enabled** | **bool** | The flag that all rules are on or off | 
+**enabled** | **bool** | Whether all rules are enabled | 
 **rules** | **Vec<String>** | List of rules | 
 **rules_count** | **i32** | Rules count in user list | 
 

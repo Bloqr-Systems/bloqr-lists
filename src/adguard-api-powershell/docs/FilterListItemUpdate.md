@@ -3,7 +3,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Enabled** | **Boolean** | The flag that the filter is on or off | [optional] 
+**Enabled** | **Boolean** | Whether the filter is enabled | [optional] 
 **FilterId** | **String** | Filter identifier | 
 
 ## Examples
@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 - Prepare the resource
 ```powershell
 $FilterListItemUpdate = Initialize-PSAdGuardDNSFilterListItemUpdate  -Enabled null `
- -FilterId null
+ -FilterId adguard_dns_filter
 ```
 
 - Convert the resource to JSON

@@ -2,7 +2,7 @@
 
 ## Current Version
 
-**API Version**: 1.11 (as of the last update)
+**API Version**: 1.15 (as of the last update)
 
 This directory contains the centralized OpenAPI 3.0 specification for the AdGuard DNS API, used by all SDK implementations in this repository.
 
@@ -105,15 +105,24 @@ https://api.adguard-dns.io
 
 ### Authentication
 
-The API supports two authentication methods:
+The API supports three authentication mechanisms:
 
 1. **API Key** (ApiKey)
    - Header: `Authorization`
    - Format: `ApiKey your-api-key-here`
+   - Issue or revoke keys from your AdGuard DNS account preferences. Treat keys as long-lived secrets: never commit them, store them only in environment variables or a secrets manager, and revoke a key immediately if it may have leaked.
 
-2. **Bearer Token** (AuthToken)
+2. **OAuth 2.0 Access/Refresh Tokens** (AuthToken)
    - Header: `Authorization`
    - Format: `Bearer your-access-token`
+   - Obtained via `POST /oapi/v1/oauth_token` using username/password (plus an optional MFA token) or a `refresh_token`. Access tokens are short-lived (`expires_in`); the `refresh_token` is long-lived and should be stored with the same care as a password. Always request tokens over HTTPS and never log token values.
+
+3. **Authorization Code + PKCE** (`GET /oapi/v1/oauth_authorize`)
+   - The recommended flow for public/native clients (SPAs, mobile, CLIs) that cannot safely hold a client secret.
+   - Generate a cryptographically random `code_verifier`, derive `code_challenge = BASE64URL(SHA256(code_verifier))`, and send `code_challenge_method=S256` with the authorization request.
+   - Validate the `state` parameter on redirect to prevent CSRF, and exchange the returned `code` (together with the original `code_verifier`) for tokens at `/oapi/v1/oauth_token` over HTTPS only.
+
+**General guidance**: always call the API over HTTPS, never embed credentials in source control or client-side code, prefer the shortest-lived credential that fits the use case (PKCE > refresh token > static API key for interactive/public clients), and rotate/revoke credentials promptly if compromised.
 
 ### API Endpoints
 
@@ -150,10 +159,20 @@ The specification includes endpoints for:
 - **Web Services** (`/oapi/v1/web_services`)
   - List web services for blocking
 
+- **Parental Control Categories** (`/oapi/v1/parental_control_categories`)
+  - List parental control filtering categories
+
+- **OAuth Authorization** (`/oapi/v1/oauth_authorize`)
+  - Authorization Code + PKCE flow entry point
+
+- **Devices v2 / DNS Servers v2** (`/oapi/v2/devices`, `/oapi/v2/dns_servers`)
+  - Paginated listing endpoints
+
 ## Version History
 
 | Date | Version | Notes |
 |------|---------|-------|
+| 2026-07-26 | 1.15 | Added parental control categories, OAuth Authorization Code + PKCE (`oauth_authorize`), and paginated v2 devices/DNS servers endpoints; regenerated all SDK clients |
 | 2024-12-27 | 1.11 | Centralized specification location |
 
 ## Related Documentation

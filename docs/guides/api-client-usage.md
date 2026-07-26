@@ -1,6 +1,6 @@
 # AdGuard DNS API Client - Usage Guide
 
-This C# client library provides a strongly-typed interface to the AdGuard DNS API (v1.11).
+This C# client library provides a strongly-typed interface to the AdGuard DNS API (v1.15).
 
 ## Overview
 

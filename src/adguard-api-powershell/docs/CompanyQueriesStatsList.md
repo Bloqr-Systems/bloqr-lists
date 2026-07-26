@@ -3,13 +3,15 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**Navigation** | [**Navigation**](Navigation.md) |  | 
 **Stats** | [**CompanyQueriesStats[]**](CompanyQueriesStats.md) | List of queries stats | 
 
 ## Examples
 
 - Prepare the resource
 ```powershell
-$CompanyQueriesStatsList = Initialize-PSAdGuardDNSCompanyQueriesStatsList  -Stats null
+$CompanyQueriesStatsList = Initialize-PSAdGuardDNSCompanyQueriesStatsList  -Navigation null `
+ -Stats null
 ```
 
 - Convert the resource to JSON

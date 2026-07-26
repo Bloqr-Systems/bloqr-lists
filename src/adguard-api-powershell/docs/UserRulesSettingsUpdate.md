@@ -3,7 +3,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Enabled** | **Boolean** | The flag that all rules are on or off | [optional] 
+**Enabled** | **Boolean** | Whether all rules are enabled | [optional] 
 **Rules** | **String[]** | List of rules | [optional] 
 
 ## Examples
@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 - Prepare the resource
 ```powershell
 $UserRulesSettingsUpdate = Initialize-PSAdGuardDNSUserRulesSettingsUpdate  -Enabled null `
- -Rules null
+ -Rules [&quot;||example.org^&quot;]
 ```
 
 - Convert the resource to JSON

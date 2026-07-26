@@ -57,7 +57,7 @@ public interface IApiClientFactory
     /// <summary>
     /// Creates a new Filter Lists API client instance.
     /// </summary>
-    FilterListsApi CreateFilterListsApi();
+    ReferenceDataApi CreateFilterListsApi();
 
     /// <summary>
     /// Creates a new Query Log API client instance.
@@ -67,7 +67,7 @@ public interface IApiClientFactory
     /// <summary>
     /// Creates a new Web Services API client instance.
     /// </summary>
-    WebServicesApi CreateWebServicesApi();
+    ReferenceDataApi CreateWebServicesApi();
 
     /// <summary>
     /// Creates a new Dedicated IP Addresses API client instance.

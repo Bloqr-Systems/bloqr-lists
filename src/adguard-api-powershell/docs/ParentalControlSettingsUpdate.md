@@ -3,18 +3,20 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**BlockAdultWebsitesEnabled** | **Boolean** | Disable porno content | [optional] 
-**BlockedServices** | [**BlockedWebServiceUpdate[]**](BlockedWebServiceUpdate.md) | List of services with restricted access | [optional] 
-**Enabled** | **Boolean** | Is parental control enabled or not | [optional] 
-**EnginesSafeSearchEnabled** | **Boolean** | Enforces safe search for some search engines | [optional] 
+**BlockAdultWebsitesEnabled** | **Boolean** | Whether to block adult content | [optional] 
+**BlockedFilteringCategories** | [**BlockedFilteringCategoryUpdate[]**](BlockedFilteringCategoryUpdate.md) | List of filtering categories with restricted access | [optional] 
+**BlockedServices** | [**BlockedWebServiceUpdate[]**](BlockedWebServiceUpdate.md) | List of blocked services | [optional] 
+**Enabled** | **Boolean** | Whether parental control is enabled | [optional] 
+**EnginesSafeSearchEnabled** | **Boolean** | Whether to enforce safe search on supported search engines | [optional] 
 **ScreenTimeSchedule** | [**ScheduleWeekUpdate**](ScheduleWeekUpdate.md) |  | [optional] 
-**YoutubeSafeSearchEnabled** | **Boolean** | Enforces safe search on YouTube | [optional] 
+**YoutubeSafeSearchEnabled** | **Boolean** | Whether to enforce safe search on YouTube | [optional] 
 
 ## Examples
 
 - Prepare the resource
 ```powershell
 $ParentalControlSettingsUpdate = Initialize-PSAdGuardDNSParentalControlSettingsUpdate  -BlockAdultWebsitesEnabled null `
+ -BlockedFilteringCategories null `
  -BlockedServices null `
  -Enabled null `
  -EnginesSafeSearchEnabled null `

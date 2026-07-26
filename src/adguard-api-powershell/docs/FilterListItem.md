@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 - Prepare the resource
 ```powershell
 $FilterListItem = Initialize-PSAdGuardDNSFilterListItem  -Enabled null `
- -FilterId null
+ -FilterId adguard_dns_filter
 ```
 
 - Convert the resource to JSON

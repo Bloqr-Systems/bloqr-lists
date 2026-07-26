@@ -1,5 +1,5 @@
 use crate::{commands::create_api_config, config::AppConfig, menu::MenuHelper};
-use adguard_api_lib::apis::filter_lists_api;
+use adguard_api_lib::apis::reference_data_api;
 use anyhow::Result;
 
 pub async fn show_menu(app_config: &AppConfig) -> Result<()> {
@@ -7,7 +7,7 @@ pub async fn show_menu(app_config: &AppConfig) -> Result<()> {
 
     MenuHelper::status("Fetching filter lists...");
 
-    match filter_lists_api::list_filter_lists(&config).await {
+    match reference_data_api::list_filter_lists(&config).await {
         Ok(lists) => {
             if lists.is_empty() {
                 MenuHelper::no_items("filter lists");

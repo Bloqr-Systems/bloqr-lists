@@ -41,6 +41,7 @@ async fn view_queries(app_config: &AppConfig, hours_ago: i64) -> Result<()> {
         time_from_millis: time_from,
         time_to_millis: now,
         cursor: None,
+        dns_servers: None,
         devices: None,
         countries: None,
         companies: None,
@@ -72,7 +73,7 @@ async fn view_queries(app_config: &AppConfig, hours_ago: i64) -> Result<()> {
                     let time_str = dt.format("%H:%M:%S").to_string();
 
                     let domain = query.domain.clone();
-                    let device_id = query.device_id.as_deref().unwrap_or("N/A");
+                    let device_id = query.device_id.as_str();
                     let action = query
                         .filtering_info
                         .filtering_status

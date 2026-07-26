@@ -119,10 +119,10 @@ public partial class ApiClientFactory : IApiClientFactory
     }
 
     /// <inheritdoc />
-    public FilterListsApi CreateFilterListsApi()
+    public ReferenceDataApi CreateFilterListsApi()
     {
         EnsureConfigured();
-        return new FilterListsApi(_apiConfiguration!);
+        return new ReferenceDataApi(_apiConfiguration!);
     }
 
     /// <inheritdoc />
@@ -133,10 +133,10 @@ public partial class ApiClientFactory : IApiClientFactory
     }
 
     /// <inheritdoc />
-    public WebServicesApi CreateWebServicesApi()
+    public ReferenceDataApi CreateWebServicesApi()
     {
         EnsureConfigured();
-        return new WebServicesApi(_apiConfiguration!);
+        return new ReferenceDataApi(_apiConfiguration!);
     }
 
     /// <inheritdoc />

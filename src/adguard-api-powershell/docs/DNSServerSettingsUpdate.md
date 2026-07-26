@@ -4,16 +4,16 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AccessSettings** | [**DNSServerAccessSettingsUpdate**](DNSServerAccessSettingsUpdate.md) |  | [optional] 
-**AutoConnectDevicesEnabled** | **Boolean** | Approval for auto-connecting devices through a specific link type | [optional] 
-**BlockChromePrefetch** | **Boolean** | Block prefetch proxy in Google chrome | [optional] 
-**BlockFirefoxCanary** | **Boolean** | If Firefox Canary should be blocked | [optional] 
-**BlockPrivateRelay** | **Boolean** | Is private relay should be blocked | [optional] 
+**AutoConnectDevicesEnabled** | **Boolean** | Whether to allow auto-connecting through link type | [optional] 
+**BlockChromePrefetch** | **Boolean** | Whether to block Google Chrome prefetch proxy | [optional] 
+**BlockFirefoxCanary** | **Boolean** | Whether Firefox Canary should be blocked | [optional] 
+**BlockPrivateRelay** | **Boolean** | Whether private relay should be blocked | [optional] 
 **BlockTtlSeconds** | **Int32** | TTL for blocked request | [optional] 
 **BlockingModeSettings** | [**BlockingModeSettingsUpdate**](BlockingModeSettingsUpdate.md) |  | [optional] 
 **FilterListsSettings** | [**FilterListsSettingsUpdate**](FilterListsSettingsUpdate.md) |  | [optional] 
-**IpLogEnabled** | **Boolean** | Consent to log IP addresses of requests | [optional] 
+**IpLogEnabled** | **Boolean** | Whether to log IP addresses of requests | [optional] 
 **ParentalControlSettings** | [**ParentalControlSettingsUpdate**](ParentalControlSettingsUpdate.md) |  | [optional] 
-**ProtectionEnabled** | **Boolean** | Is protection enabled | [optional] 
+**ProtectionEnabled** | **Boolean** | Whether protection is enabled | [optional] 
 **SafebrowsingSettings** | [**SafebrowsingSettingsUpdate**](SafebrowsingSettingsUpdate.md) |  | [optional] 
 **UserRulesSettings** | [**UserRulesSettingsUpdate**](UserRulesSettingsUpdate.md) |  | [optional] 
 
@@ -26,7 +26,7 @@ $DNSServerSettingsUpdate = Initialize-PSAdGuardDNSDNSServerSettingsUpdate  -Acce
  -BlockChromePrefetch null `
  -BlockFirefoxCanary null `
  -BlockPrivateRelay null `
- -BlockTtlSeconds null `
+ -BlockTtlSeconds 3600 `
  -BlockingModeSettings null `
  -FilterListsSettings null `
  -IpLogEnabled null `

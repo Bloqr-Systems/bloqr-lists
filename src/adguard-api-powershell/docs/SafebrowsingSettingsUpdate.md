@@ -5,7 +5,10 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **BlockDangerousDomains** | **Boolean** | Whether filtering dangerous domains are enabled | [optional] 
 **BlockNrd** | **Boolean** | Whether filtering newly registered domains are enabled | [optional] 
+**BlockingModeSettings** | [**BlockingModeSettingsUpdate**](BlockingModeSettingsUpdate.md) |  | [optional] 
 **Enabled** | **Boolean** | Whether safebrowsing settings are enabled | [optional] 
+**HomoglyphProtectionEnabled** | **Boolean** | Whether homoglyph (IDN) protection is enabled | [optional] 
+**TyposquattingProtectionEnabled** | **Boolean** | Whether typosquatting protection is enabled | [optional] 
 
 ## Examples
 
@@ -13,7 +16,10 @@ Name | Type | Description | Notes
 ```powershell
 $SafebrowsingSettingsUpdate = Initialize-PSAdGuardDNSSafebrowsingSettingsUpdate  -BlockDangerousDomains null `
  -BlockNrd null `
- -Enabled null
+ -BlockingModeSettings null `
+ -Enabled null `
+ -HomoglyphProtectionEnabled null `
+ -TyposquattingProtectionEnabled null
 ```
 
 - Convert the resource to JSON

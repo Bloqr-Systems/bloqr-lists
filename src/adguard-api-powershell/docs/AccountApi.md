@@ -13,6 +13,8 @@ Method | HTTP request | Description
 
 Gets account limits
 
+Returns account limits for the current account. Use this endpoint to read current usage and maximum values before creating or updating resources. 
+
 ### Example
 ```powershell
 # general setting of the PowerShell module, e.g. base URL, authentication, etc
@@ -47,7 +49,7 @@ This endpoint does not need any parameter.
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: */*
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

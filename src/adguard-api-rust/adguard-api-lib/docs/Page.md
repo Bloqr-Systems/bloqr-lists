@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**current** | **bool** | Is current page | 
+**current** | **bool** | Whether this is the current page | 
 **page_cursor** | **String** | Pagination cursor | 
 **page_number** | **i32** | Page number | 
 

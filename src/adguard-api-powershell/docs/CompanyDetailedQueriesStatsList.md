@@ -3,14 +3,16 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Pages** | [**Page[]**](Page.md) | Pagination | 
+**Navigation** | [**Navigation**](Navigation.md) |  | 
+**Pages** | [**Page[]**](Page.md) | Pagination. Field is deprecated and scheduled for removal in January 2027. Use &#x60;navigation&#x60; instead | [optional] 
 **Stats** | [**CompanyDetailedQueriesStats[]**](CompanyDetailedQueriesStats.md) | List of queries stats | 
 
 ## Examples
 
 - Prepare the resource
 ```powershell
-$CompanyDetailedQueriesStatsList = Initialize-PSAdGuardDNSCompanyDetailedQueriesStatsList  -Pages null `
+$CompanyDetailedQueriesStatsList = Initialize-PSAdGuardDNSCompanyDetailedQueriesStatsList  -Navigation null `
+ -Pages null `
  -Stats null
 ```
 

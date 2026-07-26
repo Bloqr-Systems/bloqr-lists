@@ -12,8 +12,8 @@ Name | Type | Description | Notes
 - Prepare the resource
 ```powershell
 $FilterListCategory = Initialize-PSAdGuardDNSFilterListCategory  -Category null `
- -Description null `
- -Value null
+ -Description Filters for security threats `
+ -Value security
 ```
 
 - Convert the resource to JSON

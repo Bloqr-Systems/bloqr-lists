@@ -3,13 +3,15 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**Navigation** | [**Navigation**](Navigation.md) |  | 
 **Stats** | [**CountryQueriesStats[]**](CountryQueriesStats.md) | List of queries stats | 
 
 ## Examples
 
 - Prepare the resource
 ```powershell
-$CountryQueriesStatsList = Initialize-PSAdGuardDNSCountryQueriesStatsList  -Stats null
+$CountryQueriesStatsList = Initialize-PSAdGuardDNSCountryQueriesStatsList  -Navigation null `
+ -Stats null
 ```
 
 - Convert the resource to JSON

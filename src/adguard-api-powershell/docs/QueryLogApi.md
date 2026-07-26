@@ -14,6 +14,8 @@ Method | HTTP request | Description
 
 Clears query log
 
+Clears all query log entries for the current account. Use this endpoint to remove stored DNS query records. 
+
 ### Example
 ```powershell
 # general setting of the PowerShell module, e.g. base URL, authentication, etc
@@ -57,6 +59,7 @@ void (empty response body)
 > QueryLogResponse Get-QueryLog<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-TimeFromMillis] <Int64><br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-TimeToMillis] <Int64><br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-DnsServers] <String[]><br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Devices] <String[]><br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Countries] <String[]><br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Companies] <String[]><br>
@@ -67,6 +70,8 @@ void (empty response body)
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Cursor] <String><br>
 
 Gets query log
+
+Returns the query log for the specified time period. Use filters to narrow the result set and cursor to paginate through the results. The log contains DNS query records with filtering, device, and domain information. 
 
 ### Example
 ```powershell
@@ -80,18 +85,19 @@ $Configuration.ApiKey.Authorization = "YOUR_API_KEY"
 
 $TimeFromMillis = 789 # Int64 | Time from in milliseconds (inclusive)
 $TimeToMillis = 789 # Int64 | Time to in milliseconds (inclusive)
+$DnsServers = "MyDnsServers" # String[] | Filter by DNS servers (optional)
 $Devices = "MyDevices" # String[] | Filter by devices (optional)
 $Countries = "MyCountries" # String[] | Filter by countries (optional)
 $Companies = "MyCompanies" # String[] | Filter by companies (optional)
 $Statuses = "UNKNOWN" # FilteringActionStatus[] | Filter by statuses (optional)
 $Categories = "ADS" # CategoryType[] | Filter by categories (optional)
 $Search = "MySearch" # String | Filter by domain name (optional)
-$Limit = 56 # Int32 | Limit the number of records to be returned (optional) (default to 20)
-$Cursor = "MyCursor" # String | Pagination cursor. Use cursor from response to paginate through the pages. (optional)
+$Limit = 56 # Int32 | Pagination limit (optional) (default to 20)
+$Cursor = "MyCursor" # String | Pagination cursor from previous response (optional)
 
 # Gets query log
 try {
-    $Result = Get-QueryLog -TimeFromMillis $TimeFromMillis -TimeToMillis $TimeToMillis -Devices $Devices -Countries $Countries -Companies $Companies -Statuses $Statuses -Categories $Categories -Search $Search -Limit $Limit -Cursor $Cursor
+    $Result = Get-QueryLog -TimeFromMillis $TimeFromMillis -TimeToMillis $TimeToMillis -DnsServers $DnsServers -Devices $Devices -Countries $Countries -Companies $Companies -Statuses $Statuses -Categories $Categories -Search $Search -Limit $Limit -Cursor $Cursor
 } catch {
     Write-Host ("Exception occurred when calling Get-QueryLog: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
@@ -104,14 +110,15 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **TimeFromMillis** | **Int64**| Time from in milliseconds (inclusive) | 
  **TimeToMillis** | **Int64**| Time to in milliseconds (inclusive) | 
+ **DnsServers** | [**String[]**](String.md)| Filter by DNS servers | [optional] 
  **Devices** | [**String[]**](String.md)| Filter by devices | [optional] 
  **Countries** | [**String[]**](String.md)| Filter by countries | [optional] 
  **Companies** | [**String[]**](String.md)| Filter by companies | [optional] 
  **Statuses** | [**FilteringActionStatus[]**](FilteringActionStatus.md)| Filter by statuses | [optional] 
  **Categories** | [**CategoryType[]**](CategoryType.md)| Filter by categories | [optional] 
  **Search** | **String**| Filter by domain name | [optional] 
- **Limit** | **Int32**| Limit the number of records to be returned | [optional] [default to 20]
- **Cursor** | **String**| Pagination cursor. Use cursor from response to paginate through the pages. | [optional] 
+ **Limit** | **Int32**| Pagination limit | [optional] [default to 20]
+ **Cursor** | **String**| Pagination cursor from previous response | [optional] 
 
 ### Return type
 
@@ -124,7 +131,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: */*
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

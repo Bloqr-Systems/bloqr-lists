@@ -14,6 +14,8 @@ Method | HTTP request | Description
 
 Allocates new dedicated IPv4
 
+Allocates a new dedicated IPv4 address for the account. Use this endpoint when you need a static IP address for DNS resolution. 
+
 ### Example
 ```powershell
 # general setting of the PowerShell module, e.g. base URL, authentication, etc
@@ -48,7 +50,7 @@ This endpoint does not need any parameter.
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: */*
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -57,6 +59,8 @@ This endpoint does not need any parameter.
 > DedicatedIPv4Address[] Invoke-ListDedicatedIPv4Addresses<br>
 
 Lists allocated dedicated IPv4 addresses
+
+Returns a list of dedicated IPv4 addresses allocated for the account. Use this endpoint to review available dedicated addresses before linking them to devices. 
 
 ### Example
 ```powershell

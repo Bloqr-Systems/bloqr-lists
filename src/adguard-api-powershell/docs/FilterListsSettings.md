@@ -3,7 +3,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Enabled** | **Boolean** | The flag that all filters are on or off | 
+**Enabled** | **Boolean** | Whether all filters are enabled | 
 **FilterList** | [**FilterListItem[]**](FilterListItem.md) | Filter list | 
 
 ## Examples

@@ -25,7 +25,7 @@ This repository is a comprehensive multi-language toolkit for ad-blocking, netwo
 - **AdGuard Validation** (`src/adguard-validation/`) - Rust validation library (`adguard-validation-core`) and CLI (`adguard-validation-cli`) for filter/config validation
 
 ### API Client & Tools
-- **AdGuard API Client - .NET** (`src/adguard-api-dotnet/`) - C# SDK for AdGuard DNS API v1.11
+- **AdGuard API Client - .NET** (`src/adguard-api-dotnet/`) - C# SDK for AdGuard DNS API v1.15
 - **AdGuard API Client - TypeScript** (`src/adguard-api-typescript/`) - TypeScript SDK with Deno support
 - **Console UI** (`src/adguard-api-dotnet/src/AdGuard.ConsoleUI/`) - Spectre.Console interactive interface
 - **Linear Import Tool** (`src/linear/`) - TypeScript tool with Deno support
@@ -367,14 +367,14 @@ cargo test config::                       # Tests in module
 - LTO optimization enabled for small binary size
 
 ### API Client - .NET (`src/adguard-api-dotnet/`)
-- Auto-generated from `api/openapi.json` (primary) and `api/openapi.yaml` (optional) - AdGuard DNS API v1.11
+- Auto-generated from `api/openapi.json` (primary) and `api/openapi.yaml` (optional) - AdGuard DNS API v1.15
 - `Helpers/ConfigurationHelper.cs` - Fluent auth, timeouts, user agent
 - `Helpers/RetryPolicyHelper.cs` - Polly-based retry for 408/429/5xx
 - Uses Newtonsoft.Json and JsonSubTypes
 - Benchmarks project for performance testing
 
 ### API Client - TypeScript (`src/adguard-api-typescript/`)
-- TypeScript SDK for AdGuard DNS API v1.11 with feature parity to .NET version
+- TypeScript SDK for AdGuard DNS API v1.15 with feature parity to .NET version
 - Deno 2.0+ runtime with npm compatibility
 - **Library API** (`src/lib/`):
   - `AdGuardDnsClientBuilder` - Fluent builder for client configuration
@@ -419,7 +419,7 @@ cargo test config::                       # Tests in module
 - **AdGuard DNS API Client** - Auto-generated PowerShell client for the AdGuard DNS API, plus `Invoke-WebHook.psm1`
 
 ### AdGuard API Client - Rust (`src/adguard-api-rust/`)
-- `adguard-api-lib` - OpenAPI-generated client library for AdGuard DNS API v1.11 (excluded from clippy/lint CI since it's generated)
+- `adguard-api-lib` - OpenAPI-generated client library for AdGuard DNS API v1.15 (excluded from clippy/lint CI since it's generated)
 - `adguard-api-cli` - Hand-written interactive Spectre-style CLI built on top of `adguard-api-lib`
 
 ### AdGuard Validation (`src/adguard-validation/`)

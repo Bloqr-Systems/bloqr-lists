@@ -40,6 +40,7 @@ async fn show_statistics(app_config: &AppConfig, hours: i64) -> Result<()> {
     let params = statistics_api::GetTimeQueriesStatsParams {
         time_from_millis: time_from_ms,
         time_to_millis: now_ms,
+        dns_servers: None,
         devices: None,
         countries: None,
     };

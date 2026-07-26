@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **day_of_week** | [**models::DayOfWeek**](DayOfWeek.md) |  | 
-**enabled** | Option<**bool**> | Shows enabled/disabled day | [optional]
+**enabled** | Option<**bool**> | Whether this day schedule is enabled | [optional]
 **from_time** | Option<[**models::ScheduleTime**](ScheduleTime.md)> |  | [optional]
 **to_time** | Option<[**models::ScheduleTime**](ScheduleTime.md)> |  | [optional]
 

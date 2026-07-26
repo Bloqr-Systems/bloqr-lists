@@ -37,7 +37,7 @@ async fn list_servers(app_config: &AppConfig) -> Result<()> {
 
                 for server in &servers {
                     let is_default = server.default;
-                    let device_count = server.device_ids.len();
+                    let device_count = server.device_ids.as_ref().map_or(0, |ids| ids.len());
 
                     MenuHelper::table_row(&[
                         server.id.clone(),
@@ -99,10 +99,11 @@ async fn view_server_details(app_config: &AppConfig) -> Result<()> {
     println!("📛 Name: {}", server.name);
     println!("🆔 ID: {}", server.id);
     println!("⭐ Default: {}", if server.default { "Yes" } else { "No" });
-    println!("📱 Device Count: {}", server.device_ids.len());
+    let device_ids = server.device_ids.as_deref().unwrap_or(&[]);
+    println!("📱 Device Count: {}", device_ids.len());
 
-    if !server.device_ids.is_empty() {
-        println!("   Devices: {}", server.device_ids.join(", "));
+    if !device_ids.is_empty() {
+        println!("   Devices: {}", device_ids.join(", "));
     }
 
     println!();

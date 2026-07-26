@@ -3,7 +3,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Enabled** | **Boolean** | The flag that all rules are on or off | 
+**Enabled** | **Boolean** | Whether all rules are enabled | 
 **Rules** | **String[]** | List of rules | 
 **RulesCount** | **Int32** | Rules count in user list | 
 
@@ -12,8 +12,8 @@ Name | Type | Description | Notes
 - Prepare the resource
 ```powershell
 $UserRulesSettings = Initialize-PSAdGuardDNSUserRulesSettings  -Enabled null `
- -Rules null `
- -RulesCount null
+ -Rules [&quot;||example.org^&quot;] `
+ -RulesCount 50
 ```
 
 - Convert the resource to JSON

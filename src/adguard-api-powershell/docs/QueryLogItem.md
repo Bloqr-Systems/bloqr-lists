@@ -7,10 +7,11 @@ Name | Type | Description | Notes
 **CategoryType** | [**CategoryType**](CategoryType.md) |  | 
 **ClientCountry** | **String** | Client country code | [optional] 
 **CompanyId** | **String** | Company ID | 
-**DeviceId** | **String** | Device ID | [optional] 
+**DeviceId** | **String** | Device ID | 
 **DnsProtoType** | [**DnsProtoType**](DnsProtoType.md) |  | [optional] 
 **DnsRequestType** | **String** | DNS protocol request type | [optional] 
 **DnsResponseType** | [**DnsProtoResponseType**](DnsProtoResponseType.md) |  | [optional] 
+**DnsServerId** | **String** | DNS Server ID | 
 **Dnssec** | **Boolean** | Requested with DNSSec | 
 **Domain** | **String** | Domain name | 
 **FilteringInfo** | [**FilteringInfo**](FilteringInfo.md) |  | 
@@ -31,6 +32,7 @@ $QueryLogItem = Initialize-PSAdGuardDNSQueryLogItem  -Asn 25227 `
  -DnsProtoType null `
  -DnsRequestType TypeA `
  -DnsResponseType null `
+ -DnsServerId 293e2f63 `
  -Dnssec false `
  -Domain ads.apple.com `
  -FilteringInfo null `
