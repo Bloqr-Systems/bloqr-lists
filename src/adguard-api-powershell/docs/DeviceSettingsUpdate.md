@@ -3,8 +3,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**DetectDohAuthOnly** | **Boolean** | Use only DNS-over-HTTPS with authentication | [optional] 
-**ProtectionEnabled** | **Boolean** | Enable protection | [optional] 
+**DetectDohAuthOnly** | **Boolean** | Whether to use only DNS-over-HTTPS with authentication | [optional] 
+**ProtectionEnabled** | **Boolean** | Whether to enable protection | [optional] 
 
 ## Examples
 

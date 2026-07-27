@@ -10,8 +10,8 @@ Name | Type | Description | Notes
 
 - Prepare the resource
 ```powershell
-$Limit = Initialize-PSAdGuardDNSLimit  -Limit null `
- -Used null
+$Limit = Initialize-PSAdGuardDNSLimit  -Limit 100 `
+ -Used 5
 ```
 
 - Convert the resource to JSON

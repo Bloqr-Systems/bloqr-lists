@@ -11,9 +11,9 @@ Name | Type | Description | Notes
 
 - Prepare the resource
 ```powershell
-$DedicatedIps = Initialize-PSAdGuardDNSDedicatedIps  -Ipv4 null `
+$DedicatedIps = Initialize-PSAdGuardDNSDedicatedIps  -Ipv4 [&quot;94.140.14.15&quot;] `
  -Ipv4Limit null `
- -Ipv6 null
+ -Ipv6 [&quot;2a10:50c0::ad1:ff&quot;]
 ```
 
 - Convert the resource to JSON

@@ -8,7 +8,7 @@ This directory contains the Rust implementation of the AdGuard DNS API client, c
 ## Overview
 
 The Rust implementation provides:
-- Type-safe API client library generated from OpenAPI spec (v1.11)
+- Type-safe API client library generated from OpenAPI spec (v1.15)
 - Async/await support using Tokio runtime
 - CLI tool with comprehensive subcommands for all API operations
 - Environment variable support for configuration

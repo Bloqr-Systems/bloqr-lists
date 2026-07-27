@@ -155,7 +155,7 @@ public class ApiIntegrationTests : IDisposable
             return;
         }
 
-        using var filterListsApi = new FilterListsApi(_configuration);
+        using var filterListsApi = new ReferenceDataApi(_configuration);
 
         // Act
         var filterLists = await filterListsApi.ListFilterListsAsync();
@@ -180,7 +180,7 @@ public class ApiIntegrationTests : IDisposable
             return;
         }
 
-        using var webServicesApi = new WebServicesApi(_configuration);
+        using var webServicesApi = new ReferenceDataApi(_configuration);
 
         // Act
         var webServices = await webServicesApi.ListWebServicesAsync();

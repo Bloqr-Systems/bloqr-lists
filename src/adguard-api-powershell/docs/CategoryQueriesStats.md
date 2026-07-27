@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 - Prepare the resource
 ```powershell
 $CategoryQueriesStats = Initialize-PSAdGuardDNSCategoryQueriesStats  -CategoryType null `
- -Queries null
+ -Queries 86
 ```
 
 - Convert the resource to JSON

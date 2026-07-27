@@ -10,7 +10,7 @@ Multi-language toolkit for ad-blocking and AdGuard DNS management with **identic
 - **Filter Rules**: AdGuard filter lists with input/output separation
   - **Input**: `data/input/` - Local rules and internet source references with hash verification
   - **Output**: `data/output/adguard_user_filter.txt` - Final compiled list in adblock format
-- **API Client**: C# SDK for AdGuard DNS API v1.11 with Polly resilience
+- **API Client**: C# SDK for AdGuard DNS API v1.15 with Polly resilience
 - **Rules Compilers**: TypeScript, C#, Python, Rust - all produce identical output
 - **ConsoleUI**: Spectre.Console menu-driven interface with DI architecture
 - **Website**: Gatsby portfolio site deployed to GitHub Pages
@@ -489,7 +489,7 @@ cd src/rules-compiler-rust && cargo test
 ## Integration Points
 
 ### AdGuard DNS API
-- **OpenAPI spec**: `api/openapi.json` (v1.11, primary), `api/openapi.yaml` (optional)
+- **OpenAPI spec**: `api/openapi.json` (v1.15, primary), `api/openapi.yaml` (optional)
 - **Auto-generated client**: `src/adguard-api-dotnet/src/AdGuard.ApiClient/`
 - **Base URL**: Configured via `AdGuard:BaseUrl` in appsettings
 - **Auth**: Bearer token in `Authorization` header
@@ -518,7 +518,7 @@ cd src/rules-compiler-rust && cargo test
 |-------------|---------|----------------|
 | `data/output/adguard_user_filter.txt` | **Production filter list** | After successful compilation and testing |
 | `src/rules-compiler-typescript/compiler-config.json` | **Primary config** for rule compilation | To change filter sources or transformations |
-| `api/openapi.yaml` | AdGuard DNS API spec (v1.11) | Never (upstream dependency) |
+| `api/openapi.yaml` | AdGuard DNS API spec (v1.15) | Never (upstream dependency) |
 | `src/adguard-api-dotnet/src/AdGuard.ApiClient/` | **Auto-generated** API client | Never (regenerate from spec instead) |
 | `src/powershell/Invoke-RulesCompiler.psm1` | PowerShell wrapper for compiler | Extending PowerShell automation |
 | `docs/compiler-comparison.md` | **Decision guide** for choosing compiler | When adding features to compilers |

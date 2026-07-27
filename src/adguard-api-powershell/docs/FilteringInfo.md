@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 **BlockedServiceId** | **String** | Web service ID | [optional] 
 **FilterId** | **String** | Filter ID | [optional] 
 **FilterRule** | **String** | Filter rule | [optional] 
+**FilteringCategoryId** | **String** | Web service Filtering category ID | [optional] 
 **FilteringStatus** | [**FilteringActionStatus**](FilteringActionStatus.md) |  | [optional] 
 **FilteringType** | [**FilteringActionSource**](FilteringActionSource.md) |  | [optional] 
 
@@ -16,6 +17,7 @@ Name | Type | Description | Notes
 $FilteringInfo = Initialize-PSAdGuardDNSFilteringInfo  -BlockedServiceId instagram `
  -FilterId adguard_dns_filter `
  -FilterRule ||example.org^ `
+ -FilteringCategoryId gambling `
  -FilteringStatus null `
  -FilteringType null
 ```

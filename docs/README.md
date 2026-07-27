@@ -40,7 +40,7 @@ This directory contains comprehensive documentation for the ad-blocking reposito
 
 ### API Reference (`api/`)
 
-Auto-generated API documentation for the AdGuard DNS API Client (v1.11).
+Auto-generated API documentation for the AdGuard DNS API Client (v1.15).
 
 #### API Endpoints
 

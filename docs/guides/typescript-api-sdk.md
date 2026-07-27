@@ -4,11 +4,11 @@ A comprehensive guide to using the AdGuard DNS TypeScript API SDK with Deno 2.0+
 
 ## Overview
 
-The TypeScript API SDK provides a complete, type-safe interface to the AdGuard DNS API v1.11 with feature parity to the .NET SDK. Built for Deno 2.0+, it offers high-level repositories, automatic retry policies, pagination support, and seamless integration with the rules compiler.
+The TypeScript API SDK provides a complete, type-safe interface to the AdGuard DNS API v1.15 with feature parity to the .NET SDK. Built for Deno 2.0+, it offers high-level repositories, automatic retry policies, pagination support, and seamless integration with the rules compiler.
 
 ## Features
 
-- **Full API Coverage**: Complete implementation of AdGuard DNS API v1.11
+- **Full API Coverage**: Complete implementation of AdGuard DNS API v1.15
 - **Type-Safe**: Comprehensive TypeScript types generated from OpenAPI spec
 - **Repository Pattern**: High-level abstractions for common operations
 - **Automatic Retry**: Built-in exponential backoff for transient failures

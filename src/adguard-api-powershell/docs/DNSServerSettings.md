@@ -4,16 +4,16 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AccessSettings** | [**DNSServerAccessSettings**](DNSServerAccessSettings.md) |  | 
-**AutoConnectDevicesEnabled** | **Boolean** | Approval for auto-connecting devices through a specific link type | 
-**BlockChromePrefetch** | **Boolean** | Block prefetch proxy in Google chrome | 
-**BlockFirefoxCanary** | **Boolean** | If Firefox Canary should be blocked | 
-**BlockPrivateRelay** | **Boolean** | Is private relay should be blocked | 
-**BlockTtlSeconds** | **Int32** | TTL for blocked request | 
+**AutoConnectDevicesEnabled** | **Boolean** | Whether to allow auto-connecting through link type | 
+**BlockChromePrefetch** | **Boolean** | Whether to block Google Chrome prefetch proxy | 
+**BlockFirefoxCanary** | **Boolean** | Whether Firefox Canary should be blocked | 
+**BlockPrivateRelay** | **Boolean** | Whether private relay should be blocked | 
+**BlockTtlSeconds** | **Int32** | Blocked response TTL in seconds | 
 **BlockingModeSettings** | [**BlockingModeSettings**](BlockingModeSettings.md) |  | 
 **FilterListsSettings** | [**FilterListsSettings**](FilterListsSettings.md) |  | 
-**IpLogEnabled** | **Boolean** | Consent to log IP addresses of requests | 
+**IpLogEnabled** | **Boolean** | Whether to log IP addresses of requests | 
 **ParentalControlSettings** | [**ParentalControlSettings**](ParentalControlSettings.md) |  | 
-**ProtectionEnabled** | **Boolean** | Is protection enabled | 
+**ProtectionEnabled** | **Boolean** | Whether protection is enabled | 
 **SafebrowsingSettings** | [**SafebrowsingSettings**](SafebrowsingSettings.md) |  | 
 **UserRulesSettings** | [**UserRulesSettings**](UserRulesSettings.md) |  | 
 
@@ -26,7 +26,7 @@ $DNSServerSettings = Initialize-PSAdGuardDNSDNSServerSettings  -AccessSettings n
  -BlockChromePrefetch null `
  -BlockFirefoxCanary null `
  -BlockPrivateRelay null `
- -BlockTtlSeconds null `
+ -BlockTtlSeconds 3600 `
  -BlockingModeSettings null `
  -FilterListsSettings null `
  -IpLogEnabled null `

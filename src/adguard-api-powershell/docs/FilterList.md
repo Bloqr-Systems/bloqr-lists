@@ -27,7 +27,7 @@ $FilterList = Initialize-PSAdGuardDNSFilterList  -Categories null `
  -RulesCount 10000 `
  -SourceUrl https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt `
  -Tags [&quot;purpose:general&quot;] `
- -TimeUpdated null
+ -TimeUpdated 2024-01-15T10:30Z
 ```
 
 - Convert the resource to JSON

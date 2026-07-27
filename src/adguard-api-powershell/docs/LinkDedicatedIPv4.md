@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 
 - Prepare the resource
 ```powershell
-$LinkDedicatedIPv4 = Initialize-PSAdGuardDNSLinkDedicatedIPv4  -Ip null
+$LinkDedicatedIPv4 = Initialize-PSAdGuardDNSLinkDedicatedIPv4  -Ip 94.140.14.15
 ```
 
 - Convert the resource to JSON

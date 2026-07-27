@@ -4,19 +4,19 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AllowedClients** | **String[]** | Allowed IP&#39;s, CIDR&#39;s or ASN&#39;s | [optional] 
-**BlockKnownScanners** | **Boolean** | If known scanners should be blocked | [optional] 
+**BlockKnownScanners** | **Boolean** | Whether known scanners should be blocked | [optional] 
 **BlockedClients** | **String[]** | Blocked IP&#39;s, CIDR&#39;s or ASN&#39;s | [optional] 
 **BlockedDomainRules** | **String[]** | Blocked domain rules | [optional] 
-**Enabled** | **Boolean** | Flag that access settings are enabled | [optional] 
+**Enabled** | **Boolean** | Whether access settings are enabled | [optional] 
 
 ## Examples
 
 - Prepare the resource
 ```powershell
-$DNSServerAccessSettingsUpdate = Initialize-PSAdGuardDNSDNSServerAccessSettingsUpdate  -AllowedClients null `
+$DNSServerAccessSettingsUpdate = Initialize-PSAdGuardDNSDNSServerAccessSettingsUpdate  -AllowedClients [&quot;192.168.1.0/24&quot;] `
  -BlockKnownScanners null `
- -BlockedClients null `
- -BlockedDomainRules null `
+ -BlockedClients [&quot;10.0.0.0/8&quot;] `
+ -BlockedDomainRules [&quot;example.org&quot;] `
  -Enabled null
 ```
 

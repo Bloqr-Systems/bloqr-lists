@@ -8,7 +8,7 @@ The AdGuard API Client is auto-generated from an OpenAPI (formerly Swagger) spec
 
 ## Current Version
 
-- **API Version**: 1.11
+- **API Version**: 1.15
 - **Generator Version**: 7.16.0
 - **Target Framework**: .NET 10
 - **JSON Library**: Newtonsoft.Json

@@ -8,10 +8,11 @@ Name | Type | Description | Notes
 **category_type** | [**models::CategoryType**](CategoryType.md) |  | 
 **client_country** | Option<**String**> | Client country code | [optional]
 **company_id** | **String** | Company ID | 
-**device_id** | Option<**String**> | Device ID | [optional]
+**device_id** | **String** | Device ID | 
 **dns_proto_type** | Option<[**models::DnsProtoType**](DnsProtoType.md)> |  | [optional]
 **dns_request_type** | Option<**String**> | DNS protocol request type | [optional]
 **dns_response_type** | Option<[**models::DnsProtoResponseType**](DnsProtoResponseType.md)> |  | [optional]
+**dns_server_id** | **String** | DNS Server ID | 
 **dnssec** | **bool** | Requested with DNSSec | 
 **domain** | **String** | Domain name | 
 **filtering_info** | [**models::FilteringInfo**](FilteringInfo.md) |  | 

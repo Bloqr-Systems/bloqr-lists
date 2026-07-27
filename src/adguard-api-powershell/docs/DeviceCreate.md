@@ -4,7 +4,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **DeviceType** | [**ConnectDeviceType**](ConnectDeviceType.md) |  | 
-**DnsServerId** | **String** | DNS server ID | 
+**DnsServerId** | **String** | DNS server ID to associate the device with | 
 **Name** | **String** | Device name | 
 
 ## Examples
@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 ```powershell
 $DeviceCreate = Initialize-PSAdGuardDNSDeviceCreate  -DeviceType null `
  -DnsServerId a9f29be1 `
- -Name My android
+ -Name My phone
 ```
 
 - Convert the resource to JSON

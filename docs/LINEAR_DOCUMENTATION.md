@@ -137,7 +137,7 @@ export ADGUARD_ARCHIVE_RETENTION_DAYS=90
 
 ### 3. AdGuard DNS API Client (`/src/adguard-api-dotnet/`)
 
-**Purpose:** C# SDK for programmatic access to AdGuard DNS API v1.11.
+**Purpose:** C# SDK for programmatic access to AdGuard DNS API v1.15.
 
 **Generation:** Auto-generated from OpenAPI specification using OpenAPI Generator v7.16.0
 

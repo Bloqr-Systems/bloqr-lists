@@ -3,7 +3,7 @@
   "info": {
     "description": "DNS API documentation",
     "title": "AdGuard DNS API",
-    "version": "1.11"
+    "version": "1.15"
   },
   "servers": [
     {
@@ -12,62 +12,61 @@
   ],
   "security": [
     {
-      "ApiKey": [],
       "AuthToken": []
+    },
+    {
+      "ApiKey": []
     }
   ],
   "tags": [
     {
-      "description": "Web services",
-      "name": "Web services"
-    },
-    {
-      "description": "DNS servers",
-      "name": "DNS servers"
-    },
-    {
-      "description": "Statistics",
-      "name": "Statistics"
-    },
-    {
-      "description": "Dedicated IP addresses",
-      "name": "Dedicated IP addresses"
-    },
-    {
-      "description": "Account",
-      "name": "Account"
-    },
-    {
-      "description": "Authentication",
+      "description": "Operations for obtaining and managing OAuth2 access tokens.\nSupports three grant types: password with optional 2FA, refresh token, and authorization code with PKCE.\nUse these endpoints to authenticate users and manage session lifecycle.\n",
       "name": "Authentication"
     },
     {
-      "description": "Devices",
-      "name": "Devices"
+      "description": "Operations for managing dedicated IPv4 addresses.\nA dedicated IP address provides a static DNS resolution endpoint for the account.\nSupports listing allocated addresses and allocating new ones.\n",
+      "name": "Dedicated IP addresses"
     },
     {
-      "description": "Filter lists",
-      "name": "Filter lists"
-    },
-    {
-      "description": "Query log",
+      "description": "Operations for viewing and managing the DNS query log.\nThe query log stores DNS resolution records with filtering, device, and domain information.\nSupports retrieving filtered query logs and clearing the log history.\n",
       "name": "Query log"
+    },
+    {
+      "description": "Operations for retrieving DNS query statistics.\nStatistics provide aggregated data about DNS queries grouped by time, country, domain, device, company, and category.\nSupports time-bounded queries with optional filters and cursor-based pagination.\n",
+      "name": "Statistics"
+    },
+    {
+      "description": "Operations for managing DNS server profiles.\nA DNS server profile defines filtering, parental control, and access settings for a group of devices.\nSupports creating, updating, removing DNS servers, managing their settings, and listing with pagination.\n",
+      "name": "DNS servers"
+    },
+    {
+      "description": "Operations for retrieving account information.\nThe account represents a user's subscription with associated limits and resources.\nSupports reading current usage and maximum values for devices, DNS servers, queries, and rules.\n",
+      "name": "Account"
+    },
+    {
+      "description": "Operations for retrieving reference data used in DNS server configuration.\nReference data includes filter lists for content blocking, web services for parental control,\nand filtering categories for content classification.\nSupports listing all available entries for each data type.\n",
+      "name": "Reference data"
+    },
+    {
+      "description": "Operations for managing DNS client devices.\nA device represents a single client (phone, tablet, computer) connected to the account's DNS server.\nSupports listing, creating, updating, removing devices and managing their settings, dedicated IPs, and mobile configuration profiles.\n",
+      "name": "Devices"
     }
   ],
   "paths": {
     "/oapi/v1/account/limits": {
       "get": {
+        "description": "Returns account limits for the current account.\nUse this endpoint to read current usage and maximum values before creating or updating resources.\n",
         "operationId": "getAccountLimits",
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AccountLimits"
                 }
               }
             },
-            "description": "Account limits info"
+            "description": "Returns account limits"
           }
         },
         "summary": "Gets account limits",
@@ -78,6 +77,7 @@
     },
     "/oapi/v1/dedicated_addresses/ipv4": {
       "get": {
+        "description": "Returns a list of dedicated IPv4 addresses allocated for the account.\nUse this endpoint to review available dedicated addresses before linking them to devices.\n",
         "operationId": "listDedicatedIPv4Addresses",
         "responses": {
           "200": {
@@ -91,7 +91,7 @@
                 }
               }
             },
-            "description": "List of dedicated IPv4 addresses"
+            "description": "Returns list of dedicated IPv4 addresses"
           }
         },
         "summary": "Lists allocated dedicated IPv4 addresses",
@@ -100,17 +100,18 @@
         ]
       },
       "post": {
+        "description": "Allocates a new dedicated IPv4 address for the account.\nUse this endpoint when you need a static IP address for DNS resolution.\n",
         "operationId": "allocateDedicatedIPv4Address",
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/DedicatedIPv4Address"
                 }
               }
             },
-            "description": "New IPv4 successfully allocated"
+            "description": "New dedicated IPv4 allocated"
           },
           "429": {
             "description": "Dedicated IPv4 count reached the limit"
@@ -124,6 +125,8 @@
     },
     "/oapi/v1/devices": {
       "get": {
+        "deprecated": true,
+        "description": "Method is deprecated and scheduled for removal in January 2027. Use the /oapi/v2 version instead.",
         "operationId": "listDevices",
         "responses": {
           "200": {
@@ -137,7 +140,7 @@
                 }
               }
             },
-            "description": "List of devices"
+            "description": "Returns list of devices"
           }
         },
         "summary": "Lists devices",
@@ -146,6 +149,7 @@
         ]
       },
       "post": {
+        "description": "Creates a new device in the account.\nProvide the required device fields in the request body.\n",
         "operationId": "createDevice",
         "requestBody": {
           "content": {
@@ -160,7 +164,7 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Device"
                 }
@@ -190,6 +194,7 @@
     },
     "/oapi/v1/devices/{device_id}": {
       "delete": {
+        "description": "Removes a device from the account.\nUse this endpoint to delete a device that is no longer needed.\n",
         "operationId": "removeDevice",
         "parameters": [
           {
@@ -203,7 +208,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Device deleted"
+            "description": "Device removed"
           },
           "404": {
             "description": "Device not found"
@@ -215,6 +220,7 @@
         ]
       },
       "get": {
+        "description": "Returns details of a specific device.\nUse this endpoint to retrieve device configuration and DNS connection information.\n",
         "operationId": "getDevice",
         "parameters": [
           {
@@ -229,24 +235,25 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Device"
                 }
               }
             },
-            "description": "Device info"
+            "description": "Returns device details"
           },
           "404": {
             "description": "Device not found"
           }
         },
-        "summary": "Gets an existing device by ID",
+        "summary": "Gets a device by ID",
         "tags": [
           "Devices"
         ]
       },
       "put": {
+        "description": "Updates a device with the provided fields.\nOnly the specified fields will be modified.\n",
         "operationId": "updateDevice",
         "parameters": [
           {
@@ -286,7 +293,7 @@
             "description": "Device not found"
           }
         },
-        "summary": "Updates an existing device",
+        "summary": "Updates a device",
         "tags": [
           "Devices"
         ]
@@ -294,6 +301,7 @@
     },
     "/oapi/v1/devices/{device_id}/dedicated_addresses": {
       "get": {
+        "description": "Returns dedicated IPv4 and IPv6 addresses assigned to a device.\nUse this endpoint to review dedicated addresses linked to a specific device.\n",
         "operationId": "listDedicatedAddressesForDevice",
         "parameters": [
           {
@@ -308,16 +316,16 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/DedicatedIps"
                 }
               }
             },
-            "description": "Dedicated IPv4 and IPv6"
+            "description": "Returns dedicated IPv4 and IPv6 addresses"
           }
         },
-        "summary": "List dedicated IPv4 and IPv6 addresses for a device",
+        "summary": "Lists dedicated IPv4 and IPv6 addresses for a device",
         "tags": [
           "Devices"
         ]
@@ -325,6 +333,7 @@
     },
     "/oapi/v1/devices/{device_id}/dedicated_addresses/ipv4": {
       "delete": {
+        "description": "Unlinks a dedicated IPv4 address from a device.\nSpecify the IPv4 address to unlink as a query parameter.\n",
         "operationId": "unlinkDedicatedIPv4Address",
         "parameters": [
           {
@@ -336,7 +345,7 @@
             }
           },
           {
-            "description": "Dedicated IPv4",
+            "description": "Dedicated IPv4 to unlink",
             "in": "query",
             "name": "ip",
             "required": true,
@@ -347,18 +356,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Dedicated IPv4 successfully unlinked from the device"
+            "description": "Dedicated IPv4 unlinked from the device"
           },
           "404": {
             "description": "Device or address not found"
           }
         },
-        "summary": "Unlink dedicated IPv4 from the device",
+        "summary": "Unlinks dedicated IPv4 from the device",
         "tags": [
           "Devices"
         ]
       },
       "post": {
+        "description": "Links a dedicated IPv4 address to a device.\nProvide the IPv4 address to link in the request body.\n",
         "operationId": "linkDedicatedIPv4Address",
         "parameters": [
           {
@@ -382,7 +392,7 @@
         },
         "responses": {
           "200": {
-            "description": "Dedicated IPv4 successfully linked to the device"
+            "description": "Dedicated IPv4 linked to the device"
           },
           "400": {
             "content": {
@@ -401,7 +411,7 @@
             "description": "Linked dedicated IPv4 count reached the limit"
           }
         },
-        "summary": "Link dedicated IPv4 to the device",
+        "summary": "Links dedicated IPv4 to the device",
         "tags": [
           "Devices"
         ]
@@ -409,6 +419,7 @@
     },
     "/oapi/v1/devices/{device_id}/doh.mobileconfig": {
       "get": {
+        "description": "Generates and downloads a DNS-over-HTTPS .mobileconfig profile for the device.\nUse this file to configure AdGuard DNS on iOS devices.\nOptional parameters allow excluding specific Wi-Fi networks and domains.\n",
         "operationId": "getDoHMobileConfig",
         "parameters": [
           {
@@ -420,7 +431,7 @@
             }
           },
           {
-            "description": "List Wi-Fi networks by their SSID in which you want AdGuard DNS to be disabled",
+            "description": "SSID list of Wi-Fi networks to exclude",
             "in": "query",
             "name": "exclude_wifi_networks",
             "required": false,
@@ -432,7 +443,7 @@
             }
           },
           {
-            "description": "List domains that will use default DNS servers instead of AdGuard DNS",
+            "description": "Domain list to exclude from filtering",
             "in": "query",
             "name": "exclude_domain",
             "required": false,
@@ -446,13 +457,13 @@
         ],
         "responses": {
           "200": {
-            "description": "DNS-over-HTTPS .plist file"
+            "description": "DNS-over-HTTPS .mobileconfig profile"
           },
           "404": {
             "description": "Device not found"
           }
         },
-        "summary": "Gets DNS-over-HTTPS .mobileconfig file.",
+        "summary": "Gets DNS-over-HTTPS .mobileconfig file",
         "tags": [
           "Devices"
         ]
@@ -460,6 +471,7 @@
     },
     "/oapi/v1/devices/{device_id}/doh_password/reset": {
       "put": {
+        "description": "Generates a new DNS-over-HTTPS password for a device.\nUse this endpoint to reset the password if it has been compromised or you want to rotate credentials.\n",
         "operationId": "resetDOHPassword",
         "parameters": [
           {
@@ -473,13 +485,13 @@
         ],
         "responses": {
           "200": {
-            "description": "DNS-over-HTTPS password successfully reset"
+            "description": "DNS-over-HTTPS password reset"
           },
           "404": {
             "description": "Device not found"
           }
         },
-        "summary": "Generate and set new DNS-over-HTTPS password",
+        "summary": "Resets DNS-over-HTTPS password",
         "tags": [
           "Devices"
         ]
@@ -487,6 +499,7 @@
     },
     "/oapi/v1/devices/{device_id}/dot.mobileconfig": {
       "get": {
+        "description": "Generates and downloads a DNS-over-TLS .mobileconfig profile for the device.\nUse this file to configure AdGuard DNS on iOS devices.\nOptional parameters allow excluding specific Wi-Fi networks and domains.\n",
         "operationId": "getDoTMobileConfig",
         "parameters": [
           {
@@ -498,7 +511,7 @@
             }
           },
           {
-            "description": "List Wi-Fi networks by their SSID in which you want AdGuard DNS to be disabled",
+            "description": "SSID list of Wi-Fi networks to exclude",
             "in": "query",
             "name": "exclude_wifi_networks",
             "required": false,
@@ -510,7 +523,7 @@
             }
           },
           {
-            "description": "List domains that will use default DNS servers instead of AdGuard DNS",
+            "description": "Domain list to exclude from filtering",
             "in": "query",
             "name": "exclude_domain",
             "required": false,
@@ -524,20 +537,54 @@
         ],
         "responses": {
           "200": {
-            "description": "DNS-over-HTTPS .plist file"
+            "description": "DNS-over-TLS .mobileconfig profile"
           },
           "404": {
             "description": "Device not found"
           }
         },
-        "summary": "Gets DNS-over-TLS .mobileconfig file.",
+        "summary": "Gets DNS-over-TLS .mobileconfig file",
         "tags": [
           "Devices"
         ]
       }
     },
     "/oapi/v1/devices/{device_id}/settings": {
+      "get": {
+        "description": "Returns the current settings of a device, including protection and DNS-over-HTTPS authentication preferences.\n",
+        "operationId": "getDeviceSettings",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "device_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeviceSettings"
+                }
+              }
+            },
+            "description": "Returns device settings"
+          },
+          "404": {
+            "description": "Device not found"
+          }
+        },
+        "summary": "Gets device settings",
+        "tags": [
+          "Devices"
+        ]
+      },
       "put": {
+        "description": "Updates device settings such as protection status and DNS-over-HTTPS authentication mode.\nProvide the settings to update in the request body.\n",
         "operationId": "updateDeviceSettings",
         "parameters": [
           {
@@ -585,7 +632,8 @@
     },
     "/oapi/v1/dns_servers": {
       "get": {
-        "description": "Lists DNS servers that belong to the user. By default there is at least one default server.",
+        "deprecated": true,
+        "description": "Method is deprecated and scheduled for removal in January 2027. Use the /oapi/v2 version instead.",
         "operationId": "listDNSServers",
         "responses": {
           "200": {
@@ -599,16 +647,16 @@
                 }
               }
             },
-            "description": "List of DNS servers"
+            "description": "Returns list of DNS servers"
           }
         },
-        "summary": "Lists DNS servers that belong to the user.",
+        "summary": "Lists DNS servers",
         "tags": [
           "DNS servers"
         ]
       },
       "post": {
-        "description": "Creates a new DNS server. You can attach custom settings, otherwise DNS server will be created with default settings.",
+        "description": "Creates a new DNS server.\nYou can attach custom settings via the request body; otherwise the server will be created with default settings.\n",
         "operationId": "createDNSServer",
         "requestBody": {
           "content": {
@@ -623,7 +671,7 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/DNSServer"
                 }
@@ -653,7 +701,7 @@
     },
     "/oapi/v1/dns_servers/{dns_server_id}": {
       "delete": {
-        "description": "Removes a DNS server. All devices attached to this DNS server will be moved to the default DNS server. Deleting the default DNS server is forbidden.",
+        "description": "Removes a DNS server. All devices attached to this DNS server will be moved to the default DNS server.\nDeleting the default DNS server is forbidden.\n",
         "operationId": "removeDNSServer",
         "parameters": [
           {
@@ -667,7 +715,7 @@
         ],
         "responses": {
           "200": {
-            "description": "DNS server deleted"
+            "description": "DNS server removed"
           },
           "404": {
             "description": "DNS server not found"
@@ -679,6 +727,7 @@
         ]
       },
       "get": {
+        "description": "Returns details of a specific DNS server.\nUse this endpoint to retrieve DNS server configuration including its linked devices.\n",
         "operationId": "getDNSServer",
         "parameters": [
           {
@@ -693,24 +742,25 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/DNSServer"
                 }
               }
             },
-            "description": "DNS server info"
+            "description": "Returns DNS server details"
           },
           "404": {
             "description": "DNS server not found"
           }
         },
-        "summary": "Gets an existing DNS server by ID",
+        "summary": "Gets a DNS server by ID",
         "tags": [
           "DNS servers"
         ]
       },
       "put": {
+        "description": "Updates a DNS server with the provided fields.\nOnly the specified fields will be modified.\n",
         "operationId": "updateDNSServer",
         "parameters": [
           {
@@ -750,14 +800,48 @@
             "description": "DNS server not found"
           }
         },
-        "summary": "Updates an existing DNS server",
+        "summary": "Updates a DNS server",
         "tags": [
           "DNS servers"
         ]
       }
     },
     "/oapi/v1/dns_servers/{dns_server_id}/settings": {
+      "get": {
+        "description": "Returns the current settings of a DNS server, including filtering, parental control, and access configuration.\nUse this endpoint to review the current configuration before making changes.\n",
+        "operationId": "getDNSServerSettings",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "dns_server_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DNSServerSettings"
+                }
+              }
+            },
+            "description": "Returns DNS server settings"
+          },
+          "404": {
+            "description": "DNS server not found"
+          }
+        },
+        "summary": "Gets DNS server settings",
+        "tags": [
+          "DNS servers"
+        ]
+      },
       "put": {
+        "description": "Updates the settings of a DNS server, such as filtering, parental control, and access configuration.\nProvide the settings to update in the request body.\n",
         "operationId": "updateDNSServerSettings",
         "parameters": [
           {
@@ -805,6 +889,7 @@
     },
     "/oapi/v1/filter_lists": {
       "get": {
+        "description": "Returns available filter lists for the current locale.\nUse this endpoint to retrieve filter definitions before applying them to DNS server settings.\n",
         "operationId": "listFilterLists",
         "responses": {
           "200": {
@@ -818,17 +903,108 @@
                 }
               }
             },
-            "description": "List of filters"
+            "description": "Returns list of filters"
           }
         },
-        "summary": "Gets filter lists",
+        "summary": "Lists filter lists",
         "tags": [
-          "Filter lists"
+          "Reference data"
+        ]
+      }
+    },
+    "/oapi/v1/oauth_authorize": {
+      "get": {
+        "description": "Initiates an OAuth2 authorization flow by redirecting the user to the AdGuard authorization server.\n\nUse `response_type=token` for the Implicit grant or `response_type=code` together with `code_challenge` and `code_challenge_method=S256` for the Authorization Code + PKCE flow.\n\nOn success the authorization server redirects back to `redirect_uri`. For the Implicit grant the access token is embedded in the URL fragment (`#access_token=...`). For the Authorization Code flow a one-time `code` is appended as a query parameter and must be exchanged for tokens via the `/oauth_token` endpoint.\n",
+        "operationId": "authorize",
+        "parameters": [
+          {
+            "description": "OAuth2 client identifier",
+            "in": "query",
+            "name": "client_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Type of grant. Use response_type=token for Implicit grant, response_type=code for Authorization Code + PKCE flow",
+            "in": "query",
+            "name": "response_type",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "A successful response results in a redirect to this URL",
+            "in": "query",
+            "name": "redirect_uri",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "An opaque value, used for security purposes",
+            "in": "query",
+            "name": "state",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Affiliate identifier",
+            "in": "query",
+            "name": "aid",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Affiliate source",
+            "in": "query",
+            "name": "source",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "PKCE code challenge: BASE64URL(SHA256(code_verifier)). Required for Authorization Code + PKCE flow",
+            "in": "query",
+            "name": "code_challenge",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "PKCE challenge method. Only \"S256\" is supported",
+            "in": "query",
+            "name": "code_challenge_method",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "Redirect to the authorization server"
+          }
+        },
+        "security": [],
+        "summary": "Redirects to the authorization endpoint",
+        "tags": [
+          "Authentication"
         ]
       }
     },
     "/oapi/v1/oauth_token": {
       "post": {
+        "description": "Obtains an access token using one of three grant types:\n\n**1. Password + optional 2FA** (`grant_type=password`):\nProvide `username` and `password`. If two-factor authentication is enabled on the account,\nalso provide `mfa_token`.\n\n**2. Refresh token** (`grant_type=refresh_token`):\nProvide `refresh_token` to exchange it for a new access token without re-entering credentials.\n\n**3. Authorization Code + PKCE** (`grant_type=authorization_code`):\nExchange an authorization code obtained via the `/oauth_authorize` endpoint.\nProvide `code`, `client_id`, `code_verifier`, and `redirect_uri`.\n",
         "operationId": "accessToken",
         "requestBody": {
           "content": {
@@ -843,7 +1019,7 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AccessTokenResponse"
                 }
@@ -855,7 +1031,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/AccessTokenResponse"
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             },
@@ -869,22 +1045,48 @@
                 }
               }
             },
-            "description": "Invalid credentials, MFA token or refresh token provided"
+            "description": "Invalid credentials, MFA token, refresh token, authorization code, or PKCE code_verifier provided"
           }
         },
         "security": [],
-        "summary": "Generates Access and Refresh token",
+        "summary": "Issues an access token",
         "tags": [
           "Authentication"
         ]
       }
     },
+    "/oapi/v1/parental_control_categories": {
+      "get": {
+        "description": "Returns all available parental control filtering categories.\nUse this endpoint to retrieve categories for configuring parental control settings on a DNS server.\n",
+        "operationId": "listParentalControlFilteringCategories",
+        "responses": {
+          "200": {
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ParentalControlFilteringCategory"
+                  }
+                }
+              }
+            },
+            "description": "Returns list of parental control filtering categories"
+          }
+        },
+        "summary": "Lists all parental control filtering categories",
+        "tags": [
+          "Reference data"
+        ]
+      }
+    },
     "/oapi/v1/query_log": {
       "delete": {
+        "description": "Clears all query log entries for the current account.\nUse this endpoint to remove stored DNS query records.\n",
         "operationId": "clearQueryLog",
         "responses": {
           "202": {
-            "description": "Query log was cleared"
+            "description": "Query log cleared"
           }
         },
         "summary": "Clears query log",
@@ -893,6 +1095,7 @@
         ]
       },
       "get": {
+        "description": "Returns the query log for the specified time period.\nUse filters to narrow the result set and cursor to paginate through the results.\nThe log contains DNS query records with filtering, device, and domain information.\n",
         "operationId": "getQueryLog",
         "parameters": [
           {
@@ -913,6 +1116,19 @@
             "schema": {
               "type": "integer",
               "format": "int64"
+            }
+          },
+          {
+            "description": "Filter by DNS servers",
+            "in": "query",
+            "name": "dns_servers",
+            "required": false,
+            "schema": {
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             }
           },
           {
@@ -990,7 +1206,7 @@
             }
           },
           {
-            "description": "Limit the number of records to be returned",
+            "description": "Pagination limit",
             "in": "query",
             "name": "limit",
             "required": false,
@@ -1002,7 +1218,7 @@
             }
           },
           {
-            "description": "Pagination cursor. Use cursor from response to paginate through the pages.",
+            "description": "Pagination cursor from previous response",
             "in": "query",
             "name": "cursor",
             "required": false,
@@ -1014,13 +1230,13 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/QueryLogResponse"
                 }
               }
             },
-            "description": "Query log"
+            "description": "Returns query log"
           }
         },
         "summary": "Gets query log",
@@ -1031,10 +1247,11 @@
     },
     "/oapi/v1/revoke_token": {
       "post": {
+        "description": "Permanently invalidates a refresh token.\nAfter revocation the token cannot be used to obtain new access tokens.\nRevoke the refresh token when the user logs out or when you suspect the token has been compromised.\n",
         "operationId": "revokeToken",
         "parameters": [
           {
-            "description": "Refresh Token",
+            "description": "Refresh token to revoke",
             "in": "query",
             "name": "refresh_token",
             "required": true,
@@ -1049,14 +1266,108 @@
           }
         },
         "security": [],
-        "summary": "Revokes a Refresh Token",
+        "summary": "Revokes a refresh token",
         "tags": [
           "Authentication"
         ]
       }
     },
+    "/oapi/v1/stats/blocked_parental_categories": {
+      "get": {
+        "description": "Returns DNS query statistics for requests blocked by parental control categories.\nUse the time range and filters to narrow the results.\n",
+        "operationId": "getBlockedParentalCategoryStats",
+        "parameters": [
+          {
+            "description": "Time from in milliseconds (inclusive)",
+            "in": "query",
+            "name": "time_from_millis",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "description": "Time to in milliseconds (inclusive)",
+            "in": "query",
+            "name": "time_to_millis",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "description": "Filter by DNS servers",
+            "in": "query",
+            "name": "dns_servers",
+            "required": false,
+            "schema": {
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "description": "Filter by devices",
+            "in": "query",
+            "name": "devices",
+            "required": false,
+            "schema": {
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "description": "Filter by countries",
+            "in": "query",
+            "name": "countries",
+            "required": false,
+            "schema": {
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BlockedParentalCategoryQueriesStatsList"
+                }
+              }
+            },
+            "description": "Returns blocked parental control categories statistics"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Validation failed"
+          }
+        },
+        "summary": "Gets statistics for blocked parental control categories",
+        "tags": [
+          "Statistics"
+        ]
+      }
+    },
     "/oapi/v1/stats/categories": {
       "get": {
+        "description": "Returns DNS query statistics grouped by filtering category for the specified period.\nUse the time range and filters to narrow the results.\n",
         "operationId": "getCategoriesQueriesStats",
         "parameters": [
           {
@@ -1080,6 +1391,19 @@
             }
           },
           {
+            "description": "Filter by DNS servers",
+            "in": "query",
+            "name": "dns_servers",
+            "required": false,
+            "schema": {
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
             "description": "Filter by devices",
             "in": "query",
             "name": "devices",
@@ -1109,13 +1433,13 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/CategoryQueriesStatsList"
                 }
               }
             },
-            "description": "Categories statistics received"
+            "description": "Returns categories statistics"
           },
           "400": {
             "content": {
@@ -1136,6 +1460,7 @@
     },
     "/oapi/v1/stats/companies": {
       "get": {
+        "description": "Returns DNS query statistics grouped by company for the specified period.\nResponse is paginated, items are arranged by query count.\nFor the initial request a default limit is applied if not specified.\nFor the subsequent requests cursor must be provided (limit can be omitted).\nFiltering parameters, if specified for the initial request, must be provided on each page request as well.\n",
         "operationId": "getCompaniesStats",
         "parameters": [
           {
@@ -1159,9 +1484,9 @@
             }
           },
           {
-            "description": "Filter by devices",
+            "description": "Filter by DNS servers",
             "in": "query",
-            "name": "devices",
+            "name": "dns_servers",
             "required": false,
             "schema": {
               "uniqueItems": true,
@@ -1169,72 +1494,6 @@
               "items": {
                 "type": "string"
               }
-            }
-          },
-          {
-            "description": "Filter by countries",
-            "in": "query",
-            "name": "countries",
-            "required": false,
-            "schema": {
-              "uniqueItems": true,
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/CompanyQueriesStatsList"
-                }
-              }
-            },
-            "description": "Companies statistics received"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Validation failed"
-          }
-        },
-        "summary": "Gets companies statistics",
-        "tags": [
-          "Statistics"
-        ]
-      }
-    },
-    "/oapi/v1/stats/companies/detailed": {
-      "get": {
-        "operationId": "getDetailedCompaniesStats",
-        "parameters": [
-          {
-            "description": "Time from in milliseconds (inclusive)",
-            "in": "query",
-            "name": "time_from_millis",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "description": "Time to in milliseconds (inclusive)",
-            "in": "query",
-            "name": "time_to_millis",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
             }
           },
           {
@@ -1271,18 +1530,148 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "description": "Pagination limit (may be overridden by cursor)",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "maximum": 1000,
+              "minimum": 0,
+              "exclusiveMinimum": true,
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
           }
         ],
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompanyQueriesStatsList"
+                }
+              }
+            },
+            "description": "Returns companies statistics"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Validation failed"
+          }
+        },
+        "summary": "Gets companies statistics",
+        "tags": [
+          "Statistics"
+        ]
+      }
+    },
+    "/oapi/v1/stats/companies/detailed": {
+      "get": {
+        "description": "Returns detailed DNS query statistics grouped by company for the specified period.\nResponse is paginated, items are arranged by query count.\nFor the initial request a default limit is applied if not specified.\nFor the subsequent requests cursor must be provided (limit can be omitted).\nFiltering parameters, if specified for the initial request, must be provided on each page request as well.\n",
+        "operationId": "getDetailedCompaniesStats",
+        "parameters": [
+          {
+            "description": "Time from in milliseconds (inclusive)",
+            "in": "query",
+            "name": "time_from_millis",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "description": "Time to in milliseconds (inclusive)",
+            "in": "query",
+            "name": "time_to_millis",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "description": "Filter by DNS servers",
+            "in": "query",
+            "name": "dns_servers",
+            "required": false,
+            "schema": {
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "description": "Filter by devices",
+            "in": "query",
+            "name": "devices",
+            "required": false,
+            "schema": {
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "description": "Filter by countries",
+            "in": "query",
+            "name": "countries",
+            "required": false,
+            "schema": {
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "description": "Pagination cursor",
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Pagination limit (may be overridden by cursor)",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "maximum": 1000,
+              "minimum": 0,
+              "exclusiveMinimum": true,
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/CompanyDetailedQueriesStatsList"
                 }
               }
             },
-            "description": "Detailed companies statistics received"
+            "description": "Returns detailed companies statistics"
           },
           "400": {
             "content": {
@@ -1303,6 +1692,7 @@
     },
     "/oapi/v1/stats/countries": {
       "get": {
+        "description": "Returns DNS query statistics grouped by country for the specified period.\nResponse is paginated, items are arranged by query count.\nFor the initial request a default limit is applied if not specified.\nFor the subsequent requests cursor must be provided (limit can be omitted).\nFiltering parameters, if specified for the initial request, must be provided on each page request as well.\n",
         "operationId": "getCountriesQueriesStats",
         "parameters": [
           {
@@ -1326,6 +1716,19 @@
             }
           },
           {
+            "description": "Filter by DNS servers",
+            "in": "query",
+            "name": "dns_servers",
+            "required": false,
+            "schema": {
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
             "description": "Filter by devices",
             "in": "query",
             "name": "devices",
@@ -1350,18 +1753,41 @@
                 "type": "string"
               }
             }
+          },
+          {
+            "description": "Pagination cursor",
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Pagination limit (may be overridden by cursor)",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "maximum": 1000,
+              "minimum": 0,
+              "exclusiveMinimum": true,
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
           }
         ],
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/CountryQueriesStatsList"
                 }
               }
             },
-            "description": "Countries statistics received"
+            "description": "Returns countries statistics"
           },
           "400": {
             "content": {
@@ -1382,6 +1808,7 @@
     },
     "/oapi/v1/stats/devices": {
       "get": {
+        "description": "Returns DNS query statistics grouped by device for the specified period.\nResponse is paginated, items are arranged by query count.\nFor the initial request a default limit is applied if not specified.\nFor the subsequent requests cursor must be provided (limit can be omitted).\nFiltering parameters, if specified for the initial request, must be provided on each page request as well.\n",
         "operationId": "getDevicesQueriesStats",
         "parameters": [
           {
@@ -1405,6 +1832,19 @@
             }
           },
           {
+            "description": "Filter by DNS servers",
+            "in": "query",
+            "name": "dns_servers",
+            "required": false,
+            "schema": {
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
             "description": "Filter by devices",
             "in": "query",
             "name": "devices",
@@ -1429,18 +1869,41 @@
                 "type": "string"
               }
             }
+          },
+          {
+            "description": "Pagination cursor",
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Pagination limit (may be overridden by cursor)",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "maximum": 1000,
+              "minimum": 0,
+              "exclusiveMinimum": true,
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
           }
         ],
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/DeviceQueriesStatsList"
                 }
               }
             },
-            "description": "Devices statistics received"
+            "description": "Returns devices statistics"
           },
           "400": {
             "content": {
@@ -1461,6 +1924,7 @@
     },
     "/oapi/v1/stats/domains": {
       "get": {
+        "description": "Returns DNS query statistics grouped by domain for the specified period.\nResponse is paginated, items are arranged by query count.\nFor the initial request a default limit is applied if not specified.\nFor the subsequent requests cursor must be provided (limit can be omitted).\nFiltering parameters, if specified for the initial request, must be provided on each page request as well.\n",
         "operationId": "getDomainsQueriesStats",
         "parameters": [
           {
@@ -1484,6 +1948,19 @@
             }
           },
           {
+            "description": "Filter by DNS servers",
+            "in": "query",
+            "name": "dns_servers",
+            "required": false,
+            "schema": {
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
             "description": "Filter by devices",
             "in": "query",
             "name": "devices",
@@ -1508,18 +1985,41 @@
                 "type": "string"
               }
             }
+          },
+          {
+            "description": "Pagination cursor",
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Pagination limit (may be overridden by cursor)",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "maximum": 1000,
+              "minimum": 0,
+              "exclusiveMinimum": true,
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
           }
         ],
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/DomainQueriesStatsList"
                 }
               }
             },
-            "description": "Domains statistics received"
+            "description": "Returns domains statistics"
           },
           "400": {
             "content": {
@@ -1540,6 +2040,7 @@
     },
     "/oapi/v1/stats/time": {
       "get": {
+        "description": "Returns time-based DNS query statistics for the specified period.\nUse the time range parameters to define the period and filters to narrow the results.\n",
         "operationId": "getTimeQueriesStats",
         "parameters": [
           {
@@ -1563,6 +2064,19 @@
             }
           },
           {
+            "description": "Filter by DNS servers",
+            "in": "query",
+            "name": "dns_servers",
+            "required": false,
+            "schema": {
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
             "description": "Filter by devices",
             "in": "query",
             "name": "devices",
@@ -1592,13 +2106,13 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/TimeQueriesStatsList"
                 }
               }
             },
-            "description": "Time statistics received"
+            "description": "Returns time statistics"
           },
           "400": {
             "content": {
@@ -1619,6 +2133,7 @@
     },
     "/oapi/v1/web_services": {
       "get": {
+        "description": "Returns a list of known web services with their identifiers and icons.\nUse this endpoint to get service data for parental control configuration.\n",
         "operationId": "listWebServices",
         "responses": {
           "200": {
@@ -1632,12 +2147,163 @@
                 }
               }
             },
-            "description": "List of web-services"
+            "description": "Returns list of web services"
           }
         },
         "summary": "Lists web services",
         "tags": [
-          "Web services"
+          "Reference data"
+        ]
+      }
+    },
+    "/oapi/v2/devices": {
+      "get": {
+        "description": "Lists devices according to the specified parameters.\nResponse is paginated, items are arranged in the newest-first order.\nFor the initial request a default limit is applied if not specified.\nFor the subsequent requests cursor must be provided (limit can be omitted).\nFiltering parameters, if specified for the initial request, must be provided on each page request as well.\n",
+        "operationId": "getDevices",
+        "parameters": [
+          {
+            "description": "Pagination cursor",
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Pagination limit (may be overridden by cursor)",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "maximum": 1000,
+              "minimum": 0,
+              "exclusiveMinimum": true,
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          },
+          {
+            "description": "Filter by DNS servers",
+            "in": "query",
+            "name": "dns_servers",
+            "required": false,
+            "schema": {
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "description": "Filter by devices",
+            "in": "query",
+            "name": "devices",
+            "required": false,
+            "schema": {
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "description": "Search by device name or ID",
+            "in": "query",
+            "name": "search",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DevicesResponse"
+                }
+              }
+            },
+            "description": "Returns list of devices"
+          }
+        },
+        "summary": "Lists devices",
+        "tags": [
+          "Devices"
+        ]
+      }
+    },
+    "/oapi/v2/dns_servers": {
+      "get": {
+        "description": "Lists DNS servers according to the specified parameters.\nBy default there is at least one default server.\nResponse is paginated, items are arranged in the newest-first order.\nFor the initial request a default limit is applied if not specified.\nFor the subsequent requests cursor must be provided (limit can be omitted).\nFiltering parameters, if specified for the initial request, must be provided on each page request as well.\n",
+        "operationId": "getDnsServers",
+        "parameters": [
+          {
+            "description": "Pagination cursor",
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Pagination limit (may be overridden by cursor)",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "maximum": 1000,
+              "minimum": 0,
+              "exclusiveMinimum": true,
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          },
+          {
+            "description": "Filter by DNS servers",
+            "in": "query",
+            "name": "dns_servers",
+            "required": false,
+            "schema": {
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "description": "Search by DNS server name or ID",
+            "in": "query",
+            "name": "search",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DnsServersResponse"
+                }
+              }
+            },
+            "description": "Returns list of DNS servers"
+          }
+        },
+        "summary": "Lists DNS servers",
+        "tags": [
+          "DNS servers"
         ]
       }
     }
@@ -1645,25 +2311,57 @@
   "components": {
     "schemas": {
       "AccessTokenCredentials": {
+        "required": [
+          "grant_type"
+        ],
         "type": "object",
         "properties": {
+          "client_id": {
+            "type": "string",
+            "description": "OAuth2 client identifier",
+            "example": "dns_ios"
+          },
+          "code": {
+            "type": "string",
+            "description": "Authorization code received from the authorization server",
+            "example": "auth_code_xyz"
+          },
+          "code_verifier": {
+            "type": "string",
+            "description": "PKCE code verifier (43-128 chars)",
+            "example": "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM"
+          },
+          "grant_type": {
+            "type": "string",
+            "description": "OAuth2 grant type. Accepted values: \"password\", \"refresh_token\", \"authorization_code\". Required for Authorization Code + PKCE flow."
+          },
           "mfa_token": {
             "type": "string",
-            "description": "Two-Factor authentication token"
+            "description": "Two-Factor authentication token (if enabled in account settings)",
+            "example": "123456"
           },
           "password": {
             "type": "string",
-            "description": "Account password"
+            "description": "Account password",
+            "example": "your_password"
+          },
+          "redirect_uri": {
+            "type": "string",
+            "description": "Redirect URI used in the authorization request",
+            "example": "https://example.com/callback"
           },
           "refresh_token": {
             "type": "string",
-            "description": "Refresh Token using which a new access token has to be generated"
+            "description": "Refresh token",
+            "example": "H3SW6YFJ-tOPe0FQCM1Jd6VnMiA"
           },
           "username": {
             "type": "string",
-            "description": "Account email"
+            "description": "Account email",
+            "example": "user@example.com"
           }
-        }
+        },
+        "description": "Access token request parameters"
       },
       "AccessTokenErrorResponse": {
         "type": "object",
@@ -1748,6 +2446,63 @@
         },
         "description": "Account limits"
       },
+      "BlockedFilteringCategoryUpdate": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether category blocking is enabled"
+          },
+          "id": {
+            "maxLength": 64,
+            "minLength": 1,
+            "type": "string",
+            "description": "Category identifier",
+            "example": "adult"
+          }
+        },
+        "description": "Blocked filtering category update action"
+      },
+      "BlockedParentalCategoryQueriesStats": {
+        "required": [
+          "blocked",
+          "category"
+        ],
+        "type": "object",
+        "properties": {
+          "blocked": {
+            "type": "integer",
+            "description": "Blocked queries count",
+            "format": "int64",
+            "example": 14
+          },
+          "category": {
+            "type": "string",
+            "description": "Category",
+            "example": "audio"
+          }
+        },
+        "description": "Blocked Parental control Category queries stats"
+      },
+      "BlockedParentalCategoryQueriesStatsList": {
+        "required": [
+          "stats"
+        ],
+        "type": "object",
+        "properties": {
+          "stats": {
+            "type": "array",
+            "description": "Stats for blocked Parental control Categories",
+            "items": {
+              "$ref": "#/components/schemas/BlockedParentalCategoryQueriesStats"
+            }
+          }
+        },
+        "description": "Blocked Parental control Category queries stats"
+      },
       "BlockedWebService": {
         "required": [
           "enabled",
@@ -1790,6 +2545,7 @@
       "BlockingMode": {
         "type": "string",
         "description": "Blocking mode",
+        "example": "REFUSED",
         "enum": [
           "NONE",
           "NULL_IP",
@@ -1809,11 +2565,13 @@
           },
           "ipv4_blocking_address": {
             "type": "string",
-            "description": "Custom IPv4 address for blocking mode CUSTOM IP"
+            "description": "Custom IPv4 address for blocking mode CUSTOM IP",
+            "example": "0.0.0.0"
           },
           "ipv6_blocking_address": {
             "type": "string",
-            "description": "Custom IPv6 address for blocking mode CUSTOM IP"
+            "description": "Custom IPv6 address for blocking mode CUSTOM IP",
+            "example": "::"
           }
         },
         "description": "Blocking mode settings"
@@ -1829,11 +2587,13 @@
           },
           "ipv4_blocking_address": {
             "type": "string",
-            "description": "Custom IPv4 address for blocking mode CUSTOM IP"
+            "description": "Custom IPv4 address for blocking mode CUSTOM IP",
+            "example": "0.0.0.0"
           },
           "ipv6_blocking_address": {
             "type": "string",
-            "description": "Custom IPv6 address for blocking mode CUSTOM IP"
+            "description": "Custom IPv6 address for blocking mode CUSTOM IP",
+            "example": "::"
           }
         },
         "description": "Blocking mode settings"
@@ -1851,7 +2611,8 @@
           "queries": {
             "type": "integer",
             "description": "Queries",
-            "format": "int64"
+            "format": "int64",
+            "example": 86
           }
         },
         "description": "Category queries stats"
@@ -1870,7 +2631,7 @@
             }
           }
         },
-        "description": "Categories queries statistics"
+        "description": "Category query statistics list"
       },
       "CategoryType": {
         "type": "string",
@@ -1921,14 +2682,18 @@
       },
       "CompanyDetailedQueriesStatsList": {
         "required": [
-          "pages",
+          "navigation",
           "stats"
         ],
         "type": "object",
         "properties": {
+          "navigation": {
+            "$ref": "#/components/schemas/Navigation"
+          },
           "pages": {
             "type": "array",
-            "description": "Pagination",
+            "description": "Pagination. Field is deprecated and scheduled for removal in January 2027. Use `navigation` instead",
+            "deprecated": true,
             "items": {
               "$ref": "#/components/schemas/Page"
             }
@@ -1963,10 +2728,14 @@
       },
       "CompanyQueriesStatsList": {
         "required": [
+          "navigation",
           "stats"
         ],
         "type": "object",
         "properties": {
+          "navigation": {
+            "$ref": "#/components/schemas/Navigation"
+          },
           "stats": {
             "type": "array",
             "description": "List of queries stats",
@@ -2013,10 +2782,14 @@
       },
       "CountryQueriesStatsList": {
         "required": [
+          "navigation",
           "stats"
         ],
         "type": "object",
         "properties": {
+          "navigation": {
+            "$ref": "#/components/schemas/Navigation"
+          },
           "stats": {
             "type": "array",
             "description": "List of queries stats",
@@ -2109,12 +2882,12 @@
             }
           }
         },
-        "description": "DNS connecting info"
+        "description": "DNS connection information"
       },
       "DNSServer": {
         "required": [
           "default",
-          "device_ids",
+          "devices_count",
           "id",
           "name",
           "settings"
@@ -2123,16 +2896,24 @@
         "properties": {
           "default": {
             "type": "boolean",
-            "description": "Default",
+            "description": "Whether this is the default DNS server",
             "example": false
           },
           "device_ids": {
             "type": "array",
-            "description": "List of connected devices",
+            "description": "Scheduled for removal in January 2027",
+            "deprecated": true,
             "items": {
               "type": "string",
-              "description": "List of connected devices"
+              "description": "Scheduled for removal in January 2027",
+              "deprecated": true
             }
+          },
+          "devices_count": {
+            "type": "integer",
+            "description": "Connected devices count",
+            "format": "int32",
+            "example": 5
           },
           "id": {
             "type": "string",
@@ -2148,7 +2929,7 @@
             "$ref": "#/components/schemas/DNSServerSettings"
           }
         },
-        "description": "DNS server (aka profile)"
+        "description": "DNS server"
       },
       "DNSServerAccessSettings": {
         "required": [
@@ -2163,34 +2944,46 @@
           "allowed_clients": {
             "type": "array",
             "description": "Allowed IP's, CIDR's or ASN's",
+            "example": [
+              "192.168.1.0/24"
+            ],
             "items": {
               "type": "string",
-              "description": "Allowed IP's, CIDR's or ASN's"
+              "description": "Allowed IP's, CIDR's or ASN's",
+              "example": "[\"192.168.1.0/24\"]"
             }
           },
           "block_known_scanners": {
             "type": "boolean",
-            "description": "If known scanners should be blocked"
+            "description": "Whether known scanners should be blocked"
           },
           "blocked_clients": {
             "type": "array",
             "description": "Blocked IP's, CIDR's or ASN's",
+            "example": [
+              "10.0.0.0/8"
+            ],
             "items": {
               "type": "string",
-              "description": "Blocked IP's, CIDR's or ASN's"
+              "description": "Blocked IP's, CIDR's or ASN's",
+              "example": "[\"10.0.0.0/8\"]"
             }
           },
           "blocked_domain_rules": {
             "type": "array",
             "description": "Blocked domain rules",
+            "example": [
+              "example.org"
+            ],
             "items": {
               "type": "string",
-              "description": "Blocked domain rules"
+              "description": "Blocked domain rules",
+              "example": "[\"example.org\"]"
             }
           },
           "enabled": {
             "type": "boolean",
-            "description": "Flag that access settings are enabled"
+            "description": "Whether access settings are enabled"
           }
         },
         "description": "DNS server access settings"
@@ -2201,36 +2994,48 @@
           "allowed_clients": {
             "type": "array",
             "description": "Allowed IP's, CIDR's or ASN's",
+            "example": [
+              "192.168.1.0/24"
+            ],
             "items": {
               "type": "string",
-              "description": "Allowed IP's, CIDR's or ASN's"
+              "description": "Allowed IP's, CIDR's or ASN's",
+              "example": "[\"192.168.1.0/24\"]"
             }
           },
           "block_known_scanners": {
             "type": "boolean",
-            "description": "If known scanners should be blocked"
+            "description": "Whether known scanners should be blocked"
           },
           "blocked_clients": {
             "type": "array",
             "description": "Blocked IP's, CIDR's or ASN's",
+            "example": [
+              "10.0.0.0/8"
+            ],
             "items": {
               "type": "string",
-              "description": "Blocked IP's, CIDR's or ASN's"
+              "description": "Blocked IP's, CIDR's or ASN's",
+              "example": "[\"10.0.0.0/8\"]"
             }
           },
           "blocked_domain_rules": {
             "type": "array",
             "description": "Blocked domain rules",
+            "example": [
+              "example.org"
+            ],
             "items": {
               "maxLength": 1024,
               "minLength": 0,
               "type": "string",
-              "description": "Blocked domain rules"
+              "description": "Blocked domain rules",
+              "example": "[\"example.org\"]"
             }
           },
           "enabled": {
             "type": "boolean",
-            "description": "Flag that access settings are enabled"
+            "description": "Whether access settings are enabled"
           }
         },
         "description": "DNS server access settings update"
@@ -2252,7 +3057,7 @@
             "$ref": "#/components/schemas/DNSServerSettingsUpdate"
           }
         },
-        "description": "DNS server create action"
+        "description": "DNS server create request"
       },
       "DNSServerSettings": {
         "required": [
@@ -2277,24 +3082,25 @@
           },
           "auto_connect_devices_enabled": {
             "type": "boolean",
-            "description": "Approval for auto-connecting devices through a specific link type"
+            "description": "Whether to allow auto-connecting through link type"
           },
           "block_chrome_prefetch": {
             "type": "boolean",
-            "description": "Block prefetch proxy in Google chrome"
+            "description": "Whether to block Google Chrome prefetch proxy"
           },
           "block_firefox_canary": {
             "type": "boolean",
-            "description": "If Firefox Canary should be blocked"
+            "description": "Whether Firefox Canary should be blocked"
           },
           "block_private_relay": {
             "type": "boolean",
-            "description": "Is private relay should be blocked"
+            "description": "Whether private relay should be blocked"
           },
           "block_ttl_seconds": {
             "type": "integer",
-            "description": "TTL for blocked request",
-            "format": "int32"
+            "description": "Blocked response TTL in seconds",
+            "format": "int32",
+            "example": 3600
           },
           "blocking_mode_settings": {
             "$ref": "#/components/schemas/BlockingModeSettings"
@@ -2304,14 +3110,14 @@
           },
           "ip_log_enabled": {
             "type": "boolean",
-            "description": "Consent to log IP addresses of requests"
+            "description": "Whether to log IP addresses of requests"
           },
           "parental_control_settings": {
             "$ref": "#/components/schemas/ParentalControlSettings"
           },
           "protection_enabled": {
             "type": "boolean",
-            "description": "Is protection enabled"
+            "description": "Whether protection is enabled"
           },
           "safebrowsing_settings": {
             "$ref": "#/components/schemas/SafebrowsingSettings"
@@ -2330,26 +3136,27 @@
           },
           "auto_connect_devices_enabled": {
             "type": "boolean",
-            "description": "Approval for auto-connecting devices through a specific link type"
+            "description": "Whether to allow auto-connecting through link type"
           },
           "block_chrome_prefetch": {
             "type": "boolean",
-            "description": "Block prefetch proxy in Google chrome"
+            "description": "Whether to block Google Chrome prefetch proxy"
           },
           "block_firefox_canary": {
             "type": "boolean",
-            "description": "If Firefox Canary should be blocked"
+            "description": "Whether Firefox Canary should be blocked"
           },
           "block_private_relay": {
             "type": "boolean",
-            "description": "Is private relay should be blocked"
+            "description": "Whether private relay should be blocked"
           },
           "block_ttl_seconds": {
             "maximum": 3600,
             "minimum": 0,
             "type": "integer",
             "description": "TTL for blocked request",
-            "format": "int32"
+            "format": "int32",
+            "example": 3600
           },
           "blocking_mode_settings": {
             "$ref": "#/components/schemas/BlockingModeSettingsUpdate"
@@ -2359,14 +3166,14 @@
           },
           "ip_log_enabled": {
             "type": "boolean",
-            "description": "Consent to log IP addresses of requests"
+            "description": "Whether to log IP addresses of requests"
           },
           "parental_control_settings": {
             "$ref": "#/components/schemas/ParentalControlSettingsUpdate"
           },
           "protection_enabled": {
             "type": "boolean",
-            "description": "Is protection enabled"
+            "description": "Whether protection is enabled"
           },
           "safebrowsing_settings": {
             "$ref": "#/components/schemas/SafebrowsingSettingsUpdate"
@@ -2375,7 +3182,7 @@
             "$ref": "#/components/schemas/UserRulesSettingsUpdate"
           }
         },
-        "description": "DNS server settings update action"
+        "description": "DNS server settings update request"
       },
       "DNSServerUpdate": {
         "type": "object",
@@ -2388,7 +3195,7 @@
             "example": "My profile"
           }
         },
-        "description": "DNS server update action"
+        "description": "DNS server update request"
       },
       "DayOfWeek": {
         "type": "string",
@@ -2433,9 +3240,13 @@
           "ipv4": {
             "type": "array",
             "description": "Dedicated IPv4 address",
+            "example": [
+              "94.140.14.15"
+            ],
             "items": {
               "type": "string",
-              "description": "Dedicated IPv4 address"
+              "description": "Dedicated IPv4 address",
+              "example": "[\"94.140.14.15\"]"
             }
           },
           "ipv4_limit": {
@@ -2444,9 +3255,13 @@
           "ipv6": {
             "type": "array",
             "description": "Dedicated IPv6 address",
+            "example": [
+              "2a10:50c0::ad1:ff"
+            ],
             "items": {
               "type": "string",
-              "description": "Dedicated IPv6 address"
+              "description": "Dedicated IPv6 address",
+              "example": "[\"2a10:50c0::ad1:ff\"]"
             }
           }
         },
@@ -2503,7 +3318,7 @@
           },
           "dns_server_id": {
             "type": "string",
-            "description": "DNS server ID",
+            "description": "DNS server ID to associate the device with",
             "example": "a9f29be1"
           },
           "name": {
@@ -2511,10 +3326,10 @@
             "minLength": 1,
             "type": "string",
             "description": "Device name",
-            "example": "My android"
+            "example": "My phone"
           }
         },
-        "description": "Device create action"
+        "description": "Device create request"
       },
       "DeviceQueriesStats": {
         "required": [
@@ -2531,7 +3346,8 @@
           "last_activity_time_millis": {
             "type": "integer",
             "description": "Last activity time in millis",
-            "format": "int64"
+            "format": "int64",
+            "example": 1655804673000
           },
           "value": {
             "$ref": "#/components/schemas/QueriesStats"
@@ -2541,10 +3357,14 @@
       },
       "DeviceQueriesStatsList": {
         "required": [
+          "navigation",
           "stats"
         ],
         "type": "object",
         "properties": {
+          "navigation": {
+            "$ref": "#/components/schemas/Navigation"
+          },
           "stats": {
             "type": "array",
             "description": "List of queries stats",
@@ -2564,28 +3384,28 @@
         "properties": {
           "detect_doh_auth_only": {
             "type": "boolean",
-            "description": "Use only DNS-over-HTTPS with authentication"
+            "description": "Whether to use only DNS-over-HTTPS with authentication"
           },
           "protection_enabled": {
             "type": "boolean",
-            "description": "Is protection enabled"
+            "description": "Whether protection is enabled"
           }
         },
-        "description": "Device settings"
+        "description": "Device settings response"
       },
       "DeviceSettingsUpdate": {
         "type": "object",
         "properties": {
           "detect_doh_auth_only": {
             "type": "boolean",
-            "description": "Use only DNS-over-HTTPS with authentication"
+            "description": "Whether to use only DNS-over-HTTPS with authentication"
           },
           "protection_enabled": {
             "type": "boolean",
-            "description": "Enable protection"
+            "description": "Whether to enable protection"
           }
         },
-        "description": "Device settings update"
+        "description": "Device settings update request"
       },
       "DeviceUpdate": {
         "type": "object",
@@ -2603,10 +3423,30 @@
             "minLength": 1,
             "type": "string",
             "description": "Device name",
-            "example": "My android"
+            "example": "My phone"
           }
         },
-        "description": "Device update action"
+        "description": "Device update request"
+      },
+      "DevicesResponse": {
+        "required": [
+          "items",
+          "navigation"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "description": "List of devices",
+            "items": {
+              "$ref": "#/components/schemas/Device"
+            }
+          },
+          "navigation": {
+            "$ref": "#/components/schemas/Navigation"
+          }
+        },
+        "description": "Paginated devices response"
       },
       "DnsProtoResponseType": {
         "type": "string",
@@ -2656,6 +3496,26 @@
           "value"
         ]
       },
+      "DnsServersResponse": {
+        "required": [
+          "items",
+          "navigation"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "description": "List of DNS servers",
+            "items": {
+              "$ref": "#/components/schemas/DNSServer"
+            }
+          },
+          "navigation": {
+            "$ref": "#/components/schemas/Navigation"
+          }
+        },
+        "description": "Paginated DNS servers response"
+      },
       "DomainQueriesStats": {
         "required": [
           "domain",
@@ -2676,10 +3536,14 @@
       },
       "DomainQueriesStatsList": {
         "required": [
+          "navigation",
           "stats"
         ],
         "type": "object",
         "properties": {
+          "navigation": {
+            "$ref": "#/components/schemas/Navigation"
+          },
           "stats": {
             "type": "array",
             "description": "List of queries stats",
@@ -2699,7 +3563,20 @@
           "FIELD_REQUIRED",
           "FIELD_WRONG_VALUE",
           "FIELD_REACHED_LIMIT",
-          "UNKNOWN"
+          "ALREADY_EXISTS",
+          "INSUFFICIENT_LICENSE_TYPE",
+          "RESOURCE_REACHED_LIMIT",
+          "TOO_MANY_REQUESTS",
+          "UNKNOWN",
+          "CERT_DOMAIN_NAME",
+          "CERT_SELF_SIGNED",
+          "CERT_VALIDITY_DATE",
+          "ACCESS_FORBIDDEN",
+          "INVITATION_ALREADY_ADDED",
+          "INVITATION_FOR_ACTIVE_MEMBER",
+          "INVITATION_FOR_OWNER",
+          "CUSTOM_FILTER_SOURCE_FORBIDDEN",
+          "CUSTOM_FILTER_SOURCE_UNREACHABLE"
         ]
       },
       "ErrorResponse": {
@@ -2823,10 +3700,11 @@
           "time_updated": {
             "type": "string",
             "description": "Filter last updated time",
-            "format": "date-time"
+            "format": "date-time",
+            "example": "2024-01-15T10:30:00Z"
           }
         },
-        "description": "Filter list"
+        "description": "General filter list info"
       },
       "FilterListCategory": {
         "required": [
@@ -2840,11 +3718,13 @@
           },
           "description": {
             "type": "string",
-            "description": "Localized description"
+            "description": "Localized description",
+            "example": "Filters for security threats"
           },
           "value": {
             "type": "string",
-            "description": "Filter category value"
+            "description": "Filter category value",
+            "example": "security"
           }
         },
         "description": "Filter category info"
@@ -2872,7 +3752,8 @@
           },
           "filter_id": {
             "type": "string",
-            "description": "Filter identifier"
+            "description": "Filter identifier",
+            "example": "adguard_dns_filter"
           }
         },
         "description": "Filter"
@@ -2885,12 +3766,13 @@
         "properties": {
           "enabled": {
             "type": "boolean",
-            "description": "The flag that the filter is on or off"
+            "description": "Whether the filter is enabled"
           },
           "filter_id": {
             "minLength": 1,
             "type": "string",
-            "description": "Filter identifier"
+            "description": "Filter identifier",
+            "example": "adguard_dns_filter"
           }
         },
         "description": "Filter update action"
@@ -2904,7 +3786,7 @@
         "properties": {
           "enabled": {
             "type": "boolean",
-            "description": "The flag that all filters are on or off"
+            "description": "Whether all filters are enabled"
           },
           "filter_list": {
             "type": "array",
@@ -2921,7 +3803,7 @@
         "properties": {
           "enabled": {
             "type": "boolean",
-            "description": "The flag that all filters are on or off"
+            "description": "Whether all filters are enabled"
           },
           "filter_list": {
             "type": "array",
@@ -2944,8 +3826,11 @@
           "PARENTAL_YOUTUBE",
           "PARENTAL_ADULT",
           "PARENTAL_BLOCKED_SERVICE",
+          "PARENTAL_FILTERING_CATEGORY",
           "PARENTAL_SCHEDULE",
-          "NEWLY_REGISTERED_DOMAINS"
+          "NEWLY_REGISTERED_DOMAINS",
+          "TYPOSQUATTING",
+          "HOMOGLYPH"
         ]
       },
       "FilteringActionStatus": {
@@ -2979,6 +3864,11 @@
             "description": "Filter rule",
             "example": "||example.org^"
           },
+          "filtering_category_id": {
+            "type": "string",
+            "description": "Web service Filtering category ID",
+            "example": "gambling"
+          },
           "filtering_status": {
             "$ref": "#/components/schemas/FilteringActionStatus"
           },
@@ -2997,7 +3887,8 @@
         "properties": {
           "ip_address": {
             "type": "string",
-            "description": "IP address string"
+            "description": "IP address string",
+            "example": "94.140.14.15"
           },
           "type": {
             "$ref": "#/components/schemas/IpType"
@@ -3008,6 +3899,7 @@
       "IpType": {
         "type": "string",
         "description": "IP address type",
+        "example": "V4",
         "enum": [
           "V4",
           "V6"
@@ -3023,12 +3915,14 @@
           "limit": {
             "type": "integer",
             "description": "Max count",
-            "format": "int32"
+            "format": "int32",
+            "example": 100
           },
           "used": {
             "type": "integer",
             "description": "Used count",
-            "format": "int64"
+            "format": "int64",
+            "example": 5
           }
         },
         "description": "Entity of the limit"
@@ -3041,10 +3935,44 @@
         "properties": {
           "ip": {
             "type": "string",
-            "description": "Dedicated IPv4"
+            "description": "Dedicated IPv4",
+            "example": "94.140.14.15"
           }
         },
-        "description": "Link dedicated IPv4 address to device"
+        "description": "Link dedicated IPv4 request"
+      },
+      "Navigation": {
+        "type": "object",
+        "properties": {
+          "next": {
+            "$ref": "#/components/schemas/NavigationPage"
+          },
+          "prev": {
+            "$ref": "#/components/schemas/NavigationPage"
+          }
+        },
+        "description": "Pagination metadata"
+      },
+      "NavigationPage": {
+        "required": [
+          "page_cursor",
+          "page_number"
+        ],
+        "type": "object",
+        "properties": {
+          "page_cursor": {
+            "type": "string",
+            "description": "Pagination cursor for this page",
+            "example": "MTY0NTQ1MTQxOTQ0MToxOjIwOjMxMTg="
+          },
+          "page_number": {
+            "type": "integer",
+            "description": "Page number, positive",
+            "format": "int32",
+            "example": 1
+          }
+        },
+        "description": "Pagination page descriptor"
       },
       "Page": {
         "required": [
@@ -3056,7 +3984,7 @@
         "properties": {
           "current": {
             "type": "boolean",
-            "description": "Is current page",
+            "description": "Whether this is the current page",
             "example": false
           },
           "page_cursor": {
@@ -3073,6 +4001,20 @@
         },
         "description": "Pagination"
       },
+      "ParentalControlFilteringCategory": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Category identifier",
+            "example": "adult"
+          }
+        },
+        "description": "Parental control filtering category"
+      },
       "ParentalControlSettings": {
         "required": [
           "block_adult_websites_enabled",
@@ -3086,29 +4028,29 @@
         "properties": {
           "block_adult_websites_enabled": {
             "type": "boolean",
-            "description": "Disable porno content"
+            "description": "Whether to block adult content"
           },
           "blocked_services": {
             "type": "array",
-            "description": "List of services with restricted access",
+            "description": "List of blocked services",
             "items": {
               "$ref": "#/components/schemas/BlockedWebService"
             }
           },
           "enabled": {
             "type": "boolean",
-            "description": "Is parental control enabled or not"
+            "description": "Whether parental control is enabled"
           },
           "engines_safe_search_enabled": {
             "type": "boolean",
-            "description": "Enforces safe search for some search engines"
+            "description": "Whether to enforce safe search on supported search engines"
           },
           "screen_time_schedule": {
             "$ref": "#/components/schemas/ScheduleWeek"
           },
           "youtube_safe_search_enabled": {
             "type": "boolean",
-            "description": "Enforces safe search on YouTube"
+            "description": "Whether to enforce safe search on YouTube"
           }
         },
         "description": "Parental control settings"
@@ -3118,32 +4060,39 @@
         "properties": {
           "block_adult_websites_enabled": {
             "type": "boolean",
-            "description": "Disable porno content"
+            "description": "Whether to block adult content"
+          },
+          "blocked_filtering_categories": {
+            "type": "array",
+            "description": "List of filtering categories with restricted access",
+            "items": {
+              "$ref": "#/components/schemas/BlockedFilteringCategoryUpdate"
+            }
           },
           "blocked_services": {
             "type": "array",
-            "description": "List of services with restricted access",
+            "description": "List of blocked services",
             "items": {
               "$ref": "#/components/schemas/BlockedWebServiceUpdate"
             }
           },
           "enabled": {
             "type": "boolean",
-            "description": "Is parental control enabled or not"
+            "description": "Whether parental control is enabled"
           },
           "engines_safe_search_enabled": {
             "type": "boolean",
-            "description": "Enforces safe search for some search engines"
+            "description": "Whether to enforce safe search on supported search engines"
           },
           "screen_time_schedule": {
             "$ref": "#/components/schemas/ScheduleWeekUpdate"
           },
           "youtube_safe_search_enabled": {
             "type": "boolean",
-            "description": "Enforces safe search on YouTube"
+            "description": "Whether to enforce safe search on YouTube"
           }
         },
-        "description": "Parental control settings update action"
+        "description": "Parental control settings update request"
       },
       "QueriesStats": {
         "required": [
@@ -3172,12 +4121,14 @@
             "example": 86
           }
         },
-        "description": "Overall / blocked / companies queries count"
+        "description": "Aggregated query counts"
       },
       "QueryLogItem": {
         "required": [
           "category_type",
           "company_id",
+          "device_id",
+          "dns_server_id",
           "dnssec",
           "domain",
           "filtering_info",
@@ -3220,6 +4171,11 @@
           },
           "dns_response_type": {
             "$ref": "#/components/schemas/DnsProtoResponseType"
+          },
+          "dns_server_id": {
+            "type": "string",
+            "description": "DNS Server ID",
+            "example": "293e2f63"
           },
           "dnssec": {
             "type": "boolean",
@@ -3296,7 +4252,10 @@
         "required": [
           "block_dangerous_domains",
           "block_nrd",
-          "enabled"
+          "blocking_mode_settings",
+          "enabled",
+          "homoglyph_protection_enabled",
+          "typosquatting_protection_enabled"
         ],
         "type": "object",
         "properties": {
@@ -3308,9 +4267,20 @@
             "type": "boolean",
             "description": "Whether filtering newly registered domains are enabled"
           },
+          "blocking_mode_settings": {
+            "$ref": "#/components/schemas/BlockingModeSettings"
+          },
           "enabled": {
             "type": "boolean",
             "description": "Whether safebrowsing settings are enabled"
+          },
+          "homoglyph_protection_enabled": {
+            "type": "boolean",
+            "description": "Whether homoglyph (IDN) protection is enabled"
+          },
+          "typosquatting_protection_enabled": {
+            "type": "boolean",
+            "description": "Whether typosquatting protection is enabled"
           }
         },
         "description": "Safebrowsing settings"
@@ -3326,9 +4296,20 @@
             "type": "boolean",
             "description": "Whether filtering newly registered domains are enabled"
           },
+          "blocking_mode_settings": {
+            "$ref": "#/components/schemas/BlockingModeSettingsUpdate"
+          },
           "enabled": {
             "type": "boolean",
             "description": "Whether safebrowsing settings are enabled"
+          },
+          "homoglyph_protection_enabled": {
+            "type": "boolean",
+            "description": "Whether homoglyph (IDN) protection is enabled"
+          },
+          "typosquatting_protection_enabled": {
+            "type": "boolean",
+            "description": "Whether typosquatting protection is enabled"
           }
         },
         "description": "Safebrowsing settings update action"
@@ -3369,7 +4350,7 @@
           },
           "enabled": {
             "type": "boolean",
-            "description": "Shows enabled/disabled day"
+            "description": "Whether this day schedule is enabled"
           },
           "from_time": {
             "$ref": "#/components/schemas/ScheduleTime"
@@ -3493,20 +4474,25 @@
         "properties": {
           "enabled": {
             "type": "boolean",
-            "description": "The flag that all rules are on or off"
+            "description": "Whether all rules are enabled"
           },
           "rules": {
             "type": "array",
             "description": "List of rules",
+            "example": [
+              "||example.org^"
+            ],
             "items": {
               "type": "string",
-              "description": "List of rules"
+              "description": "List of rules",
+              "example": "[\"||example.org^\"]"
             }
           },
           "rules_count": {
             "type": "integer",
             "description": "Rules count in user list",
-            "format": "int32"
+            "format": "int32",
+            "example": 50
           }
         },
         "description": "User rules"
@@ -3516,16 +4502,20 @@
         "properties": {
           "enabled": {
             "type": "boolean",
-            "description": "The flag that all rules are on or off"
+            "description": "Whether all rules are enabled"
           },
           "rules": {
             "type": "array",
             "description": "List of rules",
+            "example": [
+              "||example.org^"
+            ],
             "items": {
               "maxLength": 1024,
               "minLength": 0,
               "type": "string",
-              "description": "List of rules"
+              "description": "List of rules",
+              "example": "[\"||example.org^\"]"
             }
           }
         },
@@ -3542,7 +4532,7 @@
           "icon_svg": {
             "type": "string",
             "description": "SVG icon",
-            "example": "<svg><path d=\"M 44 14 C 44 13...\" /></svg>"
+            "example": "\u003Csvg\u003E\u003Cpath d=\"M 44 14 C 44 13...\" /\u003E\u003C/svg\u003E"
           },
           "id": {
             "type": "string",

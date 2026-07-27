@@ -1,6 +1,6 @@
 # AdGuard DNS API TypeScript SDK
 
-A comprehensive TypeScript SDK for the AdGuard DNS API v1.11 with feature parity to `adguard-api-dotnet`.
+A comprehensive TypeScript SDK for the AdGuard DNS API v1.15 with feature parity to `adguard-api-dotnet`.
 
 ## Features
 
@@ -137,7 +137,7 @@ Utility functions matching .NET implementation:
 
 ### Models
 
-All TypeScript types match the AdGuard DNS API v1.11 OpenAPI specification:
+All TypeScript types match the AdGuard DNS API v1.15 OpenAPI specification:
 
 ```typescript
 // Device types

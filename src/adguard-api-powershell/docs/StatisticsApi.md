@@ -4,6 +4,7 @@ All URIs are relative to *https://api.adguard-dns.io*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**Get-BlockedParentalCategoryStats**](StatisticsApi.md#Get-BlockedParentalCategoryStats) | **GET** /oapi/v1/stats/blocked_parental_categories | Gets statistics for blocked parental control categories
 [**Get-CategoriesQueriesStats**](StatisticsApi.md#Get-CategoriesQueriesStats) | **GET** /oapi/v1/stats/categories | Gets categories statistics
 [**Get-CompaniesStats**](StatisticsApi.md#Get-CompaniesStats) | **GET** /oapi/v1/stats/companies | Gets companies statistics
 [**Get-CountriesQueriesStats**](StatisticsApi.md#Get-CountriesQueriesStats) | **GET** /oapi/v1/stats/countries | Gets countries statistics
@@ -13,15 +14,18 @@ Method | HTTP request | Description
 [**Get-TimeQueriesStats**](StatisticsApi.md#Get-TimeQueriesStats) | **GET** /oapi/v1/stats/time | Gets time statistics
 
 
-<a id="Get-CategoriesQueriesStats"></a>
-# **Get-CategoriesQueriesStats**
-> CategoryQueriesStatsList Get-CategoriesQueriesStats<br>
+<a id="Get-BlockedParentalCategoryStats"></a>
+# **Get-BlockedParentalCategoryStats**
+> BlockedParentalCategoryQueriesStatsList Get-BlockedParentalCategoryStats<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-TimeFromMillis] <Int64><br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-TimeToMillis] <Int64><br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-DnsServers] <String[]><br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Devices] <String[]><br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Countries] <String[]><br>
 
-Gets categories statistics
+Gets statistics for blocked parental control categories
+
+Returns DNS query statistics for requests blocked by parental control categories. Use the time range and filters to narrow the results. 
 
 ### Example
 ```powershell
@@ -35,12 +39,76 @@ $Configuration.ApiKey.Authorization = "YOUR_API_KEY"
 
 $TimeFromMillis = 789 # Int64 | Time from in milliseconds (inclusive)
 $TimeToMillis = 789 # Int64 | Time to in milliseconds (inclusive)
+$DnsServers = "MyDnsServers" # String[] | Filter by DNS servers (optional)
+$Devices = "MyDevices" # String[] | Filter by devices (optional)
+$Countries = "MyCountries" # String[] | Filter by countries (optional)
+
+# Gets statistics for blocked parental control categories
+try {
+    $Result = Get-BlockedParentalCategoryStats -TimeFromMillis $TimeFromMillis -TimeToMillis $TimeToMillis -DnsServers $DnsServers -Devices $Devices -Countries $Countries
+} catch {
+    Write-Host ("Exception occurred when calling Get-BlockedParentalCategoryStats: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **TimeFromMillis** | **Int64**| Time from in milliseconds (inclusive) | 
+ **TimeToMillis** | **Int64**| Time to in milliseconds (inclusive) | 
+ **DnsServers** | [**String[]**](String.md)| Filter by DNS servers | [optional] 
+ **Devices** | [**String[]**](String.md)| Filter by devices | [optional] 
+ **Countries** | [**String[]**](String.md)| Filter by countries | [optional] 
+
+### Return type
+
+[**BlockedParentalCategoryQueriesStatsList**](BlockedParentalCategoryQueriesStatsList.md) (PSCustomObject)
+
+### Authorization
+
+[ApiKey](../README.md#ApiKey), [AuthToken](../README.md#AuthToken)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="Get-CategoriesQueriesStats"></a>
+# **Get-CategoriesQueriesStats**
+> CategoryQueriesStatsList Get-CategoriesQueriesStats<br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-TimeFromMillis] <Int64><br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-TimeToMillis] <Int64><br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-DnsServers] <String[]><br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Devices] <String[]><br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Countries] <String[]><br>
+
+Gets categories statistics
+
+Returns DNS query statistics grouped by filtering category for the specified period. Use the time range and filters to narrow the results. 
+
+### Example
+```powershell
+# general setting of the PowerShell module, e.g. base URL, authentication, etc
+$Configuration = Get-Configuration
+# Configure API key authorization: ApiKey
+$Configuration.ApiKey.Authorization = "YOUR_API_KEY"
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+#$Configuration.ApiKeyPrefix.Authorization = "Bearer"
+
+
+$TimeFromMillis = 789 # Int64 | Time from in milliseconds (inclusive)
+$TimeToMillis = 789 # Int64 | Time to in milliseconds (inclusive)
+$DnsServers = "MyDnsServers" # String[] | Filter by DNS servers (optional)
 $Devices = "MyDevices" # String[] | Filter by devices (optional)
 $Countries = "MyCountries" # String[] | Filter by countries (optional)
 
 # Gets categories statistics
 try {
-    $Result = Get-CategoriesQueriesStats -TimeFromMillis $TimeFromMillis -TimeToMillis $TimeToMillis -Devices $Devices -Countries $Countries
+    $Result = Get-CategoriesQueriesStats -TimeFromMillis $TimeFromMillis -TimeToMillis $TimeToMillis -DnsServers $DnsServers -Devices $Devices -Countries $Countries
 } catch {
     Write-Host ("Exception occurred when calling Get-CategoriesQueriesStats: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
@@ -53,6 +121,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **TimeFromMillis** | **Int64**| Time from in milliseconds (inclusive) | 
  **TimeToMillis** | **Int64**| Time to in milliseconds (inclusive) | 
+ **DnsServers** | [**String[]**](String.md)| Filter by DNS servers | [optional] 
  **Devices** | [**String[]**](String.md)| Filter by devices | [optional] 
  **Countries** | [**String[]**](String.md)| Filter by countries | [optional] 
 
@@ -67,7 +136,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: */*, application/json
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -76,10 +145,15 @@ Name | Type | Description  | Notes
 > CompanyQueriesStatsList Get-CompaniesStats<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-TimeFromMillis] <Int64><br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-TimeToMillis] <Int64><br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-DnsServers] <String[]><br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Devices] <String[]><br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Countries] <String[]><br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Cursor] <String><br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Limit] <System.Nullable[Int32]><br>
 
 Gets companies statistics
+
+Returns DNS query statistics grouped by company for the specified period. Response is paginated, items are arranged by query count. For the initial request a default limit is applied if not specified. For the subsequent requests cursor must be provided (limit can be omitted). Filtering parameters, if specified for the initial request, must be provided on each page request as well. 
 
 ### Example
 ```powershell
@@ -93,12 +167,15 @@ $Configuration.ApiKey.Authorization = "YOUR_API_KEY"
 
 $TimeFromMillis = 789 # Int64 | Time from in milliseconds (inclusive)
 $TimeToMillis = 789 # Int64 | Time to in milliseconds (inclusive)
+$DnsServers = "MyDnsServers" # String[] | Filter by DNS servers (optional)
 $Devices = "MyDevices" # String[] | Filter by devices (optional)
 $Countries = "MyCountries" # String[] | Filter by countries (optional)
+$Cursor = "MyCursor" # String | Pagination cursor (optional)
+$Limit = 56 # Int32 | Pagination limit (may be overridden by cursor) (optional) (default to 10)
 
 # Gets companies statistics
 try {
-    $Result = Get-CompaniesStats -TimeFromMillis $TimeFromMillis -TimeToMillis $TimeToMillis -Devices $Devices -Countries $Countries
+    $Result = Get-CompaniesStats -TimeFromMillis $TimeFromMillis -TimeToMillis $TimeToMillis -DnsServers $DnsServers -Devices $Devices -Countries $Countries -Cursor $Cursor -Limit $Limit
 } catch {
     Write-Host ("Exception occurred when calling Get-CompaniesStats: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
@@ -111,8 +188,11 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **TimeFromMillis** | **Int64**| Time from in milliseconds (inclusive) | 
  **TimeToMillis** | **Int64**| Time to in milliseconds (inclusive) | 
+ **DnsServers** | [**String[]**](String.md)| Filter by DNS servers | [optional] 
  **Devices** | [**String[]**](String.md)| Filter by devices | [optional] 
  **Countries** | [**String[]**](String.md)| Filter by countries | [optional] 
+ **Cursor** | **String**| Pagination cursor | [optional] 
+ **Limit** | **Int32**| Pagination limit (may be overridden by cursor) | [optional] [default to 10]
 
 ### Return type
 
@@ -125,7 +205,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: */*, application/json
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -134,10 +214,15 @@ Name | Type | Description  | Notes
 > CountryQueriesStatsList Get-CountriesQueriesStats<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-TimeFromMillis] <Int64><br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-TimeToMillis] <Int64><br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-DnsServers] <String[]><br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Devices] <String[]><br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Countries] <String[]><br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Cursor] <String><br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Limit] <System.Nullable[Int32]><br>
 
 Gets countries statistics
+
+Returns DNS query statistics grouped by country for the specified period. Response is paginated, items are arranged by query count. For the initial request a default limit is applied if not specified. For the subsequent requests cursor must be provided (limit can be omitted). Filtering parameters, if specified for the initial request, must be provided on each page request as well. 
 
 ### Example
 ```powershell
@@ -151,12 +236,15 @@ $Configuration.ApiKey.Authorization = "YOUR_API_KEY"
 
 $TimeFromMillis = 789 # Int64 | Time from in milliseconds (inclusive)
 $TimeToMillis = 789 # Int64 | Time to in milliseconds (inclusive)
+$DnsServers = "MyDnsServers" # String[] | Filter by DNS servers (optional)
 $Devices = "MyDevices" # String[] | Filter by devices (optional)
 $Countries = "MyCountries" # String[] | Filter by countries (optional)
+$Cursor = "MyCursor" # String | Pagination cursor (optional)
+$Limit = 56 # Int32 | Pagination limit (may be overridden by cursor) (optional) (default to 10)
 
 # Gets countries statistics
 try {
-    $Result = Get-CountriesQueriesStats -TimeFromMillis $TimeFromMillis -TimeToMillis $TimeToMillis -Devices $Devices -Countries $Countries
+    $Result = Get-CountriesQueriesStats -TimeFromMillis $TimeFromMillis -TimeToMillis $TimeToMillis -DnsServers $DnsServers -Devices $Devices -Countries $Countries -Cursor $Cursor -Limit $Limit
 } catch {
     Write-Host ("Exception occurred when calling Get-CountriesQueriesStats: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
@@ -169,8 +257,11 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **TimeFromMillis** | **Int64**| Time from in milliseconds (inclusive) | 
  **TimeToMillis** | **Int64**| Time to in milliseconds (inclusive) | 
+ **DnsServers** | [**String[]**](String.md)| Filter by DNS servers | [optional] 
  **Devices** | [**String[]**](String.md)| Filter by devices | [optional] 
  **Countries** | [**String[]**](String.md)| Filter by countries | [optional] 
+ **Cursor** | **String**| Pagination cursor | [optional] 
+ **Limit** | **Int32**| Pagination limit (may be overridden by cursor) | [optional] [default to 10]
 
 ### Return type
 
@@ -183,7 +274,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: */*, application/json
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -192,11 +283,15 @@ Name | Type | Description  | Notes
 > CompanyDetailedQueriesStatsList Get-DetailedCompaniesStats<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-TimeFromMillis] <Int64><br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-TimeToMillis] <Int64><br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-DnsServers] <String[]><br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Devices] <String[]><br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Countries] <String[]><br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Cursor] <String><br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Limit] <System.Nullable[Int32]><br>
 
 Gets detailed companies statistics
+
+Returns detailed DNS query statistics grouped by company for the specified period. Response is paginated, items are arranged by query count. For the initial request a default limit is applied if not specified. For the subsequent requests cursor must be provided (limit can be omitted). Filtering parameters, if specified for the initial request, must be provided on each page request as well. 
 
 ### Example
 ```powershell
@@ -210,13 +305,15 @@ $Configuration.ApiKey.Authorization = "YOUR_API_KEY"
 
 $TimeFromMillis = 789 # Int64 | Time from in milliseconds (inclusive)
 $TimeToMillis = 789 # Int64 | Time to in milliseconds (inclusive)
+$DnsServers = "MyDnsServers" # String[] | Filter by DNS servers (optional)
 $Devices = "MyDevices" # String[] | Filter by devices (optional)
 $Countries = "MyCountries" # String[] | Filter by countries (optional)
 $Cursor = "MyCursor" # String | Pagination cursor (optional)
+$Limit = 56 # Int32 | Pagination limit (may be overridden by cursor) (optional) (default to 10)
 
 # Gets detailed companies statistics
 try {
-    $Result = Get-DetailedCompaniesStats -TimeFromMillis $TimeFromMillis -TimeToMillis $TimeToMillis -Devices $Devices -Countries $Countries -Cursor $Cursor
+    $Result = Get-DetailedCompaniesStats -TimeFromMillis $TimeFromMillis -TimeToMillis $TimeToMillis -DnsServers $DnsServers -Devices $Devices -Countries $Countries -Cursor $Cursor -Limit $Limit
 } catch {
     Write-Host ("Exception occurred when calling Get-DetailedCompaniesStats: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
@@ -229,9 +326,11 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **TimeFromMillis** | **Int64**| Time from in milliseconds (inclusive) | 
  **TimeToMillis** | **Int64**| Time to in milliseconds (inclusive) | 
+ **DnsServers** | [**String[]**](String.md)| Filter by DNS servers | [optional] 
  **Devices** | [**String[]**](String.md)| Filter by devices | [optional] 
  **Countries** | [**String[]**](String.md)| Filter by countries | [optional] 
  **Cursor** | **String**| Pagination cursor | [optional] 
+ **Limit** | **Int32**| Pagination limit (may be overridden by cursor) | [optional] [default to 10]
 
 ### Return type
 
@@ -244,7 +343,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: */*, application/json
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -253,10 +352,15 @@ Name | Type | Description  | Notes
 > DeviceQueriesStatsList Get-DevicesQueriesStats<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-TimeFromMillis] <Int64><br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-TimeToMillis] <Int64><br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-DnsServers] <String[]><br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Devices] <String[]><br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Countries] <String[]><br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Cursor] <String><br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Limit] <System.Nullable[Int32]><br>
 
 Gets devices statistics
+
+Returns DNS query statistics grouped by device for the specified period. Response is paginated, items are arranged by query count. For the initial request a default limit is applied if not specified. For the subsequent requests cursor must be provided (limit can be omitted). Filtering parameters, if specified for the initial request, must be provided on each page request as well. 
 
 ### Example
 ```powershell
@@ -270,12 +374,15 @@ $Configuration.ApiKey.Authorization = "YOUR_API_KEY"
 
 $TimeFromMillis = 789 # Int64 | Time from in milliseconds (inclusive)
 $TimeToMillis = 789 # Int64 | Time to in milliseconds (inclusive)
+$DnsServers = "MyDnsServers" # String[] | Filter by DNS servers (optional)
 $Devices = "MyDevices" # String[] | Filter by devices (optional)
 $Countries = "MyCountries" # String[] | Filter by countries (optional)
+$Cursor = "MyCursor" # String | Pagination cursor (optional)
+$Limit = 56 # Int32 | Pagination limit (may be overridden by cursor) (optional) (default to 10)
 
 # Gets devices statistics
 try {
-    $Result = Get-DevicesQueriesStats -TimeFromMillis $TimeFromMillis -TimeToMillis $TimeToMillis -Devices $Devices -Countries $Countries
+    $Result = Get-DevicesQueriesStats -TimeFromMillis $TimeFromMillis -TimeToMillis $TimeToMillis -DnsServers $DnsServers -Devices $Devices -Countries $Countries -Cursor $Cursor -Limit $Limit
 } catch {
     Write-Host ("Exception occurred when calling Get-DevicesQueriesStats: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
@@ -288,8 +395,11 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **TimeFromMillis** | **Int64**| Time from in milliseconds (inclusive) | 
  **TimeToMillis** | **Int64**| Time to in milliseconds (inclusive) | 
+ **DnsServers** | [**String[]**](String.md)| Filter by DNS servers | [optional] 
  **Devices** | [**String[]**](String.md)| Filter by devices | [optional] 
  **Countries** | [**String[]**](String.md)| Filter by countries | [optional] 
+ **Cursor** | **String**| Pagination cursor | [optional] 
+ **Limit** | **Int32**| Pagination limit (may be overridden by cursor) | [optional] [default to 10]
 
 ### Return type
 
@@ -302,7 +412,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: */*, application/json
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -311,10 +421,15 @@ Name | Type | Description  | Notes
 > DomainQueriesStatsList Get-DomainsQueriesStats<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-TimeFromMillis] <Int64><br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-TimeToMillis] <Int64><br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-DnsServers] <String[]><br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Devices] <String[]><br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Countries] <String[]><br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Cursor] <String><br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Limit] <System.Nullable[Int32]><br>
 
 Gets domains statistics
+
+Returns DNS query statistics grouped by domain for the specified period. Response is paginated, items are arranged by query count. For the initial request a default limit is applied if not specified. For the subsequent requests cursor must be provided (limit can be omitted). Filtering parameters, if specified for the initial request, must be provided on each page request as well. 
 
 ### Example
 ```powershell
@@ -328,12 +443,15 @@ $Configuration.ApiKey.Authorization = "YOUR_API_KEY"
 
 $TimeFromMillis = 789 # Int64 | Time from in milliseconds (inclusive)
 $TimeToMillis = 789 # Int64 | Time to in milliseconds (inclusive)
+$DnsServers = "MyDnsServers" # String[] | Filter by DNS servers (optional)
 $Devices = "MyDevices" # String[] | Filter by devices (optional)
 $Countries = "MyCountries" # String[] | Filter by countries (optional)
+$Cursor = "MyCursor" # String | Pagination cursor (optional)
+$Limit = 56 # Int32 | Pagination limit (may be overridden by cursor) (optional) (default to 10)
 
 # Gets domains statistics
 try {
-    $Result = Get-DomainsQueriesStats -TimeFromMillis $TimeFromMillis -TimeToMillis $TimeToMillis -Devices $Devices -Countries $Countries
+    $Result = Get-DomainsQueriesStats -TimeFromMillis $TimeFromMillis -TimeToMillis $TimeToMillis -DnsServers $DnsServers -Devices $Devices -Countries $Countries -Cursor $Cursor -Limit $Limit
 } catch {
     Write-Host ("Exception occurred when calling Get-DomainsQueriesStats: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
@@ -346,8 +464,11 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **TimeFromMillis** | **Int64**| Time from in milliseconds (inclusive) | 
  **TimeToMillis** | **Int64**| Time to in milliseconds (inclusive) | 
+ **DnsServers** | [**String[]**](String.md)| Filter by DNS servers | [optional] 
  **Devices** | [**String[]**](String.md)| Filter by devices | [optional] 
  **Countries** | [**String[]**](String.md)| Filter by countries | [optional] 
+ **Cursor** | **String**| Pagination cursor | [optional] 
+ **Limit** | **Int32**| Pagination limit (may be overridden by cursor) | [optional] [default to 10]
 
 ### Return type
 
@@ -360,7 +481,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: */*, application/json
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -369,10 +490,13 @@ Name | Type | Description  | Notes
 > TimeQueriesStatsList Get-TimeQueriesStats<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-TimeFromMillis] <Int64><br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-TimeToMillis] <Int64><br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-DnsServers] <String[]><br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Devices] <String[]><br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Countries] <String[]><br>
 
 Gets time statistics
+
+Returns time-based DNS query statistics for the specified period. Use the time range parameters to define the period and filters to narrow the results. 
 
 ### Example
 ```powershell
@@ -386,12 +510,13 @@ $Configuration.ApiKey.Authorization = "YOUR_API_KEY"
 
 $TimeFromMillis = 789 # Int64 | Time from in milliseconds (inclusive)
 $TimeToMillis = 789 # Int64 | Time to in milliseconds (inclusive)
+$DnsServers = "MyDnsServers" # String[] | Filter by DNS servers (optional)
 $Devices = "MyDevices" # String[] | Filter by devices (optional)
 $Countries = "MyCountries" # String[] | Filter by countries (optional)
 
 # Gets time statistics
 try {
-    $Result = Get-TimeQueriesStats -TimeFromMillis $TimeFromMillis -TimeToMillis $TimeToMillis -Devices $Devices -Countries $Countries
+    $Result = Get-TimeQueriesStats -TimeFromMillis $TimeFromMillis -TimeToMillis $TimeToMillis -DnsServers $DnsServers -Devices $Devices -Countries $Countries
 } catch {
     Write-Host ("Exception occurred when calling Get-TimeQueriesStats: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
@@ -404,6 +529,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **TimeFromMillis** | **Int64**| Time from in milliseconds (inclusive) | 
  **TimeToMillis** | **Int64**| Time to in milliseconds (inclusive) | 
+ **DnsServers** | [**String[]**](String.md)| Filter by DNS servers | [optional] 
  **Devices** | [**String[]**](String.md)| Filter by devices | [optional] 
  **Countries** | [**String[]**](String.md)| Filter by countries | [optional] 
 
@@ -418,7 +544,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: */*, application/json
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

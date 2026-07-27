@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 - Prepare the resource
 ```powershell
 $DeviceQueriesStats = Initialize-PSAdGuardDNSDeviceQueriesStats  -DeviceId b3e82cd1 `
- -LastActivityTimeMillis null `
+ -LastActivityTimeMillis 1655804673000 `
  -Value null
 ```
 

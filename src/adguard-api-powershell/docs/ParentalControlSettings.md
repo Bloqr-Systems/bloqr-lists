@@ -3,12 +3,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**BlockAdultWebsitesEnabled** | **Boolean** | Disable porno content | 
-**BlockedServices** | [**BlockedWebService[]**](BlockedWebService.md) | List of services with restricted access | 
-**Enabled** | **Boolean** | Is parental control enabled or not | 
-**EnginesSafeSearchEnabled** | **Boolean** | Enforces safe search for some search engines | 
+**BlockAdultWebsitesEnabled** | **Boolean** | Whether to block adult content | 
+**BlockedServices** | [**BlockedWebService[]**](BlockedWebService.md) | List of blocked services | 
+**Enabled** | **Boolean** | Whether parental control is enabled | 
+**EnginesSafeSearchEnabled** | **Boolean** | Whether to enforce safe search on supported search engines | 
 **ScreenTimeSchedule** | [**ScheduleWeek**](ScheduleWeek.md) |  | 
-**YoutubeSafeSearchEnabled** | **Boolean** | Enforces safe search on YouTube | 
+**YoutubeSafeSearchEnabled** | **Boolean** | Whether to enforce safe search on YouTube | 
 
 ## Examples
 

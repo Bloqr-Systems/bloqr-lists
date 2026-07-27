@@ -1,5 +1,5 @@
 use crate::{commands::create_api_config, config::AppConfig, menu::MenuHelper};
-use adguard_api_lib::apis::web_services_api;
+use adguard_api_lib::apis::reference_data_api;
 use anyhow::Result;
 
 pub async fn show_menu(app_config: &AppConfig) -> Result<()> {
@@ -7,7 +7,7 @@ pub async fn show_menu(app_config: &AppConfig) -> Result<()> {
 
     MenuHelper::status("Fetching web services...");
 
-    match web_services_api::list_web_services(&config).await {
+    match reference_data_api::list_web_services(&config).await {
         Ok(services) => {
             if services.is_empty() {
                 MenuHelper::no_items("web services");

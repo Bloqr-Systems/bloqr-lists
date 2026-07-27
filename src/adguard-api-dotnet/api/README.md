@@ -2,7 +2,7 @@
 
 ## Current Version
 
-**API Version**: 1.11 (as of the last update)
+**API Version**: 1.15 (as of the last update)
 
 This directory contains the OpenAPI 3.0 specification for the AdGuard DNS API.
 

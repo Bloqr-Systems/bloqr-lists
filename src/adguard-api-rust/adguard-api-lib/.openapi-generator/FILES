@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 .travis.yml
 Cargo.toml
 README.md
@@ -8,6 +7,9 @@ docs/AccessTokenResponse.md
 docs/AccountApi.md
 docs/AccountLimits.md
 docs/AuthenticationApi.md
+docs/BlockedFilteringCategoryUpdate.md
+docs/BlockedParentalCategoryQueriesStats.md
+docs/BlockedParentalCategoryQueriesStatsList.md
 docs/BlockedWebService.md
 docs/BlockedWebServiceUpdate.md
 docs/BlockingMode.md
@@ -35,6 +37,7 @@ docs/DeviceSettings.md
 docs/DeviceSettingsUpdate.md
 docs/DeviceUpdate.md
 docs/DevicesApi.md
+docs/DevicesResponse.md
 docs/DnsAddresses.md
 docs/DnsProtoResponseType.md
 docs/DnsProtoType.md
@@ -46,6 +49,7 @@ docs/DnsServerSettings.md
 docs/DnsServerSettingsUpdate.md
 docs/DnsServerUpdate.md
 docs/DnsServersApi.md
+docs/DnsServersResponse.md
 docs/DomainQueriesStats.md
 docs/DomainQueriesStatsList.md
 docs/ErrorCodes.md
@@ -56,7 +60,6 @@ docs/FilterListCategory.md
 docs/FilterListCategoryType.md
 docs/FilterListItem.md
 docs/FilterListItemUpdate.md
-docs/FilterListsApi.md
 docs/FilterListsSettings.md
 docs/FilterListsSettingsUpdate.md
 docs/FilteringActionSource.md
@@ -66,13 +69,17 @@ docs/IpAddress.md
 docs/IpType.md
 docs/Limit.md
 docs/LinkDedicatedIpv4.md
+docs/Navigation.md
+docs/NavigationPage.md
 docs/Page.md
+docs/ParentalControlFilteringCategory.md
 docs/ParentalControlSettings.md
 docs/ParentalControlSettingsUpdate.md
 docs/QueriesStats.md
 docs/QueryLogApi.md
 docs/QueryLogItem.md
 docs/QueryLogResponse.md
+docs/ReferenceDataApi.md
 docs/RegularDnsProtoType.md
 docs/SafebrowsingSettings.md
 docs/SafebrowsingSettingsUpdate.md
@@ -88,7 +95,6 @@ docs/TimeQueriesStatsList.md
 docs/UserRulesSettings.md
 docs/UserRulesSettingsUpdate.md
 docs/WebService.md
-docs/WebServicesApi.md
 git_push.sh
 src/apis/account_api.rs
 src/apis/authentication_api.rs
@@ -96,15 +102,17 @@ src/apis/configuration.rs
 src/apis/dedicated_ip_addresses_api.rs
 src/apis/devices_api.rs
 src/apis/dns_servers_api.rs
-src/apis/filter_lists_api.rs
 src/apis/mod.rs
 src/apis/query_log_api.rs
+src/apis/reference_data_api.rs
 src/apis/statistics_api.rs
-src/apis/web_services_api.rs
 src/lib.rs
 src/models/access_token_error_response.rs
 src/models/access_token_response.rs
 src/models/account_limits.rs
+src/models/blocked_filtering_category_update.rs
+src/models/blocked_parental_category_queries_stats.rs
+src/models/blocked_parental_category_queries_stats_list.rs
 src/models/blocked_web_service.rs
 src/models/blocked_web_service_update.rs
 src/models/blocking_mode.rs
@@ -130,6 +138,7 @@ src/models/device_queries_stats_list.rs
 src/models/device_settings.rs
 src/models/device_settings_update.rs
 src/models/device_update.rs
+src/models/devices_response.rs
 src/models/dns_addresses.rs
 src/models/dns_proto_response_type.rs
 src/models/dns_proto_type.rs
@@ -140,6 +149,7 @@ src/models/dns_server_create.rs
 src/models/dns_server_settings.rs
 src/models/dns_server_settings_update.rs
 src/models/dns_server_update.rs
+src/models/dns_servers_response.rs
 src/models/domain_queries_stats.rs
 src/models/domain_queries_stats_list.rs
 src/models/error_codes.rs
@@ -160,7 +170,10 @@ src/models/ip_type.rs
 src/models/limit.rs
 src/models/link_dedicated_ipv4.rs
 src/models/mod.rs
+src/models/navigation.rs
+src/models/navigation_page.rs
 src/models/page.rs
+src/models/parental_control_filtering_category.rs
 src/models/parental_control_settings.rs
 src/models/parental_control_settings_update.rs
 src/models/queries_stats.rs
