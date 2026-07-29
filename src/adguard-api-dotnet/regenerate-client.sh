@@ -33,14 +33,14 @@ fi
 if ! command -v openapi-generator-cli &> /dev/null; then
     echo "ERROR: openapi-generator-cli not found"
     echo ""
-    echo "Please install OpenAPI Generator CLI:"
+    echo "Please install OpenAPI Generator CLI:" 
     echo "  npm install -g @openapitools/openapi-generator-cli"
     echo ""
-    echo "Or use Docker:"
-    echo "  docker run --rm -v \"\${PWD}:/local\" openapitools/openapi-generator-cli generate \\"
-    echo "    -i /local/api/openapi.json \\"
-    echo "    -g csharp \\"
-    echo "    -o /local \\"
+    echo "Or use Docker:" 
+    echo "  docker run --rm -v \"${PWD}:/local\" openapitools/openapi-generator-cli generate \\"
+    echo "    -i /local/api/openapi.json \\" 
+    echo "    -g csharp \\" 
+    echo "    -o /local \\" 
     echo "    --additional-properties=targetFramework=net10.0,packageName=AdGuard.ApiClient"
     exit 1
 fi
@@ -50,8 +50,8 @@ echo "Output Directory: ${OUTPUT_DIR}"
 echo "Generator Version: ${GENERATOR_VERSION}"
 echo ""
 
-# Backup existing generated files
-BACKUP_DIR="${SCRIPT_DIR}/.backup-$(date +%Y%m%d_%H%M%S)"
+# Put backups outside the output directory (one level up) to avoid being picked up by wildcard compile includes
+BACKUP_DIR="$(dirname "${SCRIPT_DIR}")/.adguard-api-client-backup-$(date +%Y%m%d_%H%M%S)"
 echo "Creating backup at: ${BACKUP_DIR}"
 mkdir -p "${BACKUP_DIR}"
 cp -r "${SRC_DIR}/AdGuard.ApiClient" "${BACKUP_DIR}/" 2>/dev/null || true
@@ -73,6 +73,24 @@ jsonLibrary=Newtonsoft.Json,\
 validatable=false,\
 netCoreProjectFile=true,\
 nullableReferenceTypes=true
+
+# Create JsonTypeAliases.cs to avoid ambiguous Json* types between Newtonsoft.Json and System.Text.Json
+ALIAS_DIR="${SRC_DIR}/AdGuard.ApiClient"
+ALIAS_FILE="${ALIAS_DIR}/JsonTypeAliases.cs"
+
+mkdir -p "${ALIAS_DIR}"
+cat > "${ALIAS_FILE}" <<'EOF'
+// Prevent ambiguity between Newtonsoft.Json and System.Text.Json types used in generated code.
+// Map unqualified names used by generated classes to Newtonsoft.Json equivalents.
+
+using JsonConstructorAttribute = Newtonsoft.Json.JsonConstructorAttribute;
+using JsonConstructor = Newtonsoft.Json.JsonConstructorAttribute;
+using JsonConverterAttribute = Newtonsoft.Json.JsonConverterAttribute;
+using JsonConverter = Newtonsoft.Json.JsonConverterAttribute;
+using JsonSerializer = Newtonsoft.Json.JsonSerializer;
+EOF
+
+echo "Wrote JSON alias file: ${ALIAS_FILE}"
 
 echo ""
 echo "=========================================="
