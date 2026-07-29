@@ -4,5 +4,5 @@
 using JsonConstructorAttribute = Newtonsoft.Json.JsonConstructorAttribute;
 using JsonConstructor = Newtonsoft.Json.JsonConstructorAttribute;
 using JsonConverterAttribute = Newtonsoft.Json.JsonConverterAttribute;
-using JsonConverter = Newtonsoft.Json.JsonConverterAttribute;
+using JsonConverter = Newtonsoft.Json.JsonConverter; // map to the Newtonsoft.Json.JsonConverter class
 using JsonSerializer = Newtonsoft.Json.JsonSerializer;
