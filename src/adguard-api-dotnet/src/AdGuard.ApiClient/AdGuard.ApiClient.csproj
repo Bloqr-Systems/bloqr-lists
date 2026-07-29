@@ -27,8 +27,13 @@
     <PackageReference Include="Polly" Version="8.1.0" />
   </ItemGroup>
 
+  <!-- Exclude generator backup directories so they are not implicitly compiled by SDK-style globs -->
   <ItemGroup>
+    <Compile Remove="**/.backup-*/**/*.cs" />
+    <Compile Remove="**/.adguard-api-client-backup-*/**/*.cs" />
+    <Compile Remove="**/*backup*/**/*.cs" />
+    <None Remove="**/.backup-*/**/*" />
+    <None Remove="**/.adguard-api-client-backup-*/**/*" />
   </ItemGroup>
-  <ItemGroup>
-  </ItemGroup>
+
 </Project>
