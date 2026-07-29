@@ -155,14 +155,14 @@ $generatorCmd = Get-Command openapi-generator-cli -ErrorAction SilentlyContinue
 if (-not $generatorCmd) {
     Write-Host "ERROR: openapi-generator-cli not found" -ForegroundColor Red
     Write-Host ""
-    Write-Host "Please install OpenAPI Generator CLI:"
+    Write-Host "Please install OpenAPI Generator CLI:" -ForegroundColor White
     Write-Host "  npm install -g @openapitools/openapi-generator-cli"
     Write-Host ""
-    Write-Host "Or use Docker:"
-    Write-Host '  docker run --rm -v "${PWD}:/local" openapitools/openapi-generator-cli generate \'
-    Write-Host '    -i /local/api/openapi.json \'
-    Write-Host '    -g csharp \'
-    Write-Host '    -o /local \'
+    Write-Host "Or use Docker:" -ForegroundColor White
+    Write-Host '  docker run --rm -v "${PWD}:/local" openapitools/openapi-generator-cli generate '\
+    Write-Host '    -i /local/api/openapi.json '\
+    Write-Host '    -g csharp '\
+    Write-Host '    -o /local '\
     Write-Host '    --additional-properties=targetFramework=net10.0,packageName=AdGuard.ApiClient'
     Write-Host ""
     exit 1
@@ -176,14 +176,14 @@ Write-Host ""
 # Backup existing generated files
 if (-not $SkipBackup) {
     $timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
-    $backupDir = Join-Path $scriptDir ".backup-$timestamp"
-    Write-Host "Creating backup at: $backupDir" -ForegroundColor Yellow
-    
+    # place backups outside the output directory to avoid wildcard compilation of backups
+    $repoRoot = Split-Path -Parent $scriptDir
+    $backupDir = Join-Path $repoRoot ".adguard-api-client-backup-$timestamp"
     $apiClientSrc = Join-Path $srcDir "AdGuard.ApiClient"
     if (Test-Path $apiClientSrc) {
         New-Item -ItemType Directory -Path $backupDir -Force | Out-Null
         Copy-Item -Path $apiClientSrc -Destination $backupDir -Recurse -Force
-        Write-Host "Backup created successfully" -ForegroundColor Green
+        Write-Host "Backup created successfully at $backupDir" -ForegroundColor Green
     }
     Write-Host ""
 }
@@ -226,6 +226,32 @@ try {
         Write-Host "Backup location: $backupDir" -ForegroundColor Cyan
     }
     Write-Host ""
+
+    # Create JsonTypeAliases.cs to resolve ambiguous JSON attribute/type names at compile time
+    $aliasFileDir = Join-Path $srcDir "AdGuard.ApiClient"
+    $aliasFilePath = Join-Path $aliasFileDir "JsonTypeAliases.cs"
+    $aliasFileContent = @"
+ // Prevent ambiguity between Newtonsoft.Json and System.Text.Json types used in generated code.
+ // Map unqualified names used by generated classes to Newtonsoft.Json equivalents.
+
+ using JsonConstructorAttribute = Newtonsoft.Json.JsonConstructorAttribute;
+ using JsonConstructor = Newtonsoft.Json.JsonConstructorAttribute;
+ using JsonConverterAttribute = Newtonsoft.Json.JsonConverterAttribute;
+ using JsonConverter = Newtonsoft.Json.JsonConverterAttribute;
+ using JsonSerializer = Newtonsoft.Json.JsonSerializer;
+"@
+
+    try {
+        if (-not (Test-Path $aliasFileDir)) {
+            New-Item -ItemType Directory -Path $aliasFileDir -Force | Out-Null
+        }
+        $aliasFileContent | Out-File -FilePath $aliasFilePath -Encoding utf8 -Force
+        Write-Host "Wrote JSON alias file: $aliasFilePath" -ForegroundColor Green
+    }
+    catch {
+        Write-Host "Warning: failed to write alias file: $($_.Exception.Message)" -ForegroundColor Yellow
+    }
+
 }
 catch {
     Write-Host "ERROR: Failed to generate client code" -ForegroundColor Red
