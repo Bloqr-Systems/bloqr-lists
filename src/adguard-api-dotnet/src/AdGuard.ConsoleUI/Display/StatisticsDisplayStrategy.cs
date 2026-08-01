@@ -11,7 +11,7 @@ public class StatisticsDisplayStrategy
     /// <param name="stats">The statistics data.</param>
     /// <param name="fromMillis">Start time in milliseconds.</param>
     /// <param name="toMillis">End time in milliseconds.</param>
-    public void Display(List<object>? stats, long fromMillis, long toMillis)
+    public void Display(List<TimeQueriesStats>? stats, long fromMillis, long toMillis)
     {
         var fromDate = DateTimeExtensions.FromUnixMilliseconds(fromMillis);
         var toDate = DateTimeExtensions.FromUnixMilliseconds(toMillis);

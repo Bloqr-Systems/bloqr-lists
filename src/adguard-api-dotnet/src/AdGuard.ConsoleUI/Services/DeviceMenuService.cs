@@ -74,10 +74,23 @@ public class DeviceMenuService : BaseMenuService
 
         var name = AnsiConsole.Ask<string>("Device [green]name[/]:");
 
-        var deviceType = ConsoleHelpers.SelectChoice(
+        var deviceTypeValue = ConsoleHelpers.SelectChoice(
             "Select device [green]type[/]:",
             "WINDOWS", "ANDROID", "MAC", "IOS", "LINUX",
             "ROUTER", "SMART_TV", "GAME_CONSOLE", "UNKNOWN");
+
+        var deviceType = deviceTypeValue switch
+        {
+            "WINDOWS" => ConnectDeviceType.WINDOWS,
+            "ANDROID" => ConnectDeviceType.ANDROID,
+            "MAC" => ConnectDeviceType.MAC,
+            "IOS" => ConnectDeviceType.IOS,
+            "LINUX" => ConnectDeviceType.LINUX,
+            "ROUTER" => ConnectDeviceType.ROUTER,
+            "SMART_TV" => ConnectDeviceType.SMARTTV,
+            "GAME_CONSOLE" => ConnectDeviceType.GAMECONSOLE,
+            _ => ConnectDeviceType.UNKNOWN
+        };
 
         var selectedServer = ConsoleHelpers.SelectItem(
             "Select [green]DNS Server[/]:",
