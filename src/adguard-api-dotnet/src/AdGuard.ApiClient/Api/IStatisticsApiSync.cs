@@ -13,7 +13,7 @@ public interface IStatisticsApiSync : IApiAccessor
     /// <param name="timeFromMillis">Time from in milliseconds (inclusive)</param>
     /// <param name="timeToMillis">Time to in milliseconds (inclusive)</param>
     /// <returns>TimeQueriesStatsList</returns>
-    TimeQueriesStatsList GetTimeQueriesStats(long timeFromMillis, long timeToMillis);
+    TimeQueriesStatsList GetTimeQueriesStats(long timeFromMillis, long timeToMillis, List<string>? dnsServers = default, List<string>? devices = default, List<string>? countries = default);
 
     /// <summary>
     /// Gets time statistics
@@ -25,6 +25,6 @@ public interface IStatisticsApiSync : IApiAccessor
     /// <param name="timeFromMillis">Time from in milliseconds (inclusive)</param>
     /// <param name="timeToMillis">Time to in milliseconds (inclusive)</param>
     /// <returns>ApiResponse of TimeQueriesStatsList</returns>
-    ApiResponse<TimeQueriesStatsList> GetTimeQueriesStatsWithHttpInfo(long timeFromMillis, long timeToMillis);
+    ApiResponse<TimeQueriesStatsList> GetTimeQueriesStatsWithHttpInfo(long timeFromMillis, long timeToMillis, List<string>? dnsServers = default, List<string>? devices = default, List<string>? countries = default);
     #endregion Synchronous Operations
 }

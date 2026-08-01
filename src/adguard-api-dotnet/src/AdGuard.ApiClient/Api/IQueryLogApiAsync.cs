@@ -38,7 +38,7 @@ public interface IQueryLogApiAsync : IApiAccessor
     /// <param name="timeToMillis">Time to in milliseconds (inclusive)</param>
     /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
     /// <returns>Task of QueryLogResponse</returns>
-    System.Threading.Tasks.Task<QueryLogResponse> GetQueryLogAsync(long timeFromMillis, long timeToMillis, System.Threading.CancellationToken cancellationToken = default);
+    System.Threading.Tasks.Task<QueryLogResponse> GetQueryLogAsync(long timeFromMillis, long timeToMillis, List<string>? dnsServers = default, List<string>? devices = default, List<string>? countries = default, List<string>? companies = default, List<FilteringActionStatus>? statuses = default, List<CategoryType>? categories = default, string? search = default, int? limit = default, string? cursor = default, System.Threading.CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets query log
@@ -51,6 +51,6 @@ public interface IQueryLogApiAsync : IApiAccessor
     /// <param name="timeToMillis">Time to in milliseconds (inclusive)</param>
     /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
     /// <returns>Task of ApiResponse (QueryLogResponse)</returns>
-    System.Threading.Tasks.Task<ApiResponse<QueryLogResponse>> GetQueryLogWithHttpInfoAsync(long timeFromMillis, long timeToMillis, System.Threading.CancellationToken cancellationToken = default);
+    System.Threading.Tasks.Task<ApiResponse<QueryLogResponse>> GetQueryLogWithHttpInfoAsync(long timeFromMillis, long timeToMillis, List<string>? dnsServers = default, List<string>? devices = default, List<string>? countries = default, List<string>? companies = default, List<FilteringActionStatus>? statuses = default, List<CategoryType>? categories = default, string? search = default, int? limit = default, string? cursor = default, System.Threading.CancellationToken cancellationToken = default);
     #endregion Asynchronous Operations
 }

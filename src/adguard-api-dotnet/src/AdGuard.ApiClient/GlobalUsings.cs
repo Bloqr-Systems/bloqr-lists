@@ -16,5 +16,3 @@ global using AdGuard.ApiClient.Client;
 global using AdGuard.ApiClient.Model;
 global using Microsoft.Extensions.Logging;
 global using Polly;
-global using FileParameter = AdGuard.ApiClient.Client.FileParameter;
-global using OpenAPIDateConverter = AdGuard.ApiClient.Client.OpenAPIDateConverter;

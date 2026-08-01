@@ -17,7 +17,7 @@ public interface IStatisticsApiAsync : IApiAccessor
     /// <param name="timeToMillis">Time to in milliseconds (inclusive)</param>
     /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
     /// <returns>Task of TimeQueriesStatsList</returns>
-    System.Threading.Tasks.Task<TimeQueriesStatsList> GetTimeQueriesStatsAsync(long timeFromMillis, long timeToMillis, System.Threading.CancellationToken cancellationToken = default);
+    System.Threading.Tasks.Task<TimeQueriesStatsList> GetTimeQueriesStatsAsync(long timeFromMillis, long timeToMillis, List<string>? dnsServers = default, List<string>? devices = default, List<string>? countries = default, System.Threading.CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets time statistics
@@ -30,6 +30,6 @@ public interface IStatisticsApiAsync : IApiAccessor
     /// <param name="timeToMillis">Time to in milliseconds (inclusive)</param>
     /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
     /// <returns>Task of ApiResponse (TimeQueriesStatsList)</returns>
-    System.Threading.Tasks.Task<ApiResponse<TimeQueriesStatsList>> GetTimeQueriesStatsWithHttpInfoAsync(long timeFromMillis, long timeToMillis, System.Threading.CancellationToken cancellationToken = default);
+    System.Threading.Tasks.Task<ApiResponse<TimeQueriesStatsList>> GetTimeQueriesStatsWithHttpInfoAsync(long timeFromMillis, long timeToMillis, List<string>? dnsServers = default, List<string>? devices = default, List<string>? countries = default, System.Threading.CancellationToken cancellationToken = default);
     #endregion Asynchronous Operations
 }
