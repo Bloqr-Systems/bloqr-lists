@@ -3,9 +3,9 @@
  */
 
 import { BaseRepository } from './base.ts';
-import { DevicesApi } from '../api/devices.ts';
-import { Logger } from '../helpers/configuration.ts';
-import {
+import type { DevicesApi } from '../api/devices.ts';
+import type { Logger } from '../helpers/configuration.ts';
+import type {
   DedicatedIps,
   Device,
   DeviceCreate,

@@ -3,10 +3,10 @@
  */
 
 import { BaseRepository } from './base.ts';
-import { StatisticsApi } from '../api/statistics.ts';
-import { Logger } from '../helpers/configuration.ts';
+import type { StatisticsApi } from '../api/statistics.ts';
+import type { Logger } from '../helpers/configuration.ts';
 import { DateTime } from '../helpers/datetime.ts';
-import {
+import type {
   CategoryQueriesStatsList,
   CompanyDetailedQueriesStatsList,
   CompanyQueriesStatsList,

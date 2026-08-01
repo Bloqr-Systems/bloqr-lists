@@ -244,7 +244,7 @@ function getEnvVar(key: string): string | undefined {
 /**
  * Default logger instance (debug disabled unless DEBUG env var is set)
  */
-export const logger = createLogger(!!getEnvVar('DEBUG'));
+export const logger: ExtendedLogger = createLogger(!!getEnvVar('DEBUG'));
 
 /**
  * Creates a JSON-formatted logger for production

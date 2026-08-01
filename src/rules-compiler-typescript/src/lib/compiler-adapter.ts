@@ -1,6 +1,6 @@
 /**
  * Compiler adapter that tries the new JSR package first, with fallback to AdGuard npm package
- * 
+ *
  * This adapter uses lazy initialization to avoid blocking module imports with top-level await.
  * The compiler is loaded on first use, not at module load time.
  */
@@ -43,7 +43,7 @@ let initPromise: Promise<CompilerModule> | null = null;
  * Initialize the compiler by attempting to load JSR package first, then npm fallback
  * This function is called lazily on first use, not at module load time
  */
-async function initializeCompiler(): Promise<CompilerModule> {
+function initializeCompiler(): Promise<CompilerModule> {
   // Return cached module if already initialized
   if (compilerModule) {
     return compilerModule;
@@ -69,7 +69,7 @@ async function initializeCompiler(): Promise<CompilerModule> {
       return module;
     } catch (jsrError) {
       console.warn('[Compiler] JSR package failed, falling back to npm:', jsrError);
-      
+
       try {
         // Fallback to npm package
         const npmModule = await import('@adguard/hostlist-compiler');
@@ -129,11 +129,11 @@ export async function getFilterCompiler(): Promise<FilterCompilerConstructor> {
 
 /**
  * Re-export types conditionally based on which package is loaded
- * 
+ *
  * NOTE: We export types from JSR package as the canonical source since it has
  * the most complete type definitions. The npm package (@adguard/hostlist-compiler)
  * is fully compatible with these types as it shares the same API surface.
- * 
+ *
  * If you need to ensure type compatibility at runtime, use the getCompilerInfo()
  * function to determine which package is loaded and handle accordingly.
  */

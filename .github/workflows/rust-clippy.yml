@@ -3,6 +3,10 @@
 
 name: Rust CI
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   push:
     branches: ["main"]
@@ -54,7 +58,11 @@ jobs:
           restore-keys: ${{ runner.os }}-cargo-
 
       - name: Check formatting
-        run: cargo fmt --all -- --check
+        run: |
+          # adguard-api-lib is OpenAPI-generated and excluded from formatting checks,
+          # matching the clippy job below.
+          cargo fmt -p rules-compiler -p adguard-validation-core -p adguard-validation-cli \
+            -p adguard-api-cli -- --check
 
       - name: Build workspace
         run: cargo build --workspace --all-features

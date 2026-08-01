@@ -3,8 +3,12 @@
  * Matches .NET ConfigurationHelper functionality
  */
 
-import axios, { AxiosInstance, AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
-import { executeWithRetry, RetryOptions } from './retry.ts';
+import axios, {
+  type AxiosInstance,
+  type AxiosRequestConfig,
+  type InternalAxiosRequestConfig,
+} from 'axios';
+import { executeWithRetry, type RetryOptions } from './retry.ts';
 
 /** API base path */
 export const DEFAULT_BASE_PATH = 'https://api.adguard-dns.io';

@@ -2,7 +2,7 @@
  * Error-related models
  */
 
-import { ErrorCodes } from './enums.ts';
+import type { ErrorCodes } from './enums.ts';
 
 /** Field error */
 export interface FieldError {

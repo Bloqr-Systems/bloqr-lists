@@ -31,12 +31,12 @@ import {
   ConfigurationBuilder,
   consoleLogger,
   DEFAULT_TIMEOUT,
-  Logger,
+  type Logger,
   MAX_TIMEOUT,
   MIN_TIMEOUT,
   silentLogger,
 } from '../helpers/configuration.ts';
-import { RetryOptions } from '../helpers/retry.ts';
+import type { RetryOptions } from '../helpers/retry.ts';
 
 /**
  * Builder for creating AdGuard DNS clients with fluent API
@@ -87,9 +87,9 @@ export class AdGuardDnsClientBuilder {
       }
     } else {
       // Try standardized format first, then fallback to legacy formats
-      apiKey = Deno.env.get('ADGUARD_API_KEY') ?? 
-               Deno.env.get('ADGUARD_AdGuard__ApiKey') ?? 
-               Deno.env.get('ADGUARD_API_TOKEN');
+      apiKey = Deno.env.get('ADGUARD_API_KEY') ??
+        Deno.env.get('ADGUARD_AdGuard__ApiKey') ??
+        Deno.env.get('ADGUARD_API_TOKEN');
       if (!apiKey) {
         throw new Error(
           'API key not configured. Set ADGUARD_API_KEY environment variable.',

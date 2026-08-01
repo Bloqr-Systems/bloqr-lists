@@ -4,11 +4,11 @@
  */
 
 import {
-  ApiConfiguration,
+  type ApiConfiguration,
   ConfigurationBuilder,
   createWithApiKey,
   createWithBearerToken,
-  Logger,
+  type Logger,
   maskApiKey,
   validateAuthentication,
 } from './helpers/configuration.ts';
@@ -101,9 +101,9 @@ export class ApiClientFactory {
       }
     } else {
       // Try standardized format first, then fallback to legacy formats
-      apiKey = Deno.env.get('ADGUARD_API_KEY') ?? 
-               Deno.env.get('ADGUARD_AdGuard__ApiKey') ?? 
-               Deno.env.get('ADGUARD_API_TOKEN');
+      apiKey = Deno.env.get('ADGUARD_API_KEY') ??
+        Deno.env.get('ADGUARD_AdGuard__ApiKey') ??
+        Deno.env.get('ADGUARD_API_TOKEN');
       if (!apiKey) {
         throw new Error(
           'API key not configured. Set ADGUARD_API_KEY environment variable.',
@@ -281,9 +281,9 @@ export class AdGuardDnsClient {
       }
     } else {
       // Try standardized format first, then fallback to legacy formats
-      apiKey = Deno.env.get('ADGUARD_API_KEY') ?? 
-               Deno.env.get('ADGUARD_AdGuard__ApiKey') ?? 
-               Deno.env.get('ADGUARD_API_TOKEN');
+      apiKey = Deno.env.get('ADGUARD_API_KEY') ??
+        Deno.env.get('ADGUARD_AdGuard__ApiKey') ??
+        Deno.env.get('ADGUARD_API_TOKEN');
       if (!apiKey) {
         throw new Error(
           'API key not configured. Set ADGUARD_API_KEY environment variable.',

@@ -2,10 +2,10 @@
  * Account menu
  */
 
-import { BaseMenu, MenuItem } from './base.ts';
-import { AccountApi } from '../../api/account.ts';
-import { FilterListsApi } from '../../api/filter-lists.ts';
-import { WebServicesApi } from '../../api/web-services.ts';
+import { BaseMenu, type MenuItem } from './base.ts';
+import type { AccountApi } from '../../api/account.ts';
+import type { FilterListsApi } from '../../api/filter-lists.ts';
+import type { WebServicesApi } from '../../api/web-services.ts';
 import { createTable, displayTable, showPanel, truncate, withSpinner } from '../utils.ts';
 
 export class AccountMenu extends BaseMenu {

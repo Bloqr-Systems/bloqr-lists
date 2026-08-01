@@ -73,8 +73,10 @@ async function main(): Promise<void> {
   }
 
   const importConfig: ImportConfig = {
-    teamId: options['team'] || Deno.env.get('ADGUARD_LINEAR_TEAM_ID') || Deno.env.get('LINEAR_TEAM_ID') || '',
-    projectName: options['project'] || Deno.env.get('ADGUARD_LINEAR_PROJECT_NAME') || Deno.env.get('LINEAR_PROJECT_NAME') || '',
+    teamId: options['team'] || Deno.env.get('ADGUARD_LINEAR_TEAM_ID') ||
+      Deno.env.get('LINEAR_TEAM_ID') || '',
+    projectName: options['project'] || Deno.env.get('ADGUARD_LINEAR_PROJECT_NAME') ||
+      Deno.env.get('LINEAR_PROJECT_NAME') || '',
     createProject: options['project'] !== false,
     createIssues: options['issues'] !== false,
     createDocuments: options['docs'] !== false,

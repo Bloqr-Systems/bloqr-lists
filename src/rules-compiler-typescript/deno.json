@@ -31,12 +31,17 @@
     "node:crypto": "node:crypto",
     "yaml": "npm:yaml@^2.8.2",
     "@iarna/toml": "npm:@iarna/toml@^2.2.5",
-    "@jk-com/adblock-compiler": "https://raw.githubusercontent.com/jaypatrick/adblock-compiler/master/src/index.ts",
+    "@jk-com/adblock-compiler": "jsr:@jk-com/adblock-compiler@^0.94.0",
     "chalk": "npm:chalk@^5.6.2",
     "cli-table3": "npm:cli-table3@^0.6.5",
     "ora": "npm:ora@^9.0.0",
     "figlet": "npm:figlet@^1.9.4",
     "@inquirer/prompts": "npm:@inquirer/prompts@^8.1.0"
   },
-  "allowScripts": ["npm:core-js@3.47.0"]
+  "allowScripts": ["npm:core-js@3.47.0"],
+  "fmt": {
+    "indentWidth": 2,
+    "lineWidth": 100,
+    "singleQuote": true
+  }
 }

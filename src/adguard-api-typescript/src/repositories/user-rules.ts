@@ -3,9 +3,9 @@
  */
 
 import { BaseRepository } from './base.ts';
-import { DnsServersApi } from '../api/dns-servers.ts';
-import { Logger } from '../helpers/configuration.ts';
-import { UserRulesSettings, UserRulesSettingsUpdate } from '../models/index.ts';
+import type { DnsServersApi } from '../api/dns-servers.ts';
+import type { Logger } from '../helpers/configuration.ts';
+import type { UserRulesSettings, UserRulesSettingsUpdate } from '../models/index.ts';
 
 /** User Rules repository for managing DNS server user rules */
 export class UserRulesRepository extends BaseRepository {

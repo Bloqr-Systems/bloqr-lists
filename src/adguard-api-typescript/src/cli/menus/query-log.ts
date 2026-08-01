@@ -2,8 +2,8 @@
  * Query Log menu
  */
 
-import { BaseMenu, MenuItem } from './base.ts';
-import { QueryLogRepository } from '../../repositories/query-log.ts';
+import { BaseMenu, type MenuItem } from './base.ts';
+import type { QueryLogRepository } from '../../repositories/query-log.ts';
 import {
   createTable,
   displayTable,

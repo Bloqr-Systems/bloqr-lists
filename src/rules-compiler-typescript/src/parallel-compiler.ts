@@ -68,13 +68,14 @@ export async function compileChunksInParallel(
     const batch = chunks.slice(batchStart, batchEnd);
 
     logger.info(
-      `Processing batch ${Math.floor(batchStart / maxParallel) + 1}/${Math.ceil(chunks.length / maxParallel)} (chunks ${batchStart + 1}-${batchEnd})`,
+      `Processing batch ${Math.floor(batchStart / maxParallel) + 1}/${
+        Math.ceil(chunks.length / maxParallel)
+      } (chunks ${batchStart + 1}-${batchEnd})`,
     );
 
     // Compile all chunks in this batch in parallel
     const batchPromises = batch.map(async (chunk, batchIndex) => {
       const chunkIndex = batchStart + batchIndex;
-      const metadata = chunk._chunkMetadata;
 
       try {
         logger.debug(
@@ -86,7 +87,9 @@ export async function compileChunksInParallel(
         const elapsed = Date.now() - startTime;
 
         logger.info(
-          `Chunk ${chunkIndex + 1}/${chunks.length} complete: ${rules.length} rules in ${elapsed}ms`,
+          `Chunk ${
+            chunkIndex + 1
+          }/${chunks.length} complete: ${rules.length} rules in ${elapsed}ms`,
         );
 
         results[chunkIndex] = rules;

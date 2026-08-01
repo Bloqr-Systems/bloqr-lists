@@ -3,7 +3,7 @@
  * Validates chunk splitting and merging logic
  */
 
-import { assertEquals } from 'https://deno.land/std@0.220.0/assert/mod.ts';
+import { assertEquals } from '@std/assert';
 import type { IConfiguration } from '@jk-com/adblock-compiler';
 import {
   DEFAULT_CHUNKING_CONFIG,
@@ -150,7 +150,17 @@ Deno.test('mergeChunks - merges multiple chunks correctly', () => {
 
   const merged = mergeChunks([chunk1, chunk2, chunk3], logger);
   assertEquals(merged.length, 9);
-  assertEquals(merged, ['rule1', 'rule2', 'rule3', 'rule4', 'rule5', 'rule6', 'rule7', 'rule8', 'rule9']);
+  assertEquals(merged, [
+    'rule1',
+    'rule2',
+    'rule3',
+    'rule4',
+    'rule5',
+    'rule6',
+    'rule7',
+    'rule8',
+    'rule9',
+  ]);
 });
 
 Deno.test('mergeChunks - removes duplicate rules', () => {

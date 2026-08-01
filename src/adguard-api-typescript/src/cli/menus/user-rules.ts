@@ -2,10 +2,10 @@
  * User Rules menu
  */
 
-import { BaseMenu, MenuItem } from './base.ts';
-import { UserRulesRepository } from '../../repositories/user-rules.ts';
-import { DnsServerRepository } from '../../repositories/dns-server.ts';
-import { RulesCompilerIntegration } from '../../rules-compiler-integration.ts';
+import { BaseMenu, type MenuItem } from './base.ts';
+import type { UserRulesRepository } from '../../repositories/user-rules.ts';
+import type { DnsServerRepository } from '../../repositories/dns-server.ts';
+import type { RulesCompilerIntegration } from '../../rules-compiler-integration.ts';
 import {
   createTable,
   displayTable,
