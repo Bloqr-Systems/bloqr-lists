@@ -30,7 +30,7 @@ public partial class QueryLogRepository : BaseRepository<QueryLogRepository>, IQ
         var log = await ExecuteAsync("GetQueryLog", async () =>
         {
             using var api = ApiClientFactory.CreateQueryLogApi();
-            return await api.GetQueryLogAsync(startTime, endTime, cancellationToken).ConfigureAwait(false);
+            return await api.GetQueryLogAsync(startTime, endTime, cancellationToken: cancellationToken).ConfigureAwait(false);
         }, (code, message, ex) => LogApiError("GetQueryLog", code, message, ex), cancellationToken);
 
         LogRetrievedQueryLog(log.Items?.Count ?? 0);

@@ -11,7 +11,8 @@ import type { CliOptions, ConfigurationFormat, VersionInfo } from './types.ts';
 import { runCompiler } from './compiler.ts';
 import { findDefaultConfig, readConfiguration, toJson } from './config-reader.ts';
 import { createLogger, createProductionLogger } from './logger.ts';
-import { initializeShutdownHandler, ShutdownHandler } from './shutdown.ts';
+import { initializeShutdownHandler } from './shutdown.ts';
+import type { ShutdownHandler } from './shutdown.ts';
 import { isCompilerError } from './errors.ts';
 import { runInteractive } from './console/app.ts';
 

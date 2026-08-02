@@ -3,15 +3,15 @@
  */
 
 import { BaseRepository } from './base.ts';
-import { QueryLogApi } from '../api/query-log.ts';
-import { Logger } from '../helpers/configuration.ts';
+import type { QueryLogApi } from '../api/query-log.ts';
+import type { Logger } from '../helpers/configuration.ts';
 import { DateTime } from '../helpers/datetime.ts';
 import {
-  FilteringActionSource,
+  type FilteringActionSource,
   FilteringActionStatus,
-  QueryLogEntry,
-  QueryLogParams,
-  QueryLogResponse,
+  type QueryLogEntry,
+  type QueryLogParams,
+  type QueryLogResponse,
 } from '../models/index.ts';
 
 /** Query Log repository for managing DNS query logs */

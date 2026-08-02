@@ -165,7 +165,9 @@ export async function verifyHashWithCallbacks(
         actualHash,
         sizeBytes,
         abort: true,
-        abortReason: `Hash mismatch for ${filePath}: expected ${expectedHash.slice(0, 16)}..., got ${actualHash.slice(0, 16)}...`,
+        abortReason: `Hash mismatch for ${filePath}: expected ${
+          expectedHash.slice(0, 16)
+        }..., got ${actualHash.slice(0, 16)}...`,
         allowContinuation: false,
         timestamp: new Date(),
       };
@@ -181,7 +183,6 @@ export async function verifyHashWithCallbacks(
     );
   }
 }
-
 
 /**
  * Copies compiled output to rules directory
@@ -342,7 +343,9 @@ export async function runCompiler(options: ExtendedCompileOptions): Promise<Comp
 
         if (options.failOnWarnings) {
           throw new CompilationError(
-            `Configuration has warnings (failOnWarnings is enabled): ${validationResult.warnings.join('; ')}`,
+            `Configuration has warnings (failOnWarnings is enabled): ${
+              validationResult.warnings.join('; ')
+            }`,
             ErrorCode.CONFIG_VALIDATION_ERROR,
           );
         }

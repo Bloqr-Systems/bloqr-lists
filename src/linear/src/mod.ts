@@ -83,7 +83,8 @@ if (import.meta.main) {
     }
 
     const importConfig: ImportConfig = {
-      teamId: options['team'] || Deno.env.get('ADGUARD_LINEAR_TEAM_ID') || Deno.env.get('LINEAR_TEAM_ID') || '',
+      teamId: options['team'] || Deno.env.get('ADGUARD_LINEAR_TEAM_ID') ||
+        Deno.env.get('LINEAR_TEAM_ID') || '',
       projectName: options['project'] || Deno.env.get('LINEAR_PROJECT_NAME') || '',
       createProject: options['project'] !== false,
       createIssues: options['issues'] !== false,

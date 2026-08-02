@@ -298,7 +298,7 @@ export class ConfigurationBuilder {
         transformations: s.transformations,
         inclusions: s.inclusions,
         exclusions: s.exclusions,
-      })),
+      })) as unknown as IConfiguration['sources'],
     };
 
     // Add optional fields only if set
@@ -315,7 +315,7 @@ export class ConfigurationBuilder {
       (config as unknown as Record<string, unknown>)['homepage'] = this.homepage;
     }
     if (this.transformations.length > 0) {
-      config.transformations = this.transformations;
+      config.transformations = this.transformations as unknown as IConfiguration['transformations'];
     }
     if (this.inclusions.length > 0) {
       config.inclusions = this.inclusions;

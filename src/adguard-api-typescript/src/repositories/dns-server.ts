@@ -3,9 +3,9 @@
  */
 
 import { BaseRepository } from './base.ts';
-import { DnsServersApi } from '../api/dns-servers.ts';
-import { Logger } from '../helpers/configuration.ts';
-import {
+import type { DnsServersApi } from '../api/dns-servers.ts';
+import type { Logger } from '../helpers/configuration.ts';
+import type {
   DNSServer,
   DNSServerCreate,
   DNSServerSettingsUpdate,

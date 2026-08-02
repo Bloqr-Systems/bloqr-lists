@@ -18,7 +18,7 @@ export async function withTimeout<T>(
   timeoutMs: number,
   context: Record<string, unknown> = {},
 ): Promise<T> {
-  let timeoutId: number | undefined;
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
 
   const timeoutPromise = new Promise<never>((_, reject) => {
     timeoutId = setTimeout(() => {
@@ -152,7 +152,7 @@ export function debounce<T extends (...args: Parameters<T>) => void>(
   fn: T,
   delayMs: number,
 ): (...args: Parameters<T>) => void {
-  let timeoutId: number | undefined;
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
 
   return (...args: Parameters<T>): void => {
     if (timeoutId !== undefined) {
@@ -175,7 +175,7 @@ export function throttle<T extends (...args: Parameters<T>) => void>(
   intervalMs: number,
 ): (...args: Parameters<T>) => void {
   let lastCall = 0;
-  let timeoutId: number | undefined;
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
 
   return (...args: Parameters<T>): void => {
     const now = Date.now();

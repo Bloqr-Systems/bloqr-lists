@@ -19,7 +19,7 @@ public interface IAuthenticationApiAsync : IApiAccessor
     /// <param name="username"> (optional)</param>
     /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
     /// <returns>Task of AccessTokenResponse</returns>
-    System.Threading.Tasks.Task<AccessTokenResponse> AccessTokenAsync(string? mfaToken = default, string? password = default, string? refreshToken = default, string? username = default, System.Threading.CancellationToken cancellationToken = default);
+    System.Threading.Tasks.Task<AccessTokenResponse> AccessTokenAsync(string grantType, string? clientId = default, string? code = default, string? codeVerifier = default, string? mfaToken = default, string? password = default, string? redirectUri = default, string? refreshToken = default, string? username = default, System.Threading.CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Generates Access and Refresh token
@@ -34,6 +34,6 @@ public interface IAuthenticationApiAsync : IApiAccessor
     /// <param name="username"> (optional)</param>
     /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
     /// <returns>Task of ApiResponse (AccessTokenResponse)</returns>
-    System.Threading.Tasks.Task<ApiResponse<AccessTokenResponse>> AccessTokenWithHttpInfoAsync(string? mfaToken = default, string? password = default, string? refreshToken = default, string? username = default, System.Threading.CancellationToken cancellationToken = default);
+    System.Threading.Tasks.Task<ApiResponse<AccessTokenResponse>> AccessTokenWithHttpInfoAsync(string grantType, string? clientId = default, string? code = default, string? codeVerifier = default, string? mfaToken = default, string? password = default, string? redirectUri = default, string? refreshToken = default, string? username = default, System.Threading.CancellationToken cancellationToken = default);
     #endregion Asynchronous Operations
 }

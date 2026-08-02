@@ -2,7 +2,7 @@
  * Query log-related models
  */
 
-import {
+import type {
   DnsProtoResponseType,
   DnsQueryType,
   FilteringActionSource,

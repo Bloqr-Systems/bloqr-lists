@@ -13,7 +13,7 @@ public class QueryLogDisplayStrategy
     /// <param name="items">The query log items.</param>
     /// <param name="fromMillis">Start time in milliseconds.</param>
     /// <param name="toMillis">End time in milliseconds.</param>
-    public void Display(List<object>? items, long fromMillis, long toMillis)
+    public void Display(List<QueryLogItem>? items, long fromMillis, long toMillis)
     {
         var fromDate = DateTimeExtensions.FromUnixMilliseconds(fromMillis);
         var toDate = DateTimeExtensions.FromUnixMilliseconds(toMillis);

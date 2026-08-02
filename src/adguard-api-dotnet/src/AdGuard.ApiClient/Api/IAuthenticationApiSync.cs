@@ -15,7 +15,7 @@ public interface IAuthenticationApiSync : IApiAccessor
     /// <param name="refreshToken"> (optional)</param>
     /// <param name="username"> (optional)</param>
     /// <returns>AccessTokenResponse</returns>
-    AccessTokenResponse AccessToken(string? mfaToken = default, string? password = default, string? refreshToken = default, string? username = default);
+    AccessTokenResponse AccessToken(string grantType, string? clientId = default, string? code = default, string? codeVerifier = default, string? mfaToken = default, string? password = default, string? redirectUri = default, string? refreshToken = default, string? username = default);
 
     /// <summary>
     /// Generates Access and Refresh token
@@ -29,6 +29,6 @@ public interface IAuthenticationApiSync : IApiAccessor
     /// <param name="refreshToken"> (optional)</param>
     /// <param name="username"> (optional)</param>
     /// <returns>ApiResponse of AccessTokenResponse</returns>
-    ApiResponse<AccessTokenResponse> AccessTokenWithHttpInfo(string? mfaToken = default, string? password = default, string? refreshToken = default, string? username = default);
+    ApiResponse<AccessTokenResponse> AccessTokenWithHttpInfo(string grantType, string? clientId = default, string? code = default, string? codeVerifier = default, string? mfaToken = default, string? password = default, string? redirectUri = default, string? refreshToken = default, string? username = default);
     #endregion Synchronous Operations
 }

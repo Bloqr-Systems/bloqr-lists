@@ -36,5 +36,10 @@
     "rules": {
       "exclude": ["require-await", "no-inner-declarations"]
     }
+  },
+  "fmt": {
+    "indentWidth": 2,
+    "lineWidth": 100,
+    "singleQuote": true
   }
 }

@@ -2,7 +2,7 @@
  * Custom error classes for AdGuard DNS API
  */
 
-import { ErrorCodes, ErrorResponse, FieldError } from '../models/index.ts';
+import type { ErrorCodes, ErrorResponse, FieldError } from '../models/index.ts';
 
 /** Base API error */
 export class ApiError extends Error {

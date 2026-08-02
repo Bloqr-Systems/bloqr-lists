@@ -4,11 +4,11 @@
 
 import { AxiosError, type AxiosInstance } from 'axios';
 import {
+  type ApiConfiguration,
   createAxiosInstance,
   createRetryableClient,
-  silentLogger,
-  type ApiConfiguration,
   type Logger,
+  silentLogger,
 } from '../helpers/configuration.ts';
 import {
   ApiError,

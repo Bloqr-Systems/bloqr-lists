@@ -29,7 +29,7 @@ public interface IQueryLogApiSync : IApiAccessor
     /// <param name="timeFromMillis">Time from in milliseconds (inclusive)</param>
     /// <param name="timeToMillis">Time to in milliseconds (inclusive)</param>
     /// <returns>QueryLogResponse</returns>
-    QueryLogResponse GetQueryLog(long timeFromMillis, long timeToMillis);
+    QueryLogResponse GetQueryLog(long timeFromMillis, long timeToMillis, List<string>? dnsServers = default, List<string>? devices = default, List<string>? countries = default, List<string>? companies = default, List<FilteringActionStatus>? statuses = default, List<CategoryType>? categories = default, string? search = default, int? limit = default, string? cursor = default);
 
     /// <summary>
     /// Gets query log
@@ -41,6 +41,6 @@ public interface IQueryLogApiSync : IApiAccessor
     /// <param name="timeFromMillis">Time from in milliseconds (inclusive)</param>
     /// <param name="timeToMillis">Time to in milliseconds (inclusive)</param>
     /// <returns>ApiResponse of QueryLogResponse</returns>
-    ApiResponse<QueryLogResponse> GetQueryLogWithHttpInfo(long timeFromMillis, long timeToMillis);
+    ApiResponse<QueryLogResponse> GetQueryLogWithHttpInfo(long timeFromMillis, long timeToMillis, List<string>? dnsServers = default, List<string>? devices = default, List<string>? countries = default, List<string>? companies = default, List<FilteringActionStatus>? statuses = default, List<CategoryType>? categories = default, string? search = default, int? limit = default, string? cursor = default);
     #endregion Synchronous Operations
 }

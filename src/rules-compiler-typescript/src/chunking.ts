@@ -189,7 +189,9 @@ export function mergeChunks(
   });
 
   logger.info(
-    `Merged to ${deduplicated.length} rules (removed ${allRules.length - deduplicated.length} duplicates)`,
+    `Merged to ${deduplicated.length} rules (removed ${
+      allRules.length - deduplicated.length
+    } duplicates)`,
   );
 
   return deduplicated;

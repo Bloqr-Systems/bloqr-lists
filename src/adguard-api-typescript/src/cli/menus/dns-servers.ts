@@ -2,8 +2,8 @@
  * DNS Servers menu
  */
 
-import { BaseMenu, MenuItem } from './base.ts';
-import { DnsServerRepository } from '../../repositories/dns-server.ts';
+import { BaseMenu, type MenuItem } from './base.ts';
+import type { DnsServerRepository } from '../../repositories/dns-server.ts';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import {
   createTable,

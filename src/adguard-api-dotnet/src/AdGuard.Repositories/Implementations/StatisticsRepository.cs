@@ -30,7 +30,7 @@ public partial class StatisticsRepository : BaseRepository<StatisticsRepository>
         var stats = await ExecuteAsync("GetTimeQueriesStats", async () =>
         {
             using var api = ApiClientFactory.CreateStatisticsApi();
-            return await api.GetTimeQueriesStatsAsync(startTime, endTime, cancellationToken).ConfigureAwait(false);
+            return await api.GetTimeQueriesStatsAsync(startTime, endTime, cancellationToken: cancellationToken).ConfigureAwait(false);
         }, (code, message, ex) => LogApiError("GetTimeQueriesStats", code, message, ex), cancellationToken);
 
         LogRetrievedStatistics(stats.Stats?.Count ?? 0);

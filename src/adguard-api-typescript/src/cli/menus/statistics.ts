@@ -2,8 +2,8 @@
  * Statistics menu
  */
 
-import { BaseMenu, MenuItem } from './base.ts';
-import { StatisticsRepository, TimeRange } from '../../repositories/statistics.ts';
+import { BaseMenu, type MenuItem } from './base.ts';
+import type { StatisticsRepository, TimeRange } from '../../repositories/statistics.ts';
 import {
   createTable,
   displayTable,

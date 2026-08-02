@@ -2,7 +2,7 @@
  * Base repository class with common error handling
  */
 
-import { Logger, silentLogger } from '../helpers/configuration.ts';
+import { type Logger, silentLogger } from '../helpers/configuration.ts';
 import { ApiError, EntityNotFoundError, RepositoryError } from '../errors/index.ts';
 
 /** Repository operation callback */

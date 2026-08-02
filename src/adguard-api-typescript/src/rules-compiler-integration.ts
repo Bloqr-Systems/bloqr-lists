@@ -8,9 +8,9 @@
 
 import { promises as fs } from 'node:fs';
 import * as path from 'node:path';
-import { UserRulesRepository } from './repositories/user-rules.ts';
-import { DnsServerRepository } from './repositories/dns-server.ts';
-import { Logger, silentLogger } from './helpers/configuration.ts';
+import type { UserRulesRepository } from './repositories/user-rules.ts';
+import type { DnsServerRepository } from './repositories/dns-server.ts';
+import { type Logger, silentLogger } from './helpers/configuration.ts';
 
 /** Result of a rules compilation and sync operation */
 export interface RulesSyncResult {
