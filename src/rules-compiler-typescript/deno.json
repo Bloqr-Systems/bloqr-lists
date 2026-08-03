@@ -29,14 +29,14 @@
     "node:fs": "node:fs",
     "node:path": "node:path",
     "node:crypto": "node:crypto",
-    "yaml": "npm:yaml@^2.8.2",
+    "yaml": "npm:yaml@^2.9.0",
     "@iarna/toml": "npm:@iarna/toml@^2.2.5",
     "@jk-com/adblock-compiler": "jsr:@jk-com/adblock-compiler@^0.94.0",
     "chalk": "npm:chalk@^5.6.2",
     "cli-table3": "npm:cli-table3@^0.6.5",
-    "ora": "npm:ora@^9.0.0",
-    "figlet": "npm:figlet@^1.9.4",
-    "@inquirer/prompts": "npm:@inquirer/prompts@^8.1.0"
+    "ora": "npm:ora@^9.4.1",
+    "figlet": "npm:figlet@^1.11.4",
+    "@inquirer/prompts": "npm:@inquirer/prompts@^8.5.2"
   },
   "allowScripts": ["npm:core-js@3.47.0"],
   "fmt": {
