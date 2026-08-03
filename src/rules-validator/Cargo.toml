@@ -3,9 +3,9 @@
 
 [workspace.dependencies]
 # Validation core library
-adguard-validation-core = { path = "adguard-validation-core" }
+rules-validator-core = { path = "rules-validator-core" }
 
-[profile.release.package.adguard-validation-core]
+[profile.release.package.rules-validator-core]
 # Extra optimization for core library
 opt-level = 3
 codegen-units = 1

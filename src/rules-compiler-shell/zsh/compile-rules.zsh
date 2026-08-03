@@ -40,7 +40,7 @@ typeset -r NC=$'\e[0m'
 
 # Get script directory using zsh-specific syntax
 typeset -r SCRIPT_DIR="${0:a:h}"
-typeset -r PROJECT_ROOT="${SCRIPT_DIR:h:h}"
+typeset -r PROJECT_ROOT="${SCRIPT_DIR:h:h:h}"
 typeset -r DEFAULT_CONFIG="${PROJECT_ROOT}/src/rules-compiler-typescript/compiler-config.json"
 typeset -r DEFAULT_RULES_DIR="${PROJECT_ROOT}/rules"
 typeset -r DEFAULT_OUTPUT_FILE="adguard_user_filter.txt"

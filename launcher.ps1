@@ -161,7 +161,7 @@ function Show-BuildMenu {
             }
             "5" { Invoke-SafeCommand { & "$Script:RootDir\build.ps1" -TypeScript } "Building TypeScript"; Pause }
             "6" { Invoke-SafeCommand { & "$Script:RootDir\build.ps1" -Python } "Building Python"; Pause }
-            "7" { Invoke-SafeCommand { & "$Script:RootDir\test-build-scripts.ps1" } "Running build script tests"; Pause }
+            "7" { Invoke-SafeCommand { & "$Script:RootDir\tools\test-build-scripts.ps1" } "Running build script tests"; Pause }
             "8" { return }
             default { Write-Host "Invalid choice" -ForegroundColor Red; Start-Sleep -Seconds 1 }
         }
@@ -379,7 +379,7 @@ function Show-ValidationMenu {
         )
         
         switch ($choice) {
-            "1" { Invoke-SafeCommand { cargo test -p adguard-validation-core -p adguard-validation-cli } "Running validation tests"; Pause }
+            "1" { Invoke-SafeCommand { cargo test -p rules-validator-core -p rules-validator-cli } "Running validation tests"; Pause }
             "2" { Invoke-SafeCommand { cargo test --workspace } "Running all Rust tests"; Pause }
             "3" {
                 Write-Host "Testing .NET API Client..." -ForegroundColor Cyan
@@ -400,10 +400,10 @@ function Show-ValidationMenu {
                 }
                 Pause
             }
-            "4" { Invoke-SafeCommand { & "$Script:RootDir\test-build-scripts.ps1" } "Running build script tests"; Pause }
+            "4" { Invoke-SafeCommand { & "$Script:RootDir\tools\test-build-scripts.ps1" } "Running build script tests"; Pause }
             "5" {
-                if (Test-Path "$Script:RootDir\scripts\check-validation-compliance.sh") {
-                    bash "$Script:RootDir\scripts\check-validation-compliance.sh"
+                if (Test-Path "$Script:RootDir\tools\check-validation-compliance.sh") {
+                    bash "$Script:RootDir\tools\check-validation-compliance.sh"
                 }
                 else {
                     Write-Host "Compliance script not found" -ForegroundColor Red
@@ -457,7 +457,7 @@ function Show-ProjectMenu {
                 dotnet tool update --global dotnet-format
                 Pause
             }
-            "5" { Invoke-SafeCommand { & "$Script:RootDir\test-modules.ps1" } "Running PowerShell module tests"; Pause }
+            "5" { Invoke-SafeCommand { & "$Script:RootDir\tools\test-modules.ps1" } "Running PowerShell module tests"; Pause }
             "6" {
                 git status
                 Write-Host ""

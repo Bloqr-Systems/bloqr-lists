@@ -5,7 +5,7 @@ Consolidated location for all shell script implementations in the ad-blocking re
 ## Structure
 
 ```
-src/shell/
+src/rules-compiler-shell/
 ├── README.md          # This file
 ├── bash/              # Bash shell scripts
 │   └── compile-rules.sh
@@ -20,7 +20,7 @@ Cross-platform Bash script for compiling AdGuard filter rules.
 
 **Usage:**
 ```bash
-./src/shell/bash/compile-rules.sh -c config.yaml
+./src/rules-compiler-shell/bash/compile-rules.sh -c config.yaml
 ```
 
 ## Zsh Scripts
@@ -30,7 +30,7 @@ Zsh-optimized script with native features.
 
 **Usage:**
 ```zsh
-./src/shell/zsh/compile-rules.zsh -c config.yaml
+./src/rules-compiler-shell/zsh/compile-rules.zsh -c config.yaml
 ```
 
 ## CLI Options
@@ -45,7 +45,7 @@ Zsh-optimized script with native features.
 
 ## Migration Notes
 
-**Current location:** `src/shell/` ✅  
-**Previous:** `src/rules-compiler-shell/`, `src/shell-scripts/`
+**Current location:** `src/rules-compiler-shell/` ✅  
+**Previous:** `src/shell/`, `src/shell-scripts/`
 
 See [Main README](../../README.md) for full documentation.

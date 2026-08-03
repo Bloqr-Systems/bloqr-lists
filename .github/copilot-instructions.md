@@ -19,7 +19,7 @@ Multi-language toolkit for ad-blocking and AdGuard DNS management with **identic
 ## Architecture Principles
 
 ### Centralized Validation Layer
-**NEW**: Rust-based validation library (`src/adguard-validation/`) provides unified security across all compilers:
+**NEW**: Rust-based validation library (`src/rules-validator/`) provides unified security across all compilers:
 - **At-rest hash verification**: SHA-384 for local files (`data/input/.hashes.json` database)
 - **In-flight hash verification**: SHA-384 for downloads (prevents MITM)
 - **URL security**: HTTPS enforcement, domain validation, content verification
@@ -34,9 +34,9 @@ Multi-language toolkit for ad-blocking and AdGuard DNS management with **identic
 - **TypeScript compiler**: WebAssembly module (no Node.js runtime required)
 
 **Build outputs**:
-- `libadguard_validation.so/.dll/.dylib` (native libraries)
-- `adguard_validation.wasm` (WebAssembly module)
-- `adguard-validate` (CLI tool)
+- `librules_validator.so/.dll/.dylib` (native libraries)
+- `rules_validator.wasm` (WebAssembly module)
+- `rules-validate` (CLI tool)
 
 ### Compiler Equivalence
 All four compilers (TypeScript, .NET, Python, Rust) use **[@jk-com/adblock-compiler](https://github.com/jaypatrick/hostlistcompiler)** and **must**:
@@ -264,7 +264,7 @@ npm run build
 
 **Requirements**: Node.js 18+, Gatsby CLI
 
-### PowerShell Scripts (`src/powershell/`)
+### PowerShell Scripts (`src/rules-compiler-powershell/`)
 ```bash
 # Run PSScriptAnalyzer
 pwsh -Command "Invoke-ScriptAnalyzer -Path . -Recurse"
@@ -326,7 +326,7 @@ pwsh -Command "Invoke-ScriptAnalyzer -Path . -Recurse"
   - Use secure input or environment variables
 - **Testing**: Pester v5 tests in `Tests/` folders
 - **Linting**: PSScriptAnalyzer enforced in CI (`.github/workflows/powershell.yml`)
-- **RulesCompiler module** (`src/powershell/`):
+- **RulesCompiler module** (`src/rules-compiler-powershell/`):
   - `Invoke-RulesCompiler` wraps TypeScript compiler
 
 ### Security Practices
@@ -423,7 +423,7 @@ See `src/rules-compiler-typescript/compiler-config.json` for reference.
 |----------|------|----------|---------|
 | .NET | `dotnet.yml` | Push to main, PRs | Build/test API client (`dotnet test AdGuard.ApiClient.slnx`) |
 | TypeScript | `typescript.yml` | Push to main, PRs | Type-check, lint, test (`tsc --noEmit`, `eslint`, `jest`) |
-| PowerShell | `powershell.yml` | On-demand | PSScriptAnalyzer on `src/powershell/` |
+| PowerShell | `powershell.yml` | On-demand | PSScriptAnalyzer on `src/rules-compiler-powershell/` |
 | Gatsby | `gatsby.yml` | Push to main | Build and deploy to GitHub Pages |
 | CodeQL | `codeql.yml` | Schedule, push to main | Security scanning (breaks on high/critical) |
 | DevSkim | `devskim.yml` | Schedule | Additional security analysis |
@@ -520,7 +520,7 @@ cd src/rules-compiler-rust && cargo test
 | `src/rules-compiler-typescript/compiler-config.json` | **Primary config** for rule compilation | To change filter sources or transformations |
 | `api/openapi.yaml` | AdGuard DNS API spec (v1.15) | Never (upstream dependency) |
 | `src/adguard-api-dotnet/src/AdGuard.ApiClient/` | **Auto-generated** API client | Never (regenerate from spec instead) |
-| `src/powershell/Invoke-RulesCompiler.psm1` | PowerShell wrapper for compiler | Extending PowerShell automation |
+| `src/rules-compiler-powershell/Invoke-RulesCompiler.psm1` | PowerShell wrapper for compiler | Extending PowerShell automation |
 | `docs/compiler-comparison.md` | **Decision guide** for choosing compiler | When adding features to compilers |
 
 ## Common Gotchas

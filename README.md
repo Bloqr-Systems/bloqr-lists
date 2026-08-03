@@ -151,9 +151,9 @@ bloqr-lists/
 │   │   ├── Common/                    # Shared utilities
 │   │   ├── RulesCompiler/             # Rules compiler module
 │   │   └── AdGuardWebhook/            # Webhook module
-│   ├── adguard-validation/            # Rust validation library
-│   │   ├── adguard-validation-core/   # Core validation logic
-│   │   └── adguard-validation-cli/    # CLI tool
+│   ├── rules-validator/            # Rust validation library
+│   │   ├── rules-validator-core/   # Core validation logic
+│   │   └── rules-validator-cli/    # CLI tool
 │   ├── website/                       # Gatsby documentation website
 │   │   ├── src/pages/                 # Static pages (home, getting started)
 │   │   ├── src/templates/             # Dynamic page templates
@@ -250,7 +250,7 @@ cd ../rules-compiler-python && pip install -e ".[dev]"
 cd .. && cargo build --release
 ```
 
-> **Rust Workspace**: All Rust projects (adguard-validation, adguard-api-rust, rules-compiler-rust) are now unified in a single workspace at the repository root. Run `cargo build` from the root to build all Rust projects together. See [RUST_WORKSPACE.md](RUST_WORKSPACE.md) for more details.
+> **Rust Workspace**: All Rust projects (rules-validator, adguard-api-rust, rules-compiler-rust) are now unified in a single workspace at the repository root. Run `cargo build` from the root to build all Rust projects together. See [RUST_WORKSPACE.md](RUST_WORKSPACE.md) for more details.
 
 ### Build All Projects
 
@@ -351,7 +351,7 @@ Import-Module ./src/adguard-api-powershell/Invoke-RulesCompiler.psm1
 Invoke-RulesCompiler
 
 # Bash
-./src/shell/bash/compile-rules.sh
+./src/rules-compiler-shell/bash/compile-rules.sh
 ```
 
 ## Docker Development Environment
@@ -765,7 +765,7 @@ println!("Compiled {} rules", result.rule_count);
 
 ### Shell Scripts
 
-**Location**: `src/shell/`
+**Location**: `src/rules-compiler-shell/`
 
 Cross-platform shell scripts that use `@jk-com/adblock-compiler` for simple automation and CI/CD pipelines.
 
@@ -778,39 +778,39 @@ Cross-platform shell scripts that use `@jk-com/adblock-compiler` for simple auto
 
 ```bash
 # Make executable (first time)
-chmod +x src/shell/bash/compile-rules.sh
+chmod +x src/rules-compiler-shell/bash/compile-rules.sh
 
 # Run with defaults
-./src/shell/bash/compile-rules.sh
+./src/rules-compiler-shell/bash/compile-rules.sh
 
 # Use specific configuration
-./src/shell/bash/compile-rules.sh -c config.yaml
+./src/rules-compiler-shell/bash/compile-rules.sh -c config.yaml
 
 # Compile and copy to rules directory
-./src/shell/bash/compile-rules.sh -c config.yaml -r
+./src/rules-compiler-shell/bash/compile-rules.sh -c config.yaml -r
 
 # Show version/help
-./src/shell/bash/compile-rules.sh -v
-./src/shell/bash/compile-rules.sh -h
+./src/rules-compiler-shell/bash/compile-rules.sh -v
+./src/rules-compiler-shell/bash/compile-rules.sh -h
 ```
 
 #### Zsh (macOS/Linux)
 
 ```zsh
 # Make executable (first time)
-chmod +x src/shell/zsh/compile-rules.zsh
+chmod +x src/rules-compiler-shell/zsh/compile-rules.zsh
 
 # Run with defaults
-./src/shell/zsh/compile-rules.zsh
+./src/rules-compiler-shell/zsh/compile-rules.zsh
 
 # Use YAML configuration
-./src/shell/zsh/compile-rules.zsh -c config.yaml
+./src/rules-compiler-shell/zsh/compile-rules.zsh -c config.yaml
 
 # Compile and copy to rules directory
-./src/shell/zsh/compile-rules.zsh -c config.yaml -r
+./src/rules-compiler-shell/zsh/compile-rules.zsh -c config.yaml -r
 
 # Debug mode
-./src/shell/zsh/compile-rules.zsh -c config.yaml -d
+./src/rules-compiler-shell/zsh/compile-rules.zsh -c config.yaml -d
 ```
 
 **CLI Options** (all scripts):
@@ -825,13 +825,13 @@ chmod +x src/shell/zsh/compile-rules.zsh
 | `--help` | `-h` | Show help message |
 | `--debug` | `-d` | Enable debug output |
 
-See [Shell Scripts README](src/shell/README.md) for detailed documentation.
+See [Shell Scripts README](src/rules-compiler-shell/README.md) for detailed documentation.
 
 ### PowerShell Modules
 
 Two PowerShell module implementations are provided:
 
-#### Modern Canonical Modules (`src/powershell/`)
+#### Modern Canonical Modules (`src/rules-compiler-powershell/`)
 
 Class-based, actively-developed PowerShell 7+ modules following best practices:
 
@@ -841,15 +841,15 @@ Class-based, actively-developed PowerShell 7+ modules following best practices:
 
 ```powershell
 # Import modules
-Import-Module ./src/powershell/Common/Common.psd1
-Import-Module ./src/powershell/RulesCompiler/RulesCompiler.psd1
-Import-Module ./src/powershell/AdGuardWebhook/AdGuardWebhook.psd1
+Import-Module ./src/rules-compiler-powershell/Common/Common.psd1
+Import-Module ./src/rules-compiler-powershell/RulesCompiler/RulesCompiler.psd1
+Import-Module ./src/rules-compiler-powershell/AdGuardWebhook/AdGuardWebhook.psd1
 
 # Run Pester tests
-Invoke-Pester -Path ./src/powershell -Recurse
+Invoke-Pester -Path ./src/rules-compiler-powershell -Recurse
 
 # Lint with PSScriptAnalyzer
-Invoke-ScriptAnalyzer -Path src/powershell -Recurse
+Invoke-ScriptAnalyzer -Path src/rules-compiler-powershell -Recurse
 ```
 
 #### Legacy Compatibility Modules (`src/adguard-api-powershell/`)
@@ -883,7 +883,7 @@ Invoke-AdGuardWebhook -ConfigFile config.json -SaveConfig config.json
 - 🎯 Parameter validation with ranges
 - 🔙 Backward compatible alias (`Invoke-Webhook`)
 
-See individual module READMEs in `src/powershell/` and `src/adguard-api-powershell/` for complete documentation.
+See individual module READMEs in `src/rules-compiler-powershell/` and `src/adguard-api-powershell/` for complete documentation.
 
 ## AdGuard API Clients
 
@@ -1060,19 +1060,19 @@ See [API Client Usage Guide](docs/guides/api-client-usage.md) for detailed examp
 
 ## Validation & Tools
 
-### AdGuard Validation
+### Rules Validator
 
-**Location**: `src/adguard-validation/` (part of root Rust workspace)
+**Location**: `src/rules-validator/` (part of root Rust workspace)
 
 Rust library and CLI for validating filter and configuration files.
 
-- **adguard-validation-core** - Core validation logic library
-- **adguard-validation-cli** - Command-line validation tool
+- **rules-validator-core** - Core validation logic library
+- **rules-validator-cli** - Command-line validation tool
 
 ```bash
 # Build and run validation
-cargo build --release -p adguard-validation-cli
-./target/release/adguard-validation-cli --help
+cargo build --release -p rules-validator-cli
+./target/release/rules-validate --help
 ```
 
 ### Linear Import Tool
@@ -1381,7 +1381,7 @@ cargo test --workspace -- --nocapture  # With output
 cargo test -p rules-compiler        # Rules compiler only
 cargo test -p adguard-api-lib       # API library only
 cargo test -p adguard-api-cli       # API CLI only
-cargo test -p adguard-validation-core  # Validation core only
+cargo test -p rules-validator-core  # Validation core only
 
 # From individual project directories
 cd src/rules-compiler-rust
@@ -1482,7 +1482,7 @@ The repository includes comprehensive documentation:
 - [.NET Compiler README](src/rules-compiler-dotnet/README.md) - C# library and CLI
 - [Python Compiler README](src/rules-compiler-python/README.md) - pip-installable package
 - [Rust Compiler README](src/rules-compiler-rust/README.md) - Single binary distribution
-- [Shell Scripts README](src/shell/README.md) - Bash and Zsh wrappers
+- [Shell Scripts README](src/rules-compiler-shell/README.md) - Bash and Zsh wrappers
 - [PowerShell Module](src/adguard-api-powershell/README.md) - Full-featured PowerShell API
 
 ### Development

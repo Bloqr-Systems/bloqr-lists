@@ -23,7 +23,7 @@
     - @adguard/hostlist-compiler installed globally
 #>
 
-# Import the OOP modules from src/powershell/
+# Import the OOP modules from src/rules-compiler-powershell/
 using module ..\powershell\Common\Common.psm1
 using module ..\powershell\RulesCompiler\RulesCompiler.psm1
 

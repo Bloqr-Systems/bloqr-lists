@@ -1,11 +1,11 @@
 //! CLI tool for AdGuard filter validation.
 
-use adguard_validation::{HashDatabase, ValidationConfig, Validator, VerificationMode};
 use clap::{Parser, Subcommand};
+use rules_validator::{HashDatabase, ValidationConfig, Validator, VerificationMode};
 use std::path::PathBuf;
 
 #[derive(Parser)]
-#[command(name = "adguard-validate")]
+#[command(name = "rules-validate")]
 #[command(about = "CLI tool for validating AdGuard filter lists")]
 #[command(version)]
 struct Cli {

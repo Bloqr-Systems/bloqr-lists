@@ -167,7 +167,7 @@ build_menu() {
             6) ./build.sh --python; pause ;;
             7)
                 echo -e "${CYAN}Running build script tests...${NC}"
-                ./test-build-scripts.sh
+                ./tools/test-build-scripts.sh
                 pause
                 ;;
             8|"") return ;;
@@ -314,7 +314,7 @@ validation_menu() {
         
         case $choice in
             1)
-                cargo test -p adguard-validation-core -p adguard-validation-cli
+                cargo test -p rules-validator-core -p rules-validator-cli
                 pause
                 ;;
             2)
@@ -329,7 +329,7 @@ validation_menu() {
                 pause
                 ;;
             4)
-                ./test-build-scripts.sh
+                ./tools/test-build-scripts.sh
                 pause
                 ;;
             5)
@@ -389,7 +389,7 @@ project_menu() {
                 pause
                 ;;
             5)
-                pwsh -File test-modules.ps1
+                pwsh -File tools/test-modules.ps1
                 pause
                 ;;
             6)

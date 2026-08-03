@@ -1,4 +1,4 @@
-# AdGuard Validation Library
+# Rules Validator Library
 
 Centralized Rust-based validation library for AdGuard filter compilation with comprehensive security features.
 
@@ -25,7 +25,7 @@ This library provides a unified, high-performance validation layer that can be u
                  │
                  ▼
 ┌─────────────────────────────────────────────────┐
-│  adguard-validation-core (Rust)                │
+│  rules-validator-core (Rust)                │
 │  - URL security validation                     │
 │  - Hash verification (at-rest & in-flight)     │
 │  - Syntax validation                           │
@@ -54,17 +54,17 @@ This library provides a unified, high-performance validation layer that can be u
 cargo build --release
 
 # Build only the core library
-cargo build --release -p adguard-validation-core
+cargo build --release -p rules-validator-core
 
 # Build CLI tool
-cargo build --release -p adguard-validation-cli
+cargo build --release -p rules-validator-cli
 
 # Run tests
 cargo test --all
 
 # Build with WebAssembly target
 rustup target add wasm32-unknown-unknown
-cargo build --release --target wasm32-unknown-unknown -p adguard-validation-core
+cargo build --release --target wasm32-unknown-unknown -p rules-validator-core
 ```
 
 ### Build Outputs
@@ -72,21 +72,21 @@ cargo build --release --target wasm32-unknown-unknown -p adguard-validation-core
 After running `cargo build --release`:
 
 - **Native libraries**:
-  - Linux: `target/release/libadguard_validation.so`
-  - macOS: `target/release/libadguard_validation.dylib`
-  - Windows: `target/release/adguard_validation.dll`
+  - Linux: `target/release/librules_validator.so`
+  - macOS: `target/release/librules_validator.dylib`
+  - Windows: `target/release/rules_validator.dll`
 
-- **CLI tool**: `target/release/adguard-validate`
+- **CLI tool**: `target/release/rules-validate`
 
 - **WebAssembly** (with wasm target):
-  - `target/wasm32-unknown-unknown/release/adguard_validation.wasm`
+  - `target/wasm32-unknown-unknown/release/rules_validator.wasm`
 
 ## Usage
 
 ### Rust (Native)
 
 ```rust
-use adguard_validation::{Validator, ValidationConfig, VerificationMode};
+use rules_validator::{Validator, ValidationConfig, VerificationMode};
 
 let config = ValidationConfig::default()
     .with_verification_mode(VerificationMode::Strict);
@@ -109,17 +109,17 @@ println!("Content hash: {:?}", result.content_hash);
 
 ```bash
 # Validate a local file
-adguard-validate file data/input/custom-rules.txt --mode strict
+rules-validate file data/input/custom-rules.txt --mode strict
 
 # Validate a remote URL
-adguard-validate url https://example.com/list.txt
+rules-validate url https://example.com/list.txt
 
 # Validate with hash verification
-adguard-validate url https://example.com/list.txt \
+rules-validate url https://example.com/list.txt \
   --hash abc123def456...
 
 # View hash database
-adguard-validate hash-db
+rules-validate hash-db
 ```
 
 ## Integration Examples
@@ -129,10 +129,10 @@ adguard-validate hash-db
 #### Option 1: WebAssembly (Recommended)
 
 ```typescript
-import { Validator, ValidationConfig } from './adguard_validation.js';
+import { Validator, ValidationConfig } from './rules_validator.js';
 
 // Load WASM module
-const wasm = await import('./adguard_validation_bg.wasm');
+const wasm = await import('./rules_validator_bg.wasm');
 
 const config = new ValidationConfig();
 config.set_verification_mode('strict');
@@ -153,7 +153,7 @@ const execAsync = promisify(exec);
 
 async function validateFile(path: string): Promise<void> {
   try {
-    const { stdout } = await execAsync(`adguard-validate file ${path} --mode strict`);
+    const { stdout } = await execAsync(`rules-validate file ${path} --mode strict`);
     console.log(stdout);
   } catch (error) {
     console.error('Validation failed:', error);
@@ -171,10 +171,10 @@ using System.Runtime.InteropServices;
 
 public class AdGuardValidator
 {
-    [DllImport("adguard_validation")]
+    [DllImport("rules_validator")]
     private static extern IntPtr validator_new(IntPtr config);
     
-    [DllImport("adguard_validation")]
+    [DllImport("rules_validator")]
     private static extern int validate_local_file(IntPtr validator, string path, out IntPtr result);
     
     public ValidationResult ValidateFile(string path)
@@ -198,7 +198,7 @@ public class AdGuardValidator
     {
         var psi = new ProcessStartInfo
         {
-            FileName = "adguard-validate",
+            FileName = "rules-validate",
             Arguments = $"file {path} --mode strict",
             RedirectStandardOutput = true,
             UseShellExecute = false
@@ -220,7 +220,7 @@ public class AdGuardValidator
 ```python
 # Requires building Python bindings with PyO3
 
-from adguard_validation import Validator, ValidationConfig, VerificationMode
+from rules_validator import Validator, ValidationConfig, VerificationMode
 
 config = ValidationConfig()
 config.verification_mode = VerificationMode.STRICT
@@ -239,7 +239,7 @@ import json
 
 def validate_file(path: str) -> dict:
     result = subprocess.run(
-        ["adguard-validate", "file", path, "--mode", "strict"],
+        ["rules-validate", "file", path, "--mode", "strict"],
         capture_output=True,
         text=True,
         check=True

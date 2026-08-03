@@ -22,7 +22,7 @@ jobs:
         run: |
           cd src/rules-compiler-typescript
           # Verify WASM module is imported
-          grep -q "adguard_validation" package.json || exit 1
+          grep -q "rules_validator" package.json || exit 1
           grep -q "validate_local_file\|validate_remote_url" src/**/*.ts || exit 1
   
   dotnet-compliance:
@@ -32,7 +32,7 @@ jobs:
         run: |
           cd src/rules-compiler-dotnet
           # Verify native library is referenced
-          grep -q "adguard_validation" src/**/*.csproj || exit 1
+          grep -q "rules_validator" src/**/*.csproj || exit 1
           grep -rq "ValidationLibrary\|P/Invoke" src/ || exit 1
   
   # Similar checks for Python and Rust compilers
@@ -178,7 +178,7 @@ Each compiler's dependency file **must** declare the validation library:
 ```json
 {
   "dependencies": {
-    "@adguard/validation": "file:../adguard-validation/pkg"
+    "@adguard/validation": "file:../rules-validator/pkg"
   }
 }
 ```
@@ -186,19 +186,19 @@ Each compiler's dependency file **must** declare the validation library:
 **\.NET (csproj)**:
 ```xml
 <ItemGroup>
-  <NativeLibraryReference Include="adguard_validation" />
+  <NativeLibraryReference Include="rules_validator" />
 </ItemGroup>
 ```
 
 **Python (requirements.txt)**:
 ```
-adguard-validation>=1.0.0
+rules-validator>=1.0.0
 ```
 
 **Rust (Cargo.toml)**:
 ```toml
 [dependencies]
-adguard-validation = { path = "../adguard-validation/adguard-validation-core" }
+rules-validator = { path = "../rules-validator/rules-validator-core" }
 ```
 
 ### 7. Pre-commit Hooks
@@ -212,13 +212,13 @@ A pre-commit hook verifies validation library integration:
 echo "Checking validation library integration..."
 
 # Check TypeScript
-if ! grep -q "adguard_validation" src/rules-compiler-typescript/package.json; then
+if ! grep -q "rules_validator" src/rules-compiler-typescript/package.json; then
   echo "ERROR: TypeScript compiler missing validation library dependency"
   exit 1
 fi
 
 # Check .NET
-if ! grep -q "adguard_validation" src/rules-compiler-dotnet/src/**/*.csproj; then
+if ! grep -q "rules_validator" src/rules-compiler-dotnet/src/**/*.csproj; then
   echo "ERROR: .NET compiler missing validation library reference"
   exit 1
 fi
@@ -297,6 +297,6 @@ Maintainers can verify compliance with:
 ## Support
 
 Questions about integration? See:
-- `src/adguard-validation/README.md` - Full integration guide
+- `src/rules-validator/README.md` - Full integration guide
 - `docs/validation-integration-guide.md` - Step-by-step tutorial
 - GitHub Discussions - Ask the community

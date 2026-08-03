@@ -5,7 +5,7 @@ Consolidated location for all PowerShell modules in the ad-blocking repository.
 ## Structure
 
 ```
-src/powershell/
+src/rules-compiler-powershell/
 ├── README.md          # This file
 ├── Common/            # Shared utilities and classes
 │   ├── Common.psm1
@@ -36,7 +36,7 @@ Shared utilities and base classes used by other modules.
 
 **Usage:**
 ```powershell
-Import-Module ./src/powershell/Common/Common.psd1
+Import-Module ./src/rules-compiler-powershell/Common/Common.psd1
 ```
 
 ### RulesCompiler
@@ -50,7 +50,7 @@ Modern OOP-based rules compiler module.
 
 **Usage:**
 ```powershell
-Import-Module ./src/powershell/RulesCompiler/RulesCompiler.psd1
+Import-Module ./src/rules-compiler-powershell/RulesCompiler/RulesCompiler.psd1
 Invoke-RulesCompiler -ConfigPath config.yaml
 ```
 
@@ -65,7 +65,7 @@ Webhook invocation module with statistics tracking.
 
 **Usage:**
 ```powershell
-Import-Module ./src/powershell/AdGuardWebhook/AdGuardWebhook.psd1
+Import-Module ./src/rules-compiler-powershell/AdGuardWebhook/AdGuardWebhook.psd1
 Invoke-AdGuardWebhook -WebhookUrl "https://api.adguard-dns.io/webhook/xxx"
 ```
 
@@ -85,21 +85,21 @@ Run tests with Pester:
 
 ```powershell
 # Test all modules
-Invoke-Pester -Path ./src/powershell/*/Tests/
+Invoke-Pester -Path ./src/rules-compiler-powershell/*/Tests/
 
 # Test specific module
-Invoke-Pester -Path ./src/powershell/RulesCompiler/Tests/
+Invoke-Pester -Path ./src/rules-compiler-powershell/RulesCompiler/Tests/
 ```
 
 ## Migration Notes
 
-**Current location:** `src/powershell/` ✅
+**Current location:** `src/rules-compiler-powershell/` ✅
 
 **Previous locations (deprecated):**
 - `src/powershell-modules/` - Interim modern location
 - `src/adguard-api-powershell/` - Contains legacy monolithic modules + auto-generated API client
 
-**Note:** The `src/adguard-api-powershell/` directory remains for the auto-generated PowerShell API client and legacy compatibility. New development should use the modular structure in `src/powershell/`.
+**Note:** The `src/adguard-api-powershell/` directory remains for the auto-generated PowerShell API client and legacy compatibility. New development should use the modular structure in `src/rules-compiler-powershell/`.
 
 ## Architecture
 

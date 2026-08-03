@@ -12,17 +12,17 @@ This repository is a comprehensive multi-language toolkit for ad-blocking, netwo
 - **Python 3.9+** (`src/rules-compiler-python/`) - pip-installable package with CLI and API
 - **Rust** (`src/rules-compiler-rust/`) - High-performance single binary with zero runtime deps
 
-### Shell Scripts (`src/shell/`)
-- **Bash** (`src/shell/bash/compile-rules.sh`) - Linux/macOS
-- **Zsh** (`src/shell/zsh/compile-rules.zsh`) - macOS/Linux with zsh-specific features
+### Shell Scripts (`src/rules-compiler-shell/`)
+- **Bash** (`src/rules-compiler-shell/bash/compile-rules.sh`) - Linux/macOS
+- **Zsh** (`src/rules-compiler-shell/zsh/compile-rules.zsh`) - macOS/Linux with zsh-specific features
 
 ### PowerShell Modules
-- **RulesCompiler Toolkit** (`src/powershell/`) - Canonical, actively-developed modular PowerShell toolkit (class-based `Common`, `RulesCompiler`, `AdGuardWebhook` modules with Pester tests)
+- **RulesCompiler Toolkit** (`src/rules-compiler-powershell/`) - Canonical, actively-developed modular PowerShell toolkit (class-based `Common`, `RulesCompiler`, `AdGuardWebhook` modules with Pester tests)
 - **AdGuard API PowerShell Client** (`src/adguard-api-powershell/`) - Auto-generated AdGuard DNS API client plus the legacy monolithic `Invoke-RulesCompiler` module, kept for compatibility
 
 ### Rust API Client & Validation Tools
 - **AdGuard API Client - Rust** (`src/adguard-api-rust/`) - OpenAPI-generated library (`adguard-api-lib`) plus a hand-written interactive CLI (`adguard-api-cli`)
-- **AdGuard Validation** (`src/adguard-validation/`) - Rust validation library (`adguard-validation-core`) and CLI (`adguard-validation-cli`) for filter/config validation
+- **Rules Validator** (`src/rules-validator/`) - Rust validation library (`rules-validator-core`) and CLI (`rules-validator-cli`) for filter/config validation
 
 ### API Client & Tools
 - **AdGuard API Client - .NET** (`src/adguard-api-dotnet/`) - C# SDK for AdGuard DNS API v1.15
@@ -90,17 +90,17 @@ deno run --allow-read --allow-write --allow-env --allow-run src/mod.ts --help
 deno run --allow-read --allow-write --allow-env --allow-run src/mod.ts --version
 ```
 
-### Shell Scripts (`src/shell/`)
+### Shell Scripts (`src/rules-compiler-shell/`)
 ```bash
 # Bash (Linux/macOS)
-./src/shell/bash/compile-rules.sh                    # Use default config
-./src/shell/bash/compile-rules.sh -c config.yaml -r  # YAML config, copy to rules
-./src/shell/bash/compile-rules.sh -v                 # Show version
+./src/rules-compiler-shell/bash/compile-rules.sh                    # Use default config
+./src/rules-compiler-shell/bash/compile-rules.sh -c config.yaml -r  # YAML config, copy to rules
+./src/rules-compiler-shell/bash/compile-rules.sh -v                 # Show version
 
 # Zsh (macOS/Linux)
-./src/shell/zsh/compile-rules.zsh                    # Use default config
-./src/shell/zsh/compile-rules.zsh -c config.yaml -r  # YAML config, copy to rules
-./src/shell/zsh/compile-rules.zsh -v                 # Show version
+./src/rules-compiler-shell/zsh/compile-rules.zsh                    # Use default config
+./src/rules-compiler-shell/zsh/compile-rules.zsh -c config.yaml -r  # YAML config, copy to rules
+./src/rules-compiler-shell/zsh/compile-rules.zsh -v                 # Show version
 ```
 
 ### .NET Rules Compiler (`src/rules-compiler-dotnet/`)
@@ -210,21 +210,21 @@ deno task fmt              # Format source files
 deno task check            # Type check
 ```
 
-### PowerShell RulesCompiler Toolkit (`src/powershell/`) - canonical
+### PowerShell RulesCompiler Toolkit (`src/rules-compiler-powershell/`) - canonical
 ```powershell
 # Import the modules
-Import-Module ./src/powershell/Common/Common.psd1
-Import-Module ./src/powershell/RulesCompiler/RulesCompiler.psd1
-Import-Module ./src/powershell/AdGuardWebhook/AdGuardWebhook.psd1
+Import-Module ./src/rules-compiler-powershell/Common/Common.psd1
+Import-Module ./src/rules-compiler-powershell/RulesCompiler/RulesCompiler.psd1
+Import-Module ./src/rules-compiler-powershell/AdGuardWebhook/AdGuardWebhook.psd1
 
 # Compile filter rules
 Invoke-RulesCompiler
 
 # Run Pester tests
-Invoke-Pester -Path ./src/powershell -Recurse
+Invoke-Pester -Path ./src/rules-compiler-powershell -Recurse
 
 # Lint with PSScriptAnalyzer
-Invoke-ScriptAnalyzer -Path src/powershell -Recurse
+Invoke-ScriptAnalyzer -Path src/rules-compiler-powershell -Recurse
 ```
 
 ### PowerShell RulesCompiler Module (`src/adguard-api-powershell/`) - legacy, kept for compatibility
@@ -330,7 +330,7 @@ cargo test config::                       # Tests in module
 - Key classes: `RulesCompiler`, `RulesCompilerBuilder`, `ConfigurationBuilder`, `ConsoleApplication`
 - Uses Deno's built-in testing framework
 
-### Shell Scripts (`src/shell/`)
+### Shell Scripts (`src/rules-compiler-shell/`)
 - Cross-platform shell scripts for filter compilation
 - `bash/compile-rules.sh` - Bash script for Linux/macOS
 - `zsh/compile-rules.zsh` - Zsh script with native zsh features (zparseopts, EPOCHREALTIME)
@@ -403,7 +403,7 @@ cargo test config::                       # Tests in module
 - `ApiClientFactory` configures SDK from settings or interactive prompt
 - Features: Device management, DNS servers, statistics, query logs, filter lists
 
-### PowerShell Toolkit (`src/powershell/`) - canonical
+### PowerShell Toolkit (`src/rules-compiler-powershell/`) - canonical
 - **Common** (`Common/`) - Shared `CompilerLogger` and `CompilerResult` classes used by other modules
 - **RulesCompiler** (`RulesCompiler/`) - Class-based rules compiler module (`CompilerConfiguration`, `CompilerResult`, `CompilerLogger`)
 - **AdGuardWebhook** (`AdGuardWebhook/`) - Class-based webhook invocation module (`WebhookConfiguration`, `WebhookInvoker`, `WebhookStatistics`)
@@ -422,9 +422,9 @@ cargo test config::                       # Tests in module
 - `adguard-api-lib` - OpenAPI-generated client library for AdGuard DNS API v1.15 (excluded from clippy/lint CI since it's generated)
 - `adguard-api-cli` - Hand-written interactive Spectre-style CLI built on top of `adguard-api-lib`
 
-### AdGuard Validation (`src/adguard-validation/`)
-- `adguard-validation-core` - Rust library for validating filter/config files
-- `adguard-validation-cli` - CLI frontend for the validation library
+### Rules Validator (`src/rules-validator/`)
+- `rules-validator-core` - Rust library for validating filter/config files
+- `rules-validator-cli` - CLI frontend for the validation library
 
 ### Documentation Website (`src/website/`)
 - Gatsby 5 static site with guides, API reference, and security documentation pages

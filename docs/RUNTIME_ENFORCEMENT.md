@@ -355,7 +355,7 @@ public class RulesCompiler {
 ### Python
 
 ```python
-from adguard_validation import (
+from rules_validator import (
     compile_with_validation,
     CompilationInput,
     CompilationOptions,
@@ -390,7 +390,7 @@ def compile_rules(sources: list[Source]) -> EnforcedCompilationResult:
 ### Rust
 
 ```rust
-use adguard_validation::{
+use rules_validator::{
     compile_with_validation,
     CompilationInput,
     CompilationOptions,

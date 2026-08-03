@@ -23,7 +23,7 @@
     - Linux (Ubuntu 18.04+, Debian 10+, RHEL 8+, etc.) with PowerShell 7+
 #>
 
-# Import the OOP modules from src/powershell/
+# Import the OOP modules from src/rules-compiler-powershell/
 using module ..\powershell\Common\Common.psm1
 using module ..\powershell\AdGuardWebhook\AdGuardWebhook.psm1
 

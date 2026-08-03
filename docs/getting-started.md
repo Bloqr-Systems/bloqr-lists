@@ -96,7 +96,7 @@ Invoke-RulesCompiler
 #### Bash/Shell
 
 ```bash
-./src/shell/bash/compile-rules.sh
+./src/rules-compiler-shell/bash/compile-rules.sh
 ```
 
 ## First Compilation
@@ -289,7 +289,7 @@ deno run --allow-all jsr:@jk-com/adblock-compiler --version
 Make shell scripts executable:
 
 ```bash
-chmod +x src/shell/bash/compile-rules.sh
+chmod +x src/rules-compiler-shell/bash/compile-rules.sh
 ```
 
 ### Python package not found

@@ -1,5 +1,5 @@
 [package]
-name = "adguard-validation-core"
+name = "rules-validator-core"
 version.workspace = true
 edition.workspace = true
 authors.workspace = true
@@ -11,7 +11,7 @@ keywords = ["adguard", "validation", "security", "filter", "adblock"]
 categories = ["web-programming", "cryptography", "parser-implementations"]
 
 [lib]
-name = "adguard_validation"
+name = "rules_validator"
 path = "src/lib.rs"
 crate-type = ["lib", "cdylib", "staticlib"]  # Support both native and FFI
 

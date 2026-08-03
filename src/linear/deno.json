@@ -21,7 +21,7 @@
     "node:path": "node:path",
     "node:url": "node:url",
     "@linear/sdk": "npm:@linear/sdk@^68.1.0",
-    "dotenv": "npm:dotenv@^17.2.3",
+    "dotenv": "npm:dotenv@^17.4.2",
     "marked": "npm:marked@^17.0.1",
     "commander": "npm:commander@^14.0.2"
   },

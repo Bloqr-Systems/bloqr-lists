@@ -18,7 +18,7 @@
 //! ## Quick Start
 //!
 //! ```no_run
-//! use adguard_validation::{Validator, ValidationConfig, VerificationMode};
+//! use rules_validator::{Validator, ValidationConfig, VerificationMode};
 //!
 //! # fn main() -> Result<(), Box<dyn std::error::Error>> {
 //! let config = ValidationConfig::default()
@@ -81,6 +81,6 @@ mod tests {
 
     #[test]
     fn test_name() {
-        assert_eq!(NAME, "adguard-validation-core");
+        assert_eq!(NAME, "rules-validator-core");
     }
 }
