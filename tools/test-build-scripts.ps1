@@ -12,6 +12,11 @@
 
 $ErrorActionPreference = 'Continue'
 
+# Ensure we run against the repo-root build.ps1 regardless of the caller's
+# current directory (this script lives in tools/, build.ps1 lives at the repo root).
+$RepoRoot = Split-Path -Parent $PSScriptRoot
+Set-Location $RepoRoot
+
 # Test counters
 $script:TestsRun = 0
 $script:TestsPassed = 0

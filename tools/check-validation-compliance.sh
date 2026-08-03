@@ -26,13 +26,13 @@ check_validation_library() {
     
     if [ ! -d "$REPO_ROOT/src/adguard-validation" ]; then
         echo -e "${RED}✗ Validation library not found${NC}"
-        ((ERRORS++))
+        ERRORS=$((ERRORS + 1))
         return 1
     fi
     
     if [ ! -f "$REPO_ROOT/src/adguard-validation/Cargo.toml" ]; then
         echo -e "${RED}✗ Validation library Cargo.toml missing${NC}"
-        ((ERRORS++))
+        ERRORS=$((ERRORS + 1))
         return 1
     fi
     
@@ -49,7 +49,7 @@ check_typescript_integration() {
     
     if [ ! -d "$ts_dir" ]; then
         echo -e "${YELLOW}⚠ TypeScript compiler not found${NC}"
-        ((WARNINGS++))
+        WARNINGS=$((WARNINGS + 1))
         return 0
     fi
     
@@ -59,7 +59,7 @@ check_typescript_integration() {
         echo -e "${GREEN}✓ TypeScript: Validation library dependency found${NC}"
     else
         echo -e "${YELLOW}⚠ TypeScript: Validation library not yet integrated (pending Phase 2)${NC}"
-        ((WARNINGS++))
+        WARNINGS=$((WARNINGS + 1))
     fi
     
     # Check for validation calls in source code
@@ -67,7 +67,7 @@ check_typescript_integration() {
         echo -e "${GREEN}✓ TypeScript: Validation calls found in source${NC}"
     else
         echo -e "${YELLOW}⚠ TypeScript: No validation calls found (pending Phase 2)${NC}"
-        ((WARNINGS++))
+        WARNINGS=$((WARNINGS + 1))
     fi
 }
 
@@ -80,7 +80,7 @@ check_dotnet_integration() {
     
     if [ ! -d "$dotnet_dir" ]; then
         echo -e "${YELLOW}⚠ .NET compiler not found${NC}"
-        ((WARNINGS++))
+        WARNINGS=$((WARNINGS + 1))
         return 0
     fi
     
@@ -89,7 +89,7 @@ check_dotnet_integration() {
         echo -e "${GREEN}✓ .NET: Validation library reference found${NC}"
     else
         echo -e "${YELLOW}⚠ .NET: Validation library not yet integrated (pending Phase 3)${NC}"
-        ((WARNINGS++))
+        WARNINGS=$((WARNINGS + 1))
     fi
 }
 
@@ -102,7 +102,7 @@ check_python_integration() {
     
     if [ ! -d "$python_dir" ]; then
         echo -e "${YELLOW}⚠ Python compiler not found${NC}"
-        ((WARNINGS++))
+        WARNINGS=$((WARNINGS + 1))
         return 0
     fi
     
@@ -111,7 +111,7 @@ check_python_integration() {
         echo -e "${GREEN}✓ Python: Validation library dependency found${NC}"
     else
         echo -e "${YELLOW}⚠ Python: Validation library not yet integrated (pending Phase 3)${NC}"
-        ((WARNINGS++))
+        WARNINGS=$((WARNINGS + 1))
     fi
 }
 
@@ -124,7 +124,7 @@ check_rust_integration() {
     
     if [ ! -d "$rust_dir" ]; then
         echo -e "${YELLOW}⚠ Rust compiler not found${NC}"
-        ((WARNINGS++))
+        WARNINGS=$((WARNINGS + 1))
         return 0
     fi
     
@@ -133,7 +133,7 @@ check_rust_integration() {
         echo -e "${GREEN}✓ Rust: Validation library dependency found${NC}"
     else
         echo -e "${YELLOW}⚠ Rust: Validation library not yet integrated (pending Phase 3)${NC}"
-        ((WARNINGS++))
+        WARNINGS=$((WARNINGS + 1))
     fi
 }
 
@@ -142,13 +142,13 @@ check_validation_library_builds() {
     echo ""
     echo "→ Checking if validation library builds..."
     
-    cd "$REPO_ROOT/src/adguard-validation"
-    
-    if cargo build --release >/dev/null 2>&1; then
+    cd "$REPO_ROOT"
+
+    if cargo build --release -p adguard-validation-core -p adguard-validation-cli >/dev/null 2>&1; then
         echo -e "${GREEN}✓ Validation library builds successfully${NC}"
     else
         echo -e "${RED}✗ Validation library build failed${NC}"
-        ((ERRORS++))
+        ERRORS=$((ERRORS + 1))
     fi
 }
 
@@ -157,13 +157,13 @@ check_validation_library_tests() {
     echo ""
     echo "→ Checking if validation library tests pass..."
     
-    cd "$REPO_ROOT/src/adguard-validation"
-    
-    if cargo test --all >/dev/null 2>&1; then
+    cd "$REPO_ROOT"
+
+    if cargo test -p adguard-validation-core -p adguard-validation-cli >/dev/null 2>&1; then
         echo -e "${GREEN}✓ Validation library tests pass (29 tests)${NC}"
     else
         echo -e "${RED}✗ Validation library tests failed${NC}"
-        ((ERRORS++))
+        ERRORS=$((ERRORS + 1))
     fi
 }
 
