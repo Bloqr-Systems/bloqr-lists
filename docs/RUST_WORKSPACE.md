@@ -6,11 +6,11 @@ This directory contains a unified Rust workspace for all Rust projects in the ad
 
 The workspace includes the following crates:
 
-### 1. **adguard-validation** (`src/adguard-validation/`)
+### 1. **rules-validator** (`src/rules-validator/`)
 Centralized validation library for AdGuard filter compilation with comprehensive security features.
 
-- **adguard-validation-core**: Core library with validation, hashing, URL security
-- **adguard-validation-cli**: CLI tool (`adguard-validate`)
+- **rules-validator-core**: Core library with validation, hashing, URL security
+- **rules-validator-cli**: CLI tool (`rules-validate`)
 
 ### 2. **adguard-api-rust** (`src/adguard-api-rust/`)
 Rust implementation of the AdGuard DNS API client.
@@ -59,9 +59,9 @@ cargo fmt --all -- --check
 ## Building Individual Projects
 
 ```bash
-# Build only adguard-validation
-cargo build -p adguard-validation-core
-cargo build -p adguard-validation-cli
+# Build only rules-validator
+cargo build -p rules-validator-core
+cargo build -p rules-validator-cli
 
 # Build only adguard-api
 cargo build -p adguard-api-lib
@@ -74,8 +74,8 @@ cargo build -p rules-compiler
 ## Running Binaries
 
 ```bash
-# Run adguard-validate CLI
-cargo run -p adguard-validation-cli -- --help
+# Run rules-validate CLI
+cargo run -p rules-validator-cli -- --help
 
 # Run adguard-api-cli
 cargo run -p adguard-api-cli -- --help
@@ -123,11 +123,11 @@ ad-blocking/
 ├── .rustfmt.toml                   # Formatting configuration
 ├── clippy.toml                     # Clippy configuration
 └── src/
-    ├── adguard-validation/
-    │   ├── adguard-validation-core/
+    ├── rules-validator/
+    │   ├── rules-validator-core/
     │   │   ├── Cargo.toml
     │   │   └── src/
-    │   └── adguard-validation-cli/
+    │   └── rules-validator-cli/
     │       ├── Cargo.toml
     │       └── src/
     ├── adguard-api-rust/
@@ -186,7 +186,7 @@ cargo upgrade
 cargo doc --workspace --no-deps --open
 
 # Generate docs for a specific package
-cargo doc -p adguard-validation-core --open
+cargo doc -p rules-validator-core --open
 ```
 
 ### Benchmarking

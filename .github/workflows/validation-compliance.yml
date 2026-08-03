@@ -11,14 +11,14 @@ on:
   push:
     branches: [main, develop]
     paths:
-      - 'src/adguard-validation/**'
+      - 'src/rules-validator/**'
       - 'src/rules-compiler-*/**'
       - 'tools/check-validation-compliance.sh'
       - '.github/workflows/validation-compliance.yml'
   pull_request:
     branches: [main, develop]
     paths:
-      - 'src/adguard-validation/**'
+      - 'src/rules-validator/**'
       - 'src/rules-compiler-*/**'
       - 'tools/check-validation-compliance.sh'
       - '.github/workflows/validation-compliance.yml'
@@ -52,26 +52,26 @@ jobs:
           restore-keys: ${{ runner.os }}-cargo-validation-
 
       - name: Build validation library
-        run: cargo build --release -p adguard-validation-core
+        run: cargo build --release -p rules-validator-core
 
       - name: Run validation library tests
-        run: cargo test -p adguard-validation-core -p adguard-validation-cli
+        run: cargo test -p rules-validator-core -p rules-validator-cli
 
       - name: Check clippy
         run: |
-          cargo clippy -p adguard-validation-core -p adguard-validation-cli \
+          cargo clippy -p rules-validator-core -p rules-validator-cli \
             --all-targets --all-features -- -W clippy::all -W clippy::correctness -W clippy::suspicious
 
       - name: Build CLI tool
-        run: cargo build --release -p adguard-validation-cli
+        run: cargo build --release -p rules-validator-cli
 
       - name: Upload validation library artifacts
         uses: actions/upload-artifact@v4
         with:
           name: validation-library
           path: |
-            target/release/libadguard_validation.*
-            target/release/adguard-validate
+            target/release/librules_validator.*
+            target/release/rules-validate
           retention-days: 7
 
   integration-status:
@@ -89,28 +89,28 @@ jobs:
           echo "|----------|--------|" >> $GITHUB_STEP_SUMMARY
 
           # TypeScript
-          if grep -rq "adguard.*validation" src/rules-compiler-typescript/package.json 2>/dev/null; then
+          if grep -rq "rules.*validator" src/rules-compiler-typescript/package.json 2>/dev/null; then
             echo "| TypeScript | integrated |" >> $GITHUB_STEP_SUMMARY
           else
             echo "| TypeScript | pending |" >> $GITHUB_STEP_SUMMARY
           fi
 
           # .NET
-          if grep -rq "adguard_validation" src/rules-compiler-dotnet 2>/dev/null; then
+          if grep -rq "rules_validator" src/rules-compiler-dotnet 2>/dev/null; then
             echo "| .NET | integrated |" >> $GITHUB_STEP_SUMMARY
           else
             echo "| .NET | pending |" >> $GITHUB_STEP_SUMMARY
           fi
 
           # Python
-          if [ -f src/rules-compiler-python/requirements.txt ] && grep -q "adguard-validation" src/rules-compiler-python/requirements.txt 2>/dev/null; then
+          if [ -f src/rules-compiler-python/requirements.txt ] && grep -q "rules-validator" src/rules-compiler-python/requirements.txt 2>/dev/null; then
             echo "| Python | integrated |" >> $GITHUB_STEP_SUMMARY
           else
             echo "| Python | pending |" >> $GITHUB_STEP_SUMMARY
           fi
 
           # Rust
-          if grep -q "adguard-validation" src/rules-compiler-rust/Cargo.toml 2>/dev/null; then
+          if grep -q "rules-validator" src/rules-compiler-rust/Cargo.toml 2>/dev/null; then
             echo "| Rust | integrated |" >> $GITHUB_STEP_SUMMARY
           else
             echo "| Rust | pending |" >> $GITHUB_STEP_SUMMARY

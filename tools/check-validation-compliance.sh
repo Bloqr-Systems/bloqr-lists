@@ -24,13 +24,13 @@ echo ""
 check_validation_library() {
     echo "→ Checking validation library..."
     
-    if [ ! -d "$REPO_ROOT/src/adguard-validation" ]; then
+    if [ ! -d "$REPO_ROOT/src/rules-validator" ]; then
         echo -e "${RED}✗ Validation library not found${NC}"
         ERRORS=$((ERRORS + 1))
         return 1
     fi
     
-    if [ ! -f "$REPO_ROOT/src/adguard-validation/Cargo.toml" ]; then
+    if [ ! -f "$REPO_ROOT/src/rules-validator/Cargo.toml" ]; then
         echo -e "${RED}✗ Validation library Cargo.toml missing${NC}"
         ERRORS=$((ERRORS + 1))
         return 1
@@ -85,7 +85,7 @@ check_dotnet_integration() {
     fi
     
     # Check for native library reference (when integrated)
-    if grep -rq "adguard_validation\|ValidationLibrary" "$dotnet_dir" 2>/dev/null; then
+    if grep -rq "rules_validator\|ValidationLibrary" "$dotnet_dir" 2>/dev/null; then
         echo -e "${GREEN}✓ .NET: Validation library reference found${NC}"
     else
         echo -e "${YELLOW}⚠ .NET: Validation library not yet integrated (pending Phase 3)${NC}"
@@ -107,7 +107,7 @@ check_python_integration() {
     fi
     
     # Check for validation library in requirements (when integrated)
-    if [ -f "$python_dir/requirements.txt" ] && grep -q "adguard-validation" "$python_dir/requirements.txt" 2>/dev/null; then
+    if [ -f "$python_dir/requirements.txt" ] && grep -q "rules-validator" "$python_dir/requirements.txt" 2>/dev/null; then
         echo -e "${GREEN}✓ Python: Validation library dependency found${NC}"
     else
         echo -e "${YELLOW}⚠ Python: Validation library not yet integrated (pending Phase 3)${NC}"
@@ -129,7 +129,7 @@ check_rust_integration() {
     fi
     
     # Check for validation library dependency
-    if grep -q "adguard-validation\|adguard_validation" "$rust_dir/Cargo.toml" 2>/dev/null; then
+    if grep -q "rules-validator\|rules_validator" "$rust_dir/Cargo.toml" 2>/dev/null; then
         echo -e "${GREEN}✓ Rust: Validation library dependency found${NC}"
     else
         echo -e "${YELLOW}⚠ Rust: Validation library not yet integrated (pending Phase 3)${NC}"
@@ -144,7 +144,7 @@ check_validation_library_builds() {
     
     cd "$REPO_ROOT"
 
-    if cargo build --release -p adguard-validation-core -p adguard-validation-cli >/dev/null 2>&1; then
+    if cargo build --release -p rules-validator-core -p rules-validator-cli >/dev/null 2>&1; then
         echo -e "${GREEN}✓ Validation library builds successfully${NC}"
     else
         echo -e "${RED}✗ Validation library build failed${NC}"
@@ -159,7 +159,7 @@ check_validation_library_tests() {
     
     cd "$REPO_ROOT"
 
-    if cargo test -p adguard-validation-core -p adguard-validation-cli >/dev/null 2>&1; then
+    if cargo test -p rules-validator-core -p rules-validator-cli >/dev/null 2>&1; then
         echo -e "${GREEN}✓ Validation library tests pass (29 tests)${NC}"
     else
         echo -e "${RED}✗ Validation library tests failed${NC}"

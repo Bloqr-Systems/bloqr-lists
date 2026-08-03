@@ -65,7 +65,7 @@ ad-blocking/
 │   ├── rules-compiler-python/      # Python rules compiler
 │   ├── powershell/                 # PowerShell modules (canonical)
 │   ├── shell/                      # Shell script utilities (bash/zsh)
-│   ├── adguard-validation/         # Rust validation library
+│   ├── rules-validator/         # Rust validation library
 │   ├── website/                    # Gatsby documentation site
 │   └── linear/                     # Linear integration
 └── .github/                # GitHub workflows and configuration
@@ -120,7 +120,7 @@ ruff check rules_compiler/
 cargo clippy --workspace
 
 # PowerShell
-Invoke-ScriptAnalyzer -Path src/powershell -Recurse
+Invoke-ScriptAnalyzer -Path src/rules-compiler-powershell -Recurse
 ```
 
 ### 5. Commit Changes
@@ -220,7 +220,7 @@ cd src/rules-compiler-typescript && deno task test
 cd src/rules-compiler-dotnet && dotnet test
 cd src/rules-compiler-python && pytest
 cd src/rules-compiler-rust && cargo test
-cd src/powershell && Invoke-Pester
+cd src/rules-compiler-powershell && Invoke-Pester
 ```
 
 ## Pull Request Process

@@ -277,7 +277,7 @@ env:
 steps:
   - name: Compile rules
     run: |
-      ./src/shell/bash/compile-rules.sh -r
+      ./src/rules-compiler-shell/bash/compile-rules.sh -r
 ```
 
 ## Priority Order
@@ -362,6 +362,6 @@ DEBUG=1 ./compile-rules.sh
 
 ## See Also
 
-- [PowerShell Modules README](../src/powershell/README.md)
-- [Shell Scripts README](../src/shell/README.md)
+- [PowerShell Modules README](../src/rules-compiler-powershell/README.md)
+- [Shell Scripts README](../src/rules-compiler-shell/README.md)
 - [Configuration Reference](./configuration-reference.md)

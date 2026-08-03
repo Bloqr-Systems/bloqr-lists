@@ -1,8 +1,8 @@
 [workspace]
 resolver = "2"
 members = [
-    "src/adguard-validation/adguard-validation-core",
-    "src/adguard-validation/adguard-validation-cli",
+    "src/rules-validator/rules-validator-core",
+    "src/rules-validator/rules-validator-cli",
     "src/adguard-api-rust/adguard-api-lib",
     "src/adguard-api-rust/adguard-api-cli",
     "src/rules-compiler-rust",

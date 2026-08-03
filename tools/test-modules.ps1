@@ -8,7 +8,7 @@ Write-Host ''
 
 try {
     # Test 1: Core PowerShell Modules (Modern Location)
-    Write-Host '1. Testing Core PowerShell Modules (src/powershell)...' -ForegroundColor Yellow
+    Write-Host '1. Testing Core PowerShell Modules (src/rules-compiler-powershell)...' -ForegroundColor Yellow
     $scriptRoot = Split-Path -Parent $PSScriptRoot
     Import-Module $scriptRoot\src\powershell\Common\Common.psd1 -ErrorAction Stop
     Import-Module $scriptRoot\src\powershell\RulesCompiler\RulesCompiler.psd1 -ErrorAction Stop
@@ -50,7 +50,7 @@ try {
     # Test 5: Module Versions
     Write-Host '5. Verifying Module Versions...' -ForegroundColor Yellow
     $commonModule = Get-Module Common
-    $rulesModule = Get-Module RulesCompiler -ListAvailable | Where-Object Path -Like "*src/powershell*" | Select-Object -First 1
+    $rulesModule = Get-Module RulesCompiler -ListAvailable | Where-Object Path -Like "*src/rules-compiler-powershell*" | Select-Object -First 1
     $webhookModule = Get-Module AdGuardWebhook
     Write-Host "   Common: v$($commonModule.Version)" -ForegroundColor Cyan
     Write-Host "   RulesCompiler: v$($rulesModule.Version)" -ForegroundColor Cyan

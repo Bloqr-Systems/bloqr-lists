@@ -32,36 +32,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "adguard-validation-cli"
-version = "1.0.0"
-dependencies = [
- "adguard-validation-core",
- "anyhow",
- "clap",
- "serde_json",
-]
-
-[[package]]
-name = "adguard-validation-core"
-version = "1.0.0"
-dependencies = [
- "chrono",
- "hex",
- "js-sys",
- "regex",
- "reqwest",
- "serde",
- "serde_json",
- "sha2",
- "tempfile",
- "thiserror 2.0.17",
- "url",
- "walkdir",
- "wasm-bindgen",
- "web-sys",
-]
-
-[[package]]
 name = "aho-corasick"
 version = "1.1.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1367,6 +1337,36 @@ dependencies = [
  "tracing",
  "uuid",
  "which",
+]
+
+[[package]]
+name = "rules-validator-cli"
+version = "1.0.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "rules-validator-core",
+ "serde_json",
+]
+
+[[package]]
+name = "rules-validator-core"
+version = "1.0.0"
+dependencies = [
+ "chrono",
+ "hex",
+ "js-sys",
+ "regex",
+ "reqwest",
+ "serde",
+ "serde_json",
+ "sha2",
+ "tempfile",
+ "thiserror 2.0.17",
+ "url",
+ "walkdir",
+ "wasm-bindgen",
+ "web-sys",
 ]
 
 [[package]]

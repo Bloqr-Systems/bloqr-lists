@@ -314,7 +314,7 @@ validation_menu() {
         
         case $choice in
             1)
-                cargo test -p adguard-validation-core -p adguard-validation-cli
+                cargo test -p rules-validator-core -p rules-validator-cli
                 pause
                 ;;
             2)
