@@ -18,6 +18,35 @@ npm run build
 npm run serve
 ```
 
+## End-to-End Tests
+
+E2E tests use [Playwright](https://playwright.dev/), and build/serve the site locally by default:
+
+```bash
+pnpm install
+pnpm run test:e2e
+
+# Interactive UI mode
+pnpm run test:e2e:ui
+```
+
+By default tests launch a local Chromium against `npm run serve` (built via
+`gatsby serve`, port 9000). To run the same tests against
+[Cloudflare Browser Run](https://developers.cloudflare.com/browser-run/) instead
+of a local browser (e.g. in CI, or to test from a non-datacenter IP), set:
+
+```bash
+export CLOUDFLARE_BROWSER_RUN_KEY=...
+export CLOUDFLARE_BROWSER_RUN_ENDPOINT=wss://your-worker.workers.dev/cdp
+pnpm run test:e2e
+```
+
+To point tests at an already-running deployment instead of building locally:
+
+```bash
+E2E_BASE_URL=https://bloqr-systems.github.io/bloqr-lists pnpm run test:e2e
+```
+
 ## Structure
 
 - `src/pages/` - Static pages (home, getting started, etc.)
