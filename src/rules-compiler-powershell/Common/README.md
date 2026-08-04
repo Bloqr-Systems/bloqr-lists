@@ -160,4 +160,4 @@ To add a new shared class to the Common module:
 
 Copyright (c) 2025 Jayson Knight. All rights reserved.
 
-See [LICENSE](https://github.com/jaypatrick/ad-blocking/blob/main/LICENSE) for details.
+See [LICENSE](https://github.com/BloqrAI/bloqr-lists/blob/main/LICENSE) for details.

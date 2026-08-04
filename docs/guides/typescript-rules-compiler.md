@@ -40,7 +40,7 @@ deno --version
 ### Clone and Setup
 
 ```bash
-git clone https://github.com/jaypatrick/ad-blocking.git
+git clone https://github.com/BloqrAI/bloqr-lists.git
 cd ad-blocking/src/rules-compiler-typescript
 
 # Cache dependencies

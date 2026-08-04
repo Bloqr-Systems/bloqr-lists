@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/AdguardTeam/HostlistCompiler/master/schemas/configuration.schema.json",
   "name": "AdGuard User Filter",
   "description": "Custom filter list compiled from multiple sources",
-  "homepage": "https://github.com/jaypatrick/ad-blocking",
+  "homepage": "https://github.com/BloqrAI/bloqr-lists",
   "license": "MIT",
   "version": "1.0.0",
   "output": {

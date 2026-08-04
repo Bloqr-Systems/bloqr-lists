@@ -947,7 +947,7 @@ console.log('Active compiler:', info);
 - **JSR Package**: https://jsr.io/@jk-com/adblock-compiler
 - **Source Code**: https://github.com/jaypatrick/hostlistcompiler
 - **Issue Tracker**: https://github.com/jaypatrick/hostlistcompiler/issues
-- **This Repository**: https://github.com/jaypatrick/ad-blocking
+- **This Repository**: https://github.com/BloqrAI/bloqr-lists
 - **Documentation Website**: https://jaypatrick.github.io/ad-blocking
 
 ## Version History

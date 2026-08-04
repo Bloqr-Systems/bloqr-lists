@@ -33,7 +33,7 @@ Install the required tools for the language you're working with:
 
 ```bash
 # Clone the repository
-git clone https://github.com/jaypatrick/ad-blocking.git
+git clone https://github.com/BloqrAI/bloqr-lists.git
 cd ad-blocking
 
 # Build all projects (or specific language ecosystems)

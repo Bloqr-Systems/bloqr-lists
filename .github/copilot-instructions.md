@@ -610,7 +610,7 @@ See `src/linear/README.md` for full documentation.
    - Creates GitHub release with all binaries attached
    - Takes ~15-20 minutes
 
-4. **Verify release** at `https://github.com/jaypatrick/ad-blocking/releases`:
+4. **Verify release** at `https://github.com/BloqrAI/bloqr-lists/releases`:
    - `AdGuard.ConsoleUI-{windows,linux,macos}.{zip,tar.gz}`
    - `RulesCompiler.Console-{windows,linux,macos}.{zip,tar.gz}`
    - `rules-compiler-rust-{windows,linux,macos}.{zip,tar.gz}`
