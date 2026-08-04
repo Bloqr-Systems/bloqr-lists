@@ -98,8 +98,7 @@ impl VersionInfo {
             let deno_str = deno_path.to_str().unwrap_or("deno");
             info.node_version = get_command_version(deno_str, &["--version"]);
 
-            info.hostlist_compiler_path =
-                Some(format!("{deno_str} run {JSR_PACKAGE_SPECIFIER}"));
+            info.hostlist_compiler_path = Some(format!("{deno_str} run {JSR_PACKAGE_SPECIFIER}"));
             let mut version_args: Vec<&str> = DENO_PERMISSIONS.to_vec();
             version_args.push(JSR_PACKAGE_SPECIFIER);
             version_args.push("--version");
