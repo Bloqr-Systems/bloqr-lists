@@ -31,7 +31,7 @@ namespace AdGuard.ApiClient.Api
         /// <summary>
         /// Initializes a new instance of the <see cref="QueryLogApi"/> class.
         /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-htt[...]
+        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
         /// </summary>
         /// <returns></returns>
         public QueryLogApi() : this((string)null)
@@ -41,7 +41,7 @@ namespace AdGuard.ApiClient.Api
         /// <summary>
         /// Initializes a new instance of the <see cref="QueryLogApi"/> class.
         /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-htt[...]
+        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
         /// </summary>
         /// <param name="basePath">The target service's base path in URL format.</param>
         /// <exception cref="ArgumentException"></exception>
@@ -61,7 +61,7 @@ namespace AdGuard.ApiClient.Api
         /// <summary>
         /// Initializes a new instance of the <see cref="QueryLogApi"/> class using Configuration object.
         /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-htt[...]
+        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
         /// </summary>
         /// <param name="configuration">An instance of Configuration.</param>
         /// <exception cref="ArgumentNullException"></exception>
@@ -343,26 +343,44 @@ namespace AdGuard.ApiClient.Api
         }
 
         /// <summary>
-        /// Gets query log Returns the query log for the specified time period. Use filters to narrow the result set and cursor to paginate through the results. The log contains DNS query records.
+        /// Gets query log Returns the query log for the specified time period. Use filters to narrow the result set and cursor to paginate through the results. The log contains DNS query records with filtering, device, and domain information. 
         /// </summary>
         /// <exception cref="AdGuard.ApiClient.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="timeFromMillis">Time from in milliseconds (inclusive)</param>
         /// <param name="timeToMillis">Time to in milliseconds (inclusive)</param>
+        /// <param name="dnsServers">Filter by DNS servers (optional)</param>
+        /// <param name="devices">Filter by devices (optional)</param>
+        /// <param name="countries">Filter by countries (optional)</param>
+        /// <param name="companies">Filter by companies (optional)</param>
+        /// <param name="statuses">Filter by statuses (optional)</param>
+        /// <param name="categories">Filter by categories (optional)</param>
+        /// <param name="search">Filter by domain name (optional)</param>
+        /// <param name="limit">Pagination limit (optional, default to 20)</param>
+        /// <param name="cursor">Pagination cursor from previous response (optional)</param>
         /// <returns>QueryLogResponse</returns>
-        public QueryLogResponse GetQueryLog(long timeFromMillis, long timeToMillis)
+        public QueryLogResponse GetQueryLog(long timeFromMillis, long timeToMillis, List<string>? dnsServers = default, List<string>? devices = default, List<string>? countries = default, List<string>? companies = default, List<FilteringActionStatus>? statuses = default, List<CategoryType>? categories = default, string? search = default, int? limit = default, string? cursor = default)
         {
-            AdGuard.ApiClient.Client.ApiResponse<QueryLogResponse> localVarResponse = GetQueryLogWithHttpInfo(timeFromMillis, timeToMillis);
+            AdGuard.ApiClient.Client.ApiResponse<QueryLogResponse> localVarResponse = GetQueryLogWithHttpInfo(timeFromMillis, timeToMillis, dnsServers, devices, countries, companies, statuses, categories, search, limit, cursor);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Gets query log Returns the query log for the specified time period. Use filters to narrow the result set and cursor to paginate through the results. The log contains DNS query records.
+        /// Gets query log Returns the query log for the specified time period. Use filters to narrow the result set and cursor to paginate through the results. The log contains DNS query records with filtering, device, and domain information. 
         /// </summary>
         /// <exception cref="AdGuard.ApiClient.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="timeFromMillis">Time from in milliseconds (inclusive)</param>
         /// <param name="timeToMillis">Time to in milliseconds (inclusive)</param>
+        /// <param name="dnsServers">Filter by DNS servers (optional)</param>
+        /// <param name="devices">Filter by devices (optional)</param>
+        /// <param name="countries">Filter by countries (optional)</param>
+        /// <param name="companies">Filter by companies (optional)</param>
+        /// <param name="statuses">Filter by statuses (optional)</param>
+        /// <param name="categories">Filter by categories (optional)</param>
+        /// <param name="search">Filter by domain name (optional)</param>
+        /// <param name="limit">Pagination limit (optional, default to 20)</param>
+        /// <param name="cursor">Pagination cursor from previous response (optional)</param>
         /// <returns>ApiResponse of QueryLogResponse</returns>
-        public AdGuard.ApiClient.Client.ApiResponse<QueryLogResponse> GetQueryLogWithHttpInfo(long timeFromMillis, long timeToMillis)
+        public AdGuard.ApiClient.Client.ApiResponse<QueryLogResponse> GetQueryLogWithHttpInfo(long timeFromMillis, long timeToMillis, List<string>? dnsServers = default, List<string>? devices = default, List<string>? countries = default, List<string>? companies = default, List<FilteringActionStatus>? statuses = default, List<CategoryType>? categories = default, string? search = default, int? limit = default, string? cursor = default)
         {
             AdGuard.ApiClient.Client.RequestOptions localVarRequestOptions = new AdGuard.ApiClient.Client.RequestOptions();
 
@@ -382,6 +400,42 @@ namespace AdGuard.ApiClient.Api
 
             localVarRequestOptions.QueryParameters.Add(AdGuard.ApiClient.Client.ClientUtils.ParameterToMultiMap("", "time_from_millis", timeFromMillis));
             localVarRequestOptions.QueryParameters.Add(AdGuard.ApiClient.Client.ClientUtils.ParameterToMultiMap("", "time_to_millis", timeToMillis));
+            if (dnsServers != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(AdGuard.ApiClient.Client.ClientUtils.ParameterToMultiMap("multi", "dns_servers", dnsServers));
+            }
+            if (devices != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(AdGuard.ApiClient.Client.ClientUtils.ParameterToMultiMap("multi", "devices", devices));
+            }
+            if (countries != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(AdGuard.ApiClient.Client.ClientUtils.ParameterToMultiMap("multi", "countries", countries));
+            }
+            if (companies != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(AdGuard.ApiClient.Client.ClientUtils.ParameterToMultiMap("multi", "companies", companies));
+            }
+            if (statuses != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(AdGuard.ApiClient.Client.ClientUtils.ParameterToMultiMap("multi", "statuses", statuses));
+            }
+            if (categories != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(AdGuard.ApiClient.Client.ClientUtils.ParameterToMultiMap("multi", "categories", categories));
+            }
+            if (search != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(AdGuard.ApiClient.Client.ClientUtils.ParameterToMultiMap("", "search", search));
+            }
+            if (limit != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(AdGuard.ApiClient.Client.ClientUtils.ParameterToMultiMap("", "limit", limit));
+            }
+            if (cursor != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(AdGuard.ApiClient.Client.ClientUtils.ParameterToMultiMap("", "cursor", cursor));
+            }
 
             // authentication (ApiKey) required
             if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("Authorization")))
@@ -408,28 +462,46 @@ namespace AdGuard.ApiClient.Api
         }
 
         /// <summary>
-        /// Gets query log Returns the query log for the specified time period. Use filters to narrow the result set and cursor to paginate through the results. The log contains DNS query records.
+        /// Gets query log Returns the query log for the specified time period. Use filters to narrow the result set and cursor to paginate through the results. The log contains DNS query records with filtering, device, and domain information. 
         /// </summary>
         /// <exception cref="AdGuard.ApiClient.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="timeFromMillis">Time from in milliseconds (inclusive)</param>
         /// <param name="timeToMillis">Time to in milliseconds (inclusive)</param>
+        /// <param name="dnsServers">Filter by DNS servers (optional)</param>
+        /// <param name="devices">Filter by devices (optional)</param>
+        /// <param name="countries">Filter by countries (optional)</param>
+        /// <param name="companies">Filter by companies (optional)</param>
+        /// <param name="statuses">Filter by statuses (optional)</param>
+        /// <param name="categories">Filter by categories (optional)</param>
+        /// <param name="search">Filter by domain name (optional)</param>
+        /// <param name="limit">Pagination limit (optional, default to 20)</param>
+        /// <param name="cursor">Pagination cursor from previous response (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of QueryLogResponse</returns>
-        public async System.Threading.Tasks.Task<QueryLogResponse> GetQueryLogAsync(long timeFromMillis, long timeToMillis, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<QueryLogResponse> GetQueryLogAsync(long timeFromMillis, long timeToMillis, List<string>? dnsServers = default, List<string>? devices = default, List<string>? countries = default, List<string>? companies = default, List<FilteringActionStatus>? statuses = default, List<CategoryType>? categories = default, string? search = default, int? limit = default, string? cursor = default, System.Threading.CancellationToken cancellationToken = default)
         {
-            AdGuard.ApiClient.Client.ApiResponse<QueryLogResponse> localVarResponse = await GetQueryLogWithHttpInfoAsync(timeFromMillis, timeToMillis, cancellationToken).ConfigureAwait(false);
+            AdGuard.ApiClient.Client.ApiResponse<QueryLogResponse> localVarResponse = await GetQueryLogWithHttpInfoAsync(timeFromMillis, timeToMillis, dnsServers, devices, countries, companies, statuses, categories, search, limit, cursor, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Gets query log Returns the query log for the specified time period. Use filters to narrow the result set and cursor to paginate through the results. The log contains DNS query records.
+        /// Gets query log Returns the query log for the specified time period. Use filters to narrow the result set and cursor to paginate through the results. The log contains DNS query records with filtering, device, and domain information. 
         /// </summary>
         /// <exception cref="AdGuard.ApiClient.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="timeFromMillis">Time from in milliseconds (inclusive)</param>
         /// <param name="timeToMillis">Time to in milliseconds (inclusive)</param>
+        /// <param name="dnsServers">Filter by DNS servers (optional)</param>
+        /// <param name="devices">Filter by devices (optional)</param>
+        /// <param name="countries">Filter by countries (optional)</param>
+        /// <param name="companies">Filter by companies (optional)</param>
+        /// <param name="statuses">Filter by statuses (optional)</param>
+        /// <param name="categories">Filter by categories (optional)</param>
+        /// <param name="search">Filter by domain name (optional)</param>
+        /// <param name="limit">Pagination limit (optional, default to 20)</param>
+        /// <param name="cursor">Pagination cursor from previous response (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (QueryLogResponse)</returns>
-        public async System.Threading.Tasks.Task<AdGuard.ApiClient.Client.ApiResponse<QueryLogResponse>> GetQueryLogWithHttpInfoAsync(long timeFromMillis, long timeToMillis, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<AdGuard.ApiClient.Client.ApiResponse<QueryLogResponse>> GetQueryLogWithHttpInfoAsync(long timeFromMillis, long timeToMillis, List<string>? dnsServers = default, List<string>? devices = default, List<string>? countries = default, List<string>? companies = default, List<FilteringActionStatus>? statuses = default, List<CategoryType>? categories = default, string? search = default, int? limit = default, string? cursor = default, System.Threading.CancellationToken cancellationToken = default)
         {
 
             AdGuard.ApiClient.Client.RequestOptions localVarRequestOptions = new AdGuard.ApiClient.Client.RequestOptions();
@@ -451,6 +523,42 @@ namespace AdGuard.ApiClient.Api
 
             localVarRequestOptions.QueryParameters.Add(AdGuard.ApiClient.Client.ClientUtils.ParameterToMultiMap("", "time_from_millis", timeFromMillis));
             localVarRequestOptions.QueryParameters.Add(AdGuard.ApiClient.Client.ClientUtils.ParameterToMultiMap("", "time_to_millis", timeToMillis));
+            if (dnsServers != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(AdGuard.ApiClient.Client.ClientUtils.ParameterToMultiMap("multi", "dns_servers", dnsServers));
+            }
+            if (devices != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(AdGuard.ApiClient.Client.ClientUtils.ParameterToMultiMap("multi", "devices", devices));
+            }
+            if (countries != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(AdGuard.ApiClient.Client.ClientUtils.ParameterToMultiMap("multi", "countries", countries));
+            }
+            if (companies != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(AdGuard.ApiClient.Client.ClientUtils.ParameterToMultiMap("multi", "companies", companies));
+            }
+            if (statuses != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(AdGuard.ApiClient.Client.ClientUtils.ParameterToMultiMap("multi", "statuses", statuses));
+            }
+            if (categories != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(AdGuard.ApiClient.Client.ClientUtils.ParameterToMultiMap("multi", "categories", categories));
+            }
+            if (search != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(AdGuard.ApiClient.Client.ClientUtils.ParameterToMultiMap("", "search", search));
+            }
+            if (limit != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(AdGuard.ApiClient.Client.ClientUtils.ParameterToMultiMap("", "limit", limit));
+            }
+            if (cursor != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(AdGuard.ApiClient.Client.ClientUtils.ParameterToMultiMap("", "cursor", cursor));
+            }
 
             // authentication (ApiKey) required
             if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("Authorization")))
