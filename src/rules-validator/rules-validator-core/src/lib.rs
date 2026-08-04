@@ -4,7 +4,9 @@
 //! security features including hash verification, URL security validation, and syntax checking.
 //!
 //! This library is designed to be used across multiple compilers (TypeScript, .NET, Python, Rust)
-//! through native bindings, FFI, or WebAssembly.
+//! through native bindings, FFI, or WebAssembly. See the [`ffi`] module for the C-compatible
+//! FFI surface (`extern "C"` functions over an opaque-handle + JSON-string boundary), suitable
+//! for .NET P/Invoke or any other FFI consumer.
 //!
 //! ## Features
 //!
@@ -38,6 +40,7 @@
 pub mod archive;
 pub mod config;
 pub mod error;
+pub mod ffi;
 pub mod file_conflict;
 pub mod hash;
 pub mod runtime_enforcement;

@@ -166,24 +166,60 @@ async function validateFile(path: string): Promise<void> {
 
 #### Option 1: P/Invoke to Native Library
 
-```csharp
-using System.Runtime.InteropServices;
+`rules-validator-core` ships a real `extern "C"` FFI surface (`src/ffi.rs`), not just this illustrative pattern — see `rules_validator.h` (generated via `cbindgen`) for the authoritative signatures. The API uses an opaque handle plus JSON-encoded results, so there's no per-field struct marshaling to keep in sync:
 
-public class AdGuardValidator
+```csharp
+using System;
+using System.Runtime.InteropServices;
+using System.Text.Json;
+
+public static class NativeMethods
 {
     [DllImport("rules_validator")]
-    private static extern IntPtr validator_new(IntPtr config);
-    
+    public static extern IntPtr rules_validator_new(string? configJson);
+
     [DllImport("rules_validator")]
-    private static extern int validate_local_file(IntPtr validator, string path, out IntPtr result);
-    
-    public ValidationResult ValidateFile(string path)
+    public static extern void rules_validator_free(IntPtr validator);
+
+    [DllImport("rules_validator")]
+    public static extern int rules_validator_validate_local_file(
+        IntPtr validator, string path, out IntPtr outResultJson);
+
+    [DllImport("rules_validator")]
+    public static extern void rules_validator_free_string(IntPtr s);
+}
+
+public class AdGuardValidator : IDisposable
+{
+    private readonly IntPtr _handle;
+
+    // Pass null for default ValidationConfig, or a JSON-serialized config.
+    public AdGuardValidator(string? configJson = null)
     {
-        // Call native library
-        IntPtr validator = validator_new(IntPtr.Zero);
-        validate_local_file(validator, path, out IntPtr result);
-        // ... marshal result
+        _handle = NativeMethods.rules_validator_new(configJson);
+        if (_handle == IntPtr.Zero)
+            throw new InvalidOperationException("Failed to create validator (invalid config JSON?)");
     }
+
+    public JsonDocument ValidateFile(string path)
+    {
+        var status = NativeMethods.rules_validator_validate_local_file(_handle, path, out var resultPtr);
+        try
+        {
+            var json = Marshal.PtrToStringUTF8(resultPtr)
+                ?? throw new InvalidOperationException("Null result from validator");
+            var doc = JsonDocument.Parse(json);
+            // status == 0 (Success): doc is a SyntaxValidationResult.
+            // status == -4 (ValidationFailed): doc is {"error": "..."}.
+            return doc;
+        }
+        finally
+        {
+            NativeMethods.rules_validator_free_string(resultPtr);
+        }
+    }
+
+    public void Dispose() => NativeMethods.rules_validator_free(_handle);
 }
 ```
 
