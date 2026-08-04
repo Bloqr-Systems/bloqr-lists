@@ -58,7 +58,7 @@ All compilers use **[@jk-com/adblock-compiler](https://github.com/jaypatrick/hos
 
 **Compilation Features:**
 - **All 11 transformations**: Deduplicate, Validate, RemoveComments, Compress, RemoveModifiers, etc.
-- **Multi-format config**: JSON, YAML, and TOML configuration files
+- **JSON config**: schema-validated; YAML/TOML remain supported for backward compatibility
 - **Source-specific settings**: Per-source transformations, inclusions, exclusions
 - **Pattern matching**: Wildcards, regex, file-based patterns
 - **🔒 SHA-384 hash verification**: Automatic tamper detection for all sources
@@ -574,21 +574,16 @@ See [`data/archive/README.md`](data/archive/README.md) for detailed usage and re
 
 ## Rules Compilers
 
-All compilers use [@jk-com/adblock-compiler](https://github.com/jaypatrick/adblock-compiler) and support:
+All compilers dogfood [`@jk-com/adblock-compiler`](https://jsr.io/@jk-com/adblock-compiler) (`src/adblock-compiler-core/`, this repo) and support:
 
-- **Multi-format config**: JSON, YAML, TOML
+- **JSON config** (documented format; YAML/TOML remain supported by the underlying readers, see [Configuration Reference](docs/configuration-reference.md))
 - **All 11 transformations**: Deduplicate, Validate, RemoveComments, Compress, etc.
 - **Source-specific settings**: Per-source transformations, inclusions, exclusions
 - **Pattern matching**: Wildcards, regex, file-based patterns
 - **SOLID Architecture**: Dependency injection, single responsibility, better testing
 
 📘 **[Complete @jk-com/adblock-compiler Guide](docs/guides/adblock-compiler-guide.md)** - Why it's better, CI/CD integration, API reference, migration guide
-
-**AdBlock Compiler Documentation**:
-- [Migration Guide](https://github.com/jaypatrick/adblock-compiler/blob/master/docs/MIGRATION.md) - Migrate from @adguard/hostlist-compiler
-- [Troubleshooting](https://github.com/jaypatrick/adblock-compiler/blob/master/docs/TROUBLESHOOTING.md) - Common issues and solutions
-- [Web UI](https://adblock.jaysonknight.com) - Interactive compilation with visual diff
-- [API Reference](https://adblock-compiler.jayson-knight.workers.dev/api) - REST API documentation
+📘 **[adblock-compiler-core README](src/adblock-compiler-core/README.md)** - Package architecture, how it relates to the commercial `@bloqr/compiler`
 
 ### TypeScript Compiler
 
@@ -1231,103 +1226,18 @@ $env:ADGUARD_API_KEY="your-api-key-here"
 
 ## Configuration
 
-All compilers support the same configuration schema with JSON, YAML, or TOML syntax.
+All compilers validate against the same JSON Schema ([`schemas/compiler-config.schema.json`](schemas/compiler-config.schema.json)). JSON is the documented, recommended format; see **[Configuration Reference](docs/configuration-reference.md)** for the full property reference, all available transformations, pattern matching, and example configs.
 
-### Configuration Properties
-
-| Property | Type | Required | Description |
-|----------|------|----------|-------------|
-| `name` | string | Yes | Filter list name |
-| `description` | string | No | Description |
-| `homepage` | string | No | Homepage URL |
-| `license` | string | No | License identifier |
-| `version` | string | No | Version number |
-| `sources` | array | Yes | Filter sources |
-| `transformations` | array | No | Global transformations |
-| `inclusions` | array | No | Include patterns |
-| `exclusions` | array | No | Exclude patterns |
-
-### Source Properties
-
-| Property | Type | Required | Description |
-|----------|------|----------|-------------|
-| `source` | string | Yes | URL or file path |
-| `name` | string | No | Source identifier |
-| `type` | string | No | `adblock` or `hosts` |
-| `transformations` | array | No | Source transformations |
-| `inclusions` | array | No | Source include patterns |
-| `exclusions` | array | No | Source exclude patterns |
-
-### Available Transformations
-
-| Transformation | Description |
-|---------------|-------------|
-| `RemoveComments` | Remove comment lines |
-| `Compress` | Convert hosts to adblock syntax |
-| `RemoveModifiers` | Remove unsupported modifiers |
-| `Validate` | Remove dangerous rules |
-| `ValidateAllowIp` | Validate with IP rules allowed |
-| `Deduplicate` | Remove duplicates |
-| `InvertAllow` | Convert exceptions to blocking |
-| `RemoveEmptyLines` | Remove blank lines |
-| `TrimLines` | Trim whitespace |
-| `InsertFinalNewLine` | Add final newline |
-| `ConvertToAscii` | Convert IDN to punycode |
-
-### Example Configurations
-
-#### YAML
-
-```yaml
-name: My Filter List
-description: Custom ad-blocking filter
-version: "1.0.0"
-
-sources:
-  - name: Local Rules
-    source: data/local.txt
-    type: adblock
-
-  - name: EasyList
-    source: https://easylist.to/easylist/easylist.txt
-    transformations:
-      - RemoveModifiers
-      - Validate
-
-transformations:
-  - Deduplicate
-  - RemoveEmptyLines
-  - InsertFinalNewLine
-
-exclusions:
-  - "*.google.com"
-  - "/analytics/"
-```
-
-#### JSON
+Quick example:
 
 ```json
 {
   "name": "My Filter List",
   "sources": [
-    {
-      "name": "EasyList",
-      "source": "https://easylist.to/easylist/easylist.txt"
-    }
+    { "name": "EasyList", "source": "https://easylist.to/easylist/easylist.txt" }
   ],
   "transformations": ["Deduplicate", "InsertFinalNewLine"]
 }
-```
-
-#### TOML
-
-```toml
-name = "My Filter List"
-transformations = ["Deduplicate", "InsertFinalNewLine"]
-
-[[sources]]
-name = "EasyList"
-source = "https://easylist.to/easylist/easylist.txt"
 ```
 
 ## Testing
