@@ -146,7 +146,7 @@ ad-blocking/
 │   ├── rules-compiler-dotnet/
 │   ├── rules-compiler-python/
 │   ├── rules-compiler-rust/
-│   ├── rules-compiler-typescript/
+│   ├── adblock-compiler-core/
 │   └── linear/
 ├── .github/                # GitHub workflows and config
 ├── CONTRIBUTING.md         # Contribution guidelines ✅

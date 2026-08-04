@@ -167,7 +167,7 @@ ADGUARD_API_KEY=your-api-key-here
 
 ```bash
 # TypeScript compiler (Deno caches dependencies automatically)
-cd /workspace/src/rules-compiler-typescript
+cd /workspace/src/adblock-compiler-core
 deno cache src/mod.ts
 
 # .NET projects
@@ -190,7 +190,7 @@ cargo build
 
 ```bash
 # TypeScript (Deno)
-cd /workspace/src/rules-compiler-typescript
+cd /workspace/src/adblock-compiler-core
 deno task compile
 
 # .NET
@@ -217,7 +217,7 @@ pwsh -Command "Import-Module ./src/adguard-api-powershell/Invoke-RulesCompiler.p
 
 ```bash
 # TypeScript tests (Deno)
-cd /workspace/src/rules-compiler-typescript
+cd /workspace/src/adblock-compiler-core
 deno task test
 
 # .NET tests
@@ -255,7 +255,7 @@ For [Warp](https://www.warp.dev/) terminal users, a pre-built environment is ava
 
 ```bash
 # The environment automatically runs these setup commands:
-cd ad-blocking/src/rules-compiler-typescript && deno cache src/mod.ts
+cd ad-blocking/src/adblock-compiler-core && deno cache src/mod.ts
 cd ad-blocking/src/adguard-api-dotnet && dotnet restore
 ```
 
@@ -283,7 +283,7 @@ jobs:
           docker run --rm \
             -v ${{ github.workspace }}:/workspace \
             ad-blocking-dev \
-            bash -c "cd /workspace/src/rules-compiler-typescript && deno task test"
+            bash -c "cd /workspace/src/adblock-compiler-core && deno task test"
 
       - name: Run .NET tests
         run: |
@@ -326,7 +326,7 @@ If Deno cache has issues between host and container:
 # Clear Deno cache and re-cache dependencies
 docker run -it -v $(pwd):/workspace ad-blocking-dev bash -c "
   rm -rf /root/.deno/deps
-  cd /workspace/src/rules-compiler-typescript
+  cd /workspace/src/adblock-compiler-core
   deno cache src/mod.ts
 "
 ```

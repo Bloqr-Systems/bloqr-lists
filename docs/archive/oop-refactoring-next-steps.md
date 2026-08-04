@@ -79,7 +79,7 @@ function Read-CompilerConfiguration {
     
     BEGIN {
         if (-not $ConfigPath) {
-            $ConfigPath = Join-Path $PSScriptRoot '..' '..' 'src' 'rules-compiler-typescript' 'compiler-config.json'
+            $ConfigPath = Join-Path $PSScriptRoot '..' '..' 'src' 'adblock-compiler-core' 'compiler-config.json'
             $ConfigPath = [System.IO.Path]::GetFullPath($ConfigPath)
         }
     }

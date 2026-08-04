@@ -415,7 +415,7 @@ src/rules-compiler-dotnet/
 
 ## Related Projects
 
-- [Rules Compiler (TypeScript)](../rules-compiler-typescript/) - TypeScript implementation
+- [Rules Compiler (TypeScript)](../adblock-compiler-core/) - TypeScript implementation
 - [Rules Compiler (Python)](../rules-compiler-python/) - Python implementation
 - [Rules Compiler (Rust)](../rules-compiler-rust/) - Rust implementation
 - [@adguard/hostlist-compiler](https://github.com/AdguardTeam/HostlistCompiler) - Underlying compiler

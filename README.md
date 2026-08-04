@@ -128,7 +128,7 @@ bloqr-lists/
 │   │   └── .gitignore                 # Ignore archive contents
 │   └── Config/                        # Compiler configurations (optional)
 ├── src/                               # Source code
-│   ├── rules-compiler-typescript/     # TypeScript/Deno compiler
+│   ├── adblock-compiler-core/     # TypeScript/Deno compiler
 │   ├── rules-compiler-dotnet/         # C#/.NET 10 compiler
 │   ├── rules-compiler-python/         # Python 3.9+ compiler
 │   ├── rules-compiler-rust/           # Rust compiler (single binary)
@@ -237,7 +237,7 @@ git clone https://github.com/bloqr-systems/bloqr-lists.git
 cd bloqr-lists
 
 # TypeScript compiler
-cd src/rules-compiler-typescript && deno cache src/mod.ts
+cd src/adblock-compiler-core && deno cache src/mod.ts
 
 # .NET projects
 cd ../rules-compiler-dotnet && dotnet restore RulesCompiler.slnx
@@ -332,7 +332,7 @@ Tests run automatically in CI via the **Build Scripts Tests** workflow.
 
 ```bash
 # TypeScript
-cd src/rules-compiler-typescript && deno task compile
+cd src/adblock-compiler-core && deno task compile
 
 # .NET
 cd src/rules-compiler-dotnet && dotnet run --project src/RulesCompiler.Console
@@ -382,7 +382,7 @@ docker build -f Dockerfile.warp -t ad-blocking-dev .
 docker run -it -v $(pwd):/workspace ad-blocking-dev
 
 # Inside container, cache Deno dependencies
-cd /workspace/src/rules-compiler-typescript && deno cache src/mod.ts
+cd /workspace/src/adblock-compiler-core && deno cache src/mod.ts
 cd /workspace/src/rules-compiler-dotnet && dotnet restore RulesCompiler.slnx
 ```
 
@@ -592,10 +592,10 @@ All compilers use [@jk-com/adblock-compiler](https://github.com/jaypatrick/adblo
 
 ### TypeScript Compiler
 
-**Location**: `src/rules-compiler-typescript/`
+**Location**: `src/adblock-compiler-core/`
 
 ```bash
-cd src/rules-compiler-typescript
+cd src/adblock-compiler-core
 
 # Compile rules
 deno task compile                   # Default config
@@ -1335,7 +1335,7 @@ source = "https://easylist.to/easylist/easylist.txt"
 ### TypeScript (Deno)
 
 ```bash
-cd src/rules-compiler-typescript
+cd src/adblock-compiler-core
 deno task test                      # Run all tests
 deno test src/cli.test.ts           # Specific file
 deno task test:coverage             # With coverage
@@ -1478,7 +1478,7 @@ The repository includes comprehensive documentation:
 ### Rules Compilers
 
 - **[@jk-com/adblock-compiler Guide](docs/guides/adblock-compiler-guide.md)** - Core package documentation with CI/CD examples
-- [TypeScript Compiler](src/rules-compiler-typescript/) - Deno compiler with JSR integration
+- [TypeScript Compiler](src/adblock-compiler-core/) - Deno compiler with JSR integration
 - [.NET Compiler README](src/rules-compiler-dotnet/README.md) - C# library and CLI
 - [Python Compiler README](src/rules-compiler-python/README.md) - pip-installable package
 - [Rust Compiler README](src/rules-compiler-rust/README.md) - Single binary distribution

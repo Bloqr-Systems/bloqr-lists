@@ -69,7 +69,7 @@ ad-blocking/
 │   └── archive/           # Archived input files (timestamped)
 ├── src/
 │   ├── adguard-api-dotnet/         # C# AdGuard DNS API client
-│   ├── rules-compiler-typescript/  # TypeScript rules compiler
+│   ├── adblock-compiler-core/  # TypeScript rules compiler
 │   ├── rules-compiler-dotnet/      # .NET rules compiler
 │   ├── rules-compiler-python/      # Python rules compiler
 │   ├── rules-compiler-rust/        # Rust rules compiler
@@ -101,7 +101,7 @@ ad-blocking/
 **Compilation**:
 ```bash
 # TypeScript (primary method)
-cd src/rules-compiler-typescript && npm run compile
+cd src/adblock-compiler-core && npm run compile
 
 # Validates inputs, fetches remote sources, writes output, computes SHA-384
 # CI: .github/workflows/typescript.yml runs this with type-checking
@@ -135,7 +135,7 @@ When working with `src/adguard-api-dotnet/`:
 1. **Compile with all four compilers** using the same config:
    ```bash
    # TypeScript
-   cd src/rules-compiler-typescript && npm run compile
+   cd src/adblock-compiler-core && npm run compile
    
    # .NET
    cd src/rules-compiler-dotnet && dotnet run --project src/RulesCompiler.Console
@@ -158,7 +158,7 @@ When working with `src/adguard-api-dotnet/`:
 4. **Test with different configs** (JSON, YAML, TOML where supported)
 
 **Test file patterns** that verify this:
-- TypeScript: `src/rules-compiler-typescript/src/__tests__/compiler.test.ts`
+- TypeScript: `src/adblock-compiler-core/src/__tests__/compiler.test.ts`
 - .NET: `src/rules-compiler-dotnet/src/RulesCompiler.Tests/OutputWriterTests.cs`
 - Python: `src/rules-compiler-python/tests/test_compiler.py`
 - Rust: `src/rules-compiler-rust/src/compiler.rs` (integration tests)
@@ -187,7 +187,7 @@ dotnet test src/AdGuard.ApiClient.Test/AdGuard.ApiClient.Test.csproj
 
 **Requirements**: .NET 8.0 SDK
 
-### TypeScript Rules Compiler (`src/rules-compiler-typescript/`)
+### TypeScript Rules Compiler (`src/adblock-compiler-core/`)
 ```bash
 # Install dependencies
 npm ci
@@ -414,7 +414,7 @@ Supports 3 formats (JSON/YAML/TOML), based on `@jk-com/adblock-compiler` schema:
   "transformations": ["RemoveComments", "Compress", "Validate"]
 }
 ```
-See `src/rules-compiler-typescript/compiler-config.json` for reference.
+See `src/adblock-compiler-core/compiler-config.json` for reference.
 
 ## CI/CD Workflows
 
@@ -477,7 +477,7 @@ npm install <package-name>
 cd src/adguard-api-dotnet && dotnet test AdGuard.ApiClient.slnx
 
 # Run all TypeScript tests
-cd src/rules-compiler-typescript && npm test
+cd src/adblock-compiler-core && npm test
 
 # Run all Python tests
 cd src/rules-compiler-python && pytest
@@ -517,7 +517,7 @@ cd src/rules-compiler-rust && cargo test
 | File/Folder | Purpose | When to Modify |
 |-------------|---------|----------------|
 | `data/output/adguard_user_filter.txt` | **Production filter list** | After successful compilation and testing |
-| `src/rules-compiler-typescript/compiler-config.json` | **Primary config** for rule compilation | To change filter sources or transformations |
+| `src/adblock-compiler-core/compiler-config.json` | **Primary config** for rule compilation | To change filter sources or transformations |
 | `api/openapi.yaml` | AdGuard DNS API spec (v1.15) | Never (upstream dependency) |
 | `src/adguard-api-dotnet/src/AdGuard.ApiClient/` | **Auto-generated** API client | Never (regenerate from spec instead) |
 | `src/rules-compiler-powershell/Invoke-RulesCompiler.psm1` | PowerShell wrapper for compiler | Extending PowerShell automation |

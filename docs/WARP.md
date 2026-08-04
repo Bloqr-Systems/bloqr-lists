@@ -7,8 +7,8 @@ Project scope
 - CI pipelines (GitHub Actions) validate the .NET API client solution, TypeScript/Deno projects, and various compilers using Deno 2.0+ and .NET 10. Keep local commands aligned with the workflows below.
 
 Common commands (build, lint, test)
-TypeScript/Deno – rules compiler (src/rules-compiler-typescript)
-- Cache deps: cd src/rules-compiler-typescript && deno cache src/mod.ts
+TypeScript/Deno – rules compiler (src/adblock-compiler-core)
+- Cache deps: cd src/adblock-compiler-core && deno cache src/mod.ts
 - Type-check: deno check src/mod.ts
 - Lint: deno task lint
 - Unit tests: deno task test
@@ -35,7 +35,7 @@ PowerShell scripts
 
 Running a single test
 - TypeScript/Deno
-  - By file: cd src/rules-compiler-typescript && deno test src/cli.test.ts
+  - By file: cd src/adblock-compiler-core && deno test src/cli.test.ts
   - All tests: deno task test
 - .NET (xUnit under src/adguard-api-dotnet)
   - By class pattern: cd src/adguard-api-dotnet && dotnet test src/AdGuard.ApiClient.sln --filter "FullyQualifiedName~DevicesApiTests"
@@ -47,7 +47,7 @@ Environment and secrets used by code
 High-level architecture and structure
 - Filter rules (data/output/)
   - data/output/adguard_user_filter.txt is the tracked output list consumed by AdGuard DNS.
-- Filter compiler (src/rules-compiler-typescript/)
+- Filter compiler (src/adblock-compiler-core/)
   - Deno/TypeScript wrapper around @jk-com/adblock-compiler. Reads configuration, compiles sources, and writes compiled rules. Deno tests cover config parsing and output writing.
 - API clients
   - src/adguard-api-dotnet/: Auto-generated C# SDK for AdGuard DNS API v1.15. Targets net10.0; uses Newtonsoft.Json and JsonSubTypes. Includes Helpers for configuration and Polly-based retry policies. Console UI uses Spectre.Console.

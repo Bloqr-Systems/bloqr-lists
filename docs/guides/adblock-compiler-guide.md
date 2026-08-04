@@ -334,7 +334,7 @@ jobs:
       
       - name: Compile with TypeScript
         run: |
-          cd src/rules-compiler-typescript
+          cd src/adblock-compiler-core
           deno task compile
           cp ../../data/output/adguard_user_filter.txt /tmp/output-ts.txt
       

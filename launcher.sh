@@ -194,7 +194,7 @@ rules_menu() {
         case $choice in
             1)
                 if command -v deno &> /dev/null; then
-                    cd src/rules-compiler-typescript
+                    cd src/adblock-compiler-core
                     deno task compile
                     cd "$SCRIPT_DIR"
                 else
@@ -229,7 +229,7 @@ rules_menu() {
                 local test_choice
                 test_choice=$(show_menu "Test Which Compiler?" "TypeScript" "Rust" ".NET" "Python" "← Cancel")
                 case $test_choice in
-                    1) cd src/rules-compiler-typescript && deno task test && cd "$SCRIPT_DIR" ;;
+                    1) cd src/adblock-compiler-core && deno task test && cd "$SCRIPT_DIR" ;;
                     2) cargo test -p rules-compiler ;;
                     3) cd src/rules-compiler-dotnet && dotnet test RulesCompiler.slnx && cd "$SCRIPT_DIR" ;;
                     4) cd src/rules-compiler-python && python3 -m pytest && cd "$SCRIPT_DIR" ;;
