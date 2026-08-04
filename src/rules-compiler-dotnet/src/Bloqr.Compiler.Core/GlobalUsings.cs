@@ -15,4 +15,7 @@ global using Bloqr.Compiler.Abstractions;
 global using Bloqr.Compiler.Core.Configuration;
 global using Bloqr.Compiler.Core.Helpers;
 global using Bloqr.Compiler.Core.Services;
-global using RulesCompiler.Services;
+global using Tomlyn;
+global using Tomlyn.Model;
+global using YamlDotNet.Serialization;
+global using YamlDotNet.Serialization.NamingConventions;

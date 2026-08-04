@@ -233,8 +233,7 @@ transformations = ["RemoveModifiers", "Validate"]
 
 ```csharp
 using RulesCompiler.Extensions;
-using RulesCompiler.Models;
-using RulesCompiler.Abstractions;
+using Bloqr.Compiler.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 
 // Setup DI
@@ -296,7 +295,7 @@ Console.WriteLine($"Transformations: {string.Join(", ", config.Transformations)}
 ### Using TransformationHelper
 
 ```csharp
-using RulesCompiler.Models;
+using Bloqr.Compiler.Abstractions;
 
 // Check if transformation is valid
 bool isValid = TransformationHelper.IsValid("Deduplicate"); // true
@@ -316,20 +315,26 @@ var invalid = TransformationHelper.GetInvalidTransformations(["Valid", "Invalid"
 
 ## Library Architecture
 
-### Abstractions
+As of the `Bloqr.Compiler.*` extraction, this project is split across three assemblies:
+
+- **`Bloqr.Compiler.Abstractions`** — interfaces, event-args, and shared model/DTO types. No implementation, no external dependencies beyond the framework. Reusable by any compiler-specific project or the future Dashboard.
+- **`Bloqr.Compiler.Core`** — the common implementation: multi-format config reading/validation, chunking, file locking, the compilation event pipeline, and the plugin system. References `Bloqr.Compiler.Abstractions` only.
+- **`RulesCompiler`** (this project) — the compiler-specific pieces: `FilterCompiler` (shells out to `@jk-com/adblock-compiler` via Deno), `OutputWriter`, `RulesCompilerService` (top-level orchestration). References `Bloqr.Compiler.Core`.
+
+### Abstractions (`Bloqr.Compiler.Abstractions`)
 
 | Interface | Description |
 |-----------|-------------|
 | `IConfigurationReader` | Reads and parses configuration files |
-| `IFilterCompiler` | Compiles filter rules via hostlist-compiler |
+| `IFilterCompiler` | Compiles filter rules |
 | `IOutputWriter` | Handles output file operations |
 | `IRulesCompilerService` | Main orchestration service |
 
-### Models
+### Models (`Bloqr.Compiler.Abstractions`)
 
 | Model | Description |
 |-------|-------------|
-| `CompilerConfiguration` | Configuration file model with all hostlist-compiler options |
+| `CompilerConfiguration` | Configuration file model with all compiler options |
 | `FilterSource` | Source filter list definition |
 | `CompilerResult` | Compilation result with metrics |
 | `CompilerOptions` | Compilation options (verbose, validate, etc.) |
@@ -337,16 +342,19 @@ var invalid = TransformationHelper.GetInvalidTransformations(["Valid", "Invalid"
 | `SourceType` | Enum for source types (adblock, hosts) |
 | `VersionInfo` | Component version information |
 | `ConfigurationFormat` | Enum for JSON/YAML/TOML formats |
+| `ValidationResult` / `ValidationError` | Shared validation-result shape, used by `IRulesCompilerService` without depending on `ConfigurationValidator`'s concrete implementation |
 
 ### Services
 
-| Service | Description |
-|---------|-------------|
-| `ConfigurationReader` | Parses JSON, YAML, and TOML configs with snake_case support |
-| `ConfigurationValidator` | Validates configuration with error/warning reporting |
-| `FilterCompiler` | Executes hostlist-compiler CLI with verbose support |
-| `OutputWriter` | Copies output, computes hashes, counts rules |
-| `RulesCompilerService` | Orchestrates the full pipeline with validation |
+| Service | Assembly | Description |
+|---------|----------|-------------|
+| `ConfigurationReader` | `Bloqr.Compiler.Core` | Parses JSON, YAML, and TOML configs with snake_case support |
+| `ConfigurationValidator` | `Bloqr.Compiler.Core` | Validates configuration with error/warning reporting |
+| `ChunkingService`, `FileLockService`, `PluginManager`, `CompilationPipeline(Builder)`, `CompilationEventDispatcher` | `Bloqr.Compiler.Core` | Chunked compilation, file locking, plugin system, event pipeline |
+| `CommandHelper`, `PlatformHelper` | `Bloqr.Compiler.Core` | Generic process-execution and platform-detection utilities |
+| `FilterCompiler` | `RulesCompiler` | Executes the compiler CLI with verbose support |
+| `OutputWriter` | `RulesCompiler` | Copies output, computes hashes, counts rules |
+| `RulesCompilerService` | `RulesCompiler` | Orchestrates the full pipeline with validation |
 
 ## Dependency Injection
 
@@ -394,13 +402,14 @@ src/rules-compiler-dotnet/
 │   ├── compiler-config.toml         # TOML format
 │   └── compiler-config-advanced.yaml # Advanced example
 ├── src/
-│   ├── RulesCompiler/               # Core library
-│   │   ├── Abstractions/            # Interfaces
-│   │   ├── Configuration/           # Config reader and validator
+│   ├── Bloqr.Compiler.Abstractions/ # Shared interfaces, event-args, and models
+│   ├── Bloqr.Compiler.Core/         # Common implementation (config, chunking, plugins, events)
+│   │   ├── Configuration/
+│   │   ├── Helpers/
+│   │   └── Services/
+│   ├── RulesCompiler/               # Compiler-specific library
 │   │   ├── Extensions/              # DI extensions
-│   │   ├── Helpers/                 # Utility helpers
-│   │   ├── Models/                  # Data models
-│   │   └── Services/                # Service implementations
+│   │   └── Services/                # FilterCompiler, OutputWriter, RulesCompilerService
 │   ├── RulesCompiler.Console/       # Console application
 │   └── RulesCompiler.Tests/         # Unit tests
 └── RulesCompiler.slnx               # Solution file
@@ -411,7 +420,7 @@ src/rules-compiler-dotnet/
 - Uses `System.Runtime.InteropServices.RuntimeInformation` for platform detection
 - Path handling via `Path.Combine` and `Path.GetFullPath`
 - UTF-8 encoding for all file operations
-- Falls back to `npx` if hostlist-compiler not globally installed
+- Requires `deno` on PATH (invokes `@jk-com/adblock-compiler` via `deno run jsr:@jk-com/adblock-compiler/cli`)
 
 ## Related Projects
 

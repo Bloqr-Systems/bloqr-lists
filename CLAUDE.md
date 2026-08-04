@@ -339,7 +339,9 @@ cargo test config::                       # Tests in module
 ### Rules Compiler - .NET (`src/rules-compiler-dotnet/`)
 - .NET 10 library for filter compilation
 - Supports JSON, YAML, and TOML configuration formats
-- `RulesCompiler` - Core library with abstractions, models, and services
+- `Bloqr.Compiler.Abstractions` - Interfaces, event-args, and model/DTO types shared across the compiler stack
+- `Bloqr.Compiler.Core` - Configuration reading/validation, chunking, file-locking, plugin management, and the compilation pipeline, built on `Bloqr.Compiler.Abstractions`
+- `RulesCompiler` - Thin library referencing `Bloqr.Compiler.Abstractions`/`Bloqr.Compiler.Core`, plus compiler-specific services (e.g. `FilterCompiler`)
 - `RulesCompiler.Console` - Spectre.Console interactive and CLI frontend
 - `RulesCompiler.Tests` - xUnit tests
 - Key interfaces: `IRulesCompilerService`, `IConfigurationReader`, `IFilterCompiler`

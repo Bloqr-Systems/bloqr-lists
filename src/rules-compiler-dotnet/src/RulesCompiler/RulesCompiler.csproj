@@ -8,12 +8,12 @@
     <Authors>jaypatrick</Authors>
     <Company>jaypatrick</Company>
     <AssemblyTitle>AdGuard Filter Rules Compiler</AssemblyTitle>
-    <Description>C# library for compiling AdGuard filter rules using @adguard/hostlist-compiler</Description>
+    <Description>C# library for compiling AdGuard filter rules using @jk-com/adblock-compiler (via Deno)</Description>
     <Copyright>Copyright 2024</Copyright>
     <RootNamespace>RulesCompiler</RootNamespace>
     <Version>1.0.0</Version>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\RulesCompiler.xml</DocumentationFile>
-    <RepositoryUrl>https://github.com/jaypatrick/ad-blocking.git</RepositoryUrl>
+    <RepositoryUrl>https://github.com/BloqrAI/bloqr-lists.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageReleaseNotes>Initial release - AdGuard hostlist-compiler .NET wrapper</PackageReleaseNotes>
   </PropertyGroup>
@@ -21,8 +21,11 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
     <PackageReference Include="Microsoft.Extensions.Options" />
-    <PackageReference Include="YamlDotNet" />
-    <PackageReference Include="Tomlyn" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Bloqr.Compiler.Abstractions\Bloqr.Compiler.Abstractions.csproj" />
+    <ProjectReference Include="..\Bloqr.Compiler.Core\Bloqr.Compiler.Core.csproj" />
   </ItemGroup>
 
 </Project>
