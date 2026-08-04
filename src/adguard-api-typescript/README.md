@@ -196,7 +196,7 @@ const summary = await client.statisticsRepository.getTimeStatsByRange('7d');
 
 ### Rules Compiler Integration
 
-Sync compiled filter rules from `rules-compiler-typescript`:
+Sync compiled filter rules from `adblock-compiler-core`:
 
 ```typescript
 import { RulesCompilerIntegration } from 'adguard-api-typescript';

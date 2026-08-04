@@ -1,14 +1,12 @@
 # Configuration Reference
 
-All rules compilers in this repository use the same configuration schema based on [@jk-com/adblock-compiler](https://github.com/jaypatrick/hostlistcompiler).
+All rules compilers in this repository use the same configuration schema, validated against [`schemas/compiler-config.schema.json`](../schemas/compiler-config.schema.json). The canonical implementation is [`@jk-com/adblock-compiler`](https://jsr.io/@jk-com/adblock-compiler) (`src/adblock-compiler-core/`); see that package's README for the broader architecture story.
 
 ## Supported Formats
 
-| Format | Extension | Library |
-|--------|-----------|---------|
-| JSON | `.json` | Native |
-| YAML | `.yaml`, `.yml` | yaml (Node), YamlDotNet (.NET), PyYAML (Python), serde_yaml (Rust) |
-| TOML | `.toml` | @iarna/toml (Node), Tomlyn (.NET), tomli (Python), toml (Rust) |
+**JSON is the documented, recommended format** — all examples below use it, and it's what the schema (`$schema` field) validates directly.
+
+YAML and TOML remain supported by the underlying config readers for backward compatibility (`.yaml`/`.yml` via each language's YAML library, `.toml` via each language's TOML library), but are no longer documented here. Convert an existing YAML/TOML config to JSON if you want schema validation and IDE autocomplete against `compiler-config.schema.json`.
 
 ## Configuration Schema
 
@@ -194,38 +192,26 @@ Transformations modify the filter rules during compilation. They are always appl
 
 #### For AdGuard DNS
 
-```yaml
-transformations:
-  - Validate
-  - RemoveModifiers
-  - Deduplicate
-  - RemoveEmptyLines
-  - InsertFinalNewLine
+```json
+{
+  "transformations": ["Validate", "RemoveModifiers", "Deduplicate", "RemoveEmptyLines", "InsertFinalNewLine"]
+}
 ```
 
 #### For Hosts File Sources
 
-```yaml
-transformations:
-  - Compress
-  - Validate
-  - Deduplicate
-  - RemoveEmptyLines
-  - InsertFinalNewLine
+```json
+{
+  "transformations": ["Compress", "Validate", "Deduplicate", "RemoveEmptyLines", "InsertFinalNewLine"]
+}
 ```
 
 #### For Maximum Compatibility
 
-```yaml
-transformations:
-  - RemoveComments
-  - RemoveModifiers
-  - Validate
-  - Deduplicate
-  - TrimLines
-  - RemoveEmptyLines
-  - InsertFinalNewLine
-  - ConvertToAscii
+```json
+{
+  "transformations": ["RemoveComments", "RemoveModifiers", "Validate", "Deduplicate", "TrimLines", "RemoveEmptyLines", "InsertFinalNewLine", "ConvertToAscii"]
+}
 ```
 
 ## Pattern Matching
@@ -247,33 +233,37 @@ Inclusion and exclusion patterns filter which rules are kept or removed.
 
 #### Exclusions (Remove matching rules)
 
-```yaml
-exclusions:
-  - "*.google.com"        # Remove rules for Google subdomains
-  - "*analytics*"         # Remove analytics-related rules
-  - "/^(www\.)?facebook\.com$/"  # Remove Facebook rules
+```json
+{
+  "exclusions": [
+    "*.google.com",
+    "*analytics*",
+    "/^(www\\.)?facebook\\.com$/"
+  ]
+}
 ```
+
+`*.google.com` removes rules for Google subdomains, `*analytics*` removes analytics-related rules, and the regex removes Facebook rules.
 
 #### Inclusions (Keep only matching rules)
 
-```yaml
-inclusions:
-  - "*ad*"                # Keep only ad-related rules
-  - "*tracker*"           # Keep only tracker rules
-  - "*.doubleclick.net"   # Keep DoubleClick rules
+```json
+{
+  "inclusions": ["*ad*", "*tracker*", "*.doubleclick.net"]
+}
 ```
+
+Keeps only ad-related, tracker, and DoubleClick rules.
 
 ### Pattern Files
 
 Instead of inline patterns, you can reference external files:
 
-```yaml
-exclusions_sources:
-  - whitelist.txt
-  - my-allowlist.txt
-
-inclusions_sources:
-  - blocklist-patterns.txt
+```json
+{
+  "exclusions_sources": ["whitelist.txt", "my-allowlist.txt"],
+  "inclusions_sources": ["blocklist-patterns.txt"]
+}
 ```
 
 Pattern file format (one pattern per line, comments with `!`):
@@ -507,179 +497,67 @@ data/archive/
 }
 ```
 
-### YAML
-
-```yaml
-name: My Filter List
-description: Custom ad-blocking filter
-version: "1.0.0"
-homepage: https://example.com/filters
-license: GPL-3.0
-
-output:
-  path: data/output/my-filter.txt
-  conflictStrategy: rename
-
-archiving:
-  enabled: true
-  mode: automatic
-  retentionDays: 90
-
-sources:
-  - name: Local Rules
-    source: data/local.txt
-    type: adblock
-
-  - name: EasyList
-    source: https://easylist.to/easylist/easylist.txt
-    type: adblock
-    transformations:
-      - RemoveModifiers
-      - Validate
-
-  - name: Steven Black Hosts
-    source: https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
-    type: hosts
-    transformations:
-      - Compress
-      - Validate
-
-transformations:
-  - Deduplicate
-  - RemoveEmptyLines
-  - InsertFinalNewLine
-
-exclusions:
-  - "*.google.com"
-  - "/analytics/"
-```
-
-### TOML
-
-```toml
-name = "My Filter List"
-description = "Custom ad-blocking filter"
-version = "1.0.0"
-homepage = "https://example.com/filters"
-license = "GPL-3.0"
-
-[output]
-path = "data/output/my-filter.txt"
-conflictStrategy = "rename"
-
-[archiving]
-enabled = true
-mode = "automatic"
-retentionDays = 90
-
-transformations = ["Deduplicate", "RemoveEmptyLines", "InsertFinalNewLine"]
-exclusions = ["*.google.com", "/analytics/"]
-
-[[sources]]
-name = "Local Rules"
-source = "data/local.txt"
-type = "adblock"
-
-[[sources]]
-name = "EasyList"
-source = "https://easylist.to/easylist/easylist.txt"
-type = "adblock"
-transformations = ["RemoveModifiers", "Validate"]
-
-[[sources]]
-name = "Steven Black Hosts"
-source = "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts"
-type = "hosts"
-transformations = ["Compress", "Validate"]
-```
-
 ## Advanced Configuration
 
 ### Source-Specific Overrides
 
 Each source can have its own transformations, inclusions, and exclusions that override or extend global settings:
 
-```yaml
-name: Advanced Filter
-
-# Global transformations applied to all sources
-transformations:
-  - Deduplicate
-  - InsertFinalNewLine
-
-# Global exclusions applied to all sources
-exclusions:
-  - "*.google.com"
-
-sources:
-  - name: Strict Source
-    source: https://example.com/strict.txt
-    # Source-specific transformations (in addition to global)
-    transformations:
-      - RemoveComments
-      - Validate
-    # Source-specific exclusions (in addition to global)
-    exclusions:
-      - "*.facebook.com"
-
-  - name: Permissive Source
-    source: https://example.com/permissive.txt
-    # Only source-specific inclusions
-    inclusions:
-      - "*ad*"
-      - "*tracker*"
+```json
+{
+  "name": "Advanced Filter",
+  "transformations": ["Deduplicate", "InsertFinalNewLine"],
+  "exclusions": ["*.google.com"],
+  "sources": [
+    {
+      "name": "Strict Source",
+      "source": "https://example.com/strict.txt",
+      "transformations": ["RemoveComments", "Validate"],
+      "exclusions": ["*.facebook.com"]
+    },
+    {
+      "name": "Permissive Source",
+      "source": "https://example.com/permissive.txt",
+      "inclusions": ["*ad*", "*tracker*"]
+    }
+  ]
+}
 ```
+
+Global `transformations`/`exclusions` apply to all sources; each source's own `transformations`/`inclusions`/`exclusions` are in addition to the global ones.
 
 ### Using External Pattern Files
 
-```yaml
-name: Filter with External Patterns
-
-sources:
-  - name: Main List
-    source: https://example.com/list.txt
-
-exclusions_sources:
-  - config/global-whitelist.txt
-  - config/user-whitelist.txt
-
-inclusions_sources:
-  - config/must-block.txt
+```json
+{
+  "name": "Filter with External Patterns",
+  "sources": [{ "name": "Main List", "source": "https://example.com/list.txt" }],
+  "exclusions_sources": ["config/global-whitelist.txt", "config/user-whitelist.txt"],
+  "inclusions_sources": ["config/must-block.txt"]
+}
 ```
 
 ### Multiple Sources with Different Types
 
-```yaml
-name: Combined Filter
-
-sources:
-  # Adblock format sources
-  - name: EasyList
-    source: https://easylist.to/easylist/easylist.txt
-    type: adblock
-
-  - name: EasyPrivacy
-    source: https://easylist.to/easylist/easyprivacy.txt
-    type: adblock
-
-  # Hosts format sources (will be converted to adblock)
-  - name: Steven Black
-    source: https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
-    type: hosts
-    transformations:
-      - Compress  # Converts hosts to adblock format
-
-  # Local file
-  - name: Custom Rules
-    source: ./my-rules.txt
-    type: adblock
-
-transformations:
-  - Validate
-  - Deduplicate
-  - RemoveEmptyLines
-  - InsertFinalNewLine
+```json
+{
+  "name": "Combined Filter",
+  "sources": [
+    { "name": "EasyList", "source": "https://easylist.to/easylist/easylist.txt", "type": "adblock" },
+    { "name": "EasyPrivacy", "source": "https://easylist.to/easylist/easyprivacy.txt", "type": "adblock" },
+    {
+      "name": "Steven Black",
+      "source": "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts",
+      "type": "hosts",
+      "transformations": ["Compress"]
+    },
+    { "name": "Custom Rules", "source": "./my-rules.txt", "type": "adblock" }
+  ],
+  "transformations": ["Validate", "Deduplicate", "RemoveEmptyLines", "InsertFinalNewLine"]
+}
 ```
+
+`Steven Black` is a hosts-format source; its `Compress` transformation converts it to adblock syntax.
 
 ## Validation
 
@@ -688,7 +566,7 @@ transformations:
 The .NET compiler supports configuration validation before compilation:
 
 ```bash
-dotnet run --project src/RulesCompiler.Console -- -c config.yaml --validate
+dotnet run --project src/RulesCompiler.Console -- -c config.json --validate
 ```
 
 This checks:

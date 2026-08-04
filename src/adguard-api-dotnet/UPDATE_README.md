@@ -313,7 +313,7 @@ src/adguard-api-dotnet/
 
 - **AdGuard DNS API**: https://adguard-dns.io/kb/private-dns/api/overview/
 - **OpenAPI Generator**: https://openapi-generator.tech/docs/generators/csharp
-- **Repository Issues**: https://github.com/jaypatrick/ad-blocking/issues
+- **Repository Issues**: https://github.com/BloqrAI/bloqr-lists/issues
 
 ## Version History
 

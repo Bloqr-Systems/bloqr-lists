@@ -371,7 +371,7 @@ This Rust implementation now provides feature parity with the C# ConsoleUI appli
   - Account info, devices, DNS servers, query log, statistics, filter lists, web services, dedicated IPs
   - Settings management (API key configuration, connection testing)
 
-- **TypeScript (src/rules-compiler-typescript)**: Rules compilation focus
+- **TypeScript (src/adblock-compiler-core)**: Rules compilation focus
 - **Python (src/rules-compiler-python)**: Rules compilation focus
 
 ### Key Features Matching C# ConsoleUI

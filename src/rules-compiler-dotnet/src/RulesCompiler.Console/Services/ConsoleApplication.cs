@@ -448,7 +448,7 @@ public class ConsoleApplication
         AnsiConsole.MarkupLine("[grey]Note: Transformations are always applied in a fixed order regardless of configuration order.[/]");
     }
 
-    private static void DisplayValidationResult(ConfigurationValidator.ValidationResult result)
+    private static void DisplayValidationResult(Bloqr.Compiler.Abstractions.ValidationResult result)
     {
         AnsiConsole.WriteLine();
 

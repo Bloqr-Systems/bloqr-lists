@@ -884,7 +884,7 @@ cat compiler-config.yaml
 
 ### Where to Get Help
 
-- **GitHub Issues**: https://github.com/jaypatrick/ad-blocking/issues
+- **GitHub Issues**: https://github.com/BloqrAI/bloqr-lists/issues
 - **Documentation**: Check all guides in `docs/guides/`
 - **AdGuard Forums**: https://forum.adguard.com/
 - **Stack Overflow**: Tag with `adguard`, `deno`, `.net`, etc.

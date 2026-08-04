@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <AssemblyName>Bloqr.Compiler.Core</AssemblyName>
+    <PackageId>Bloqr.Compiler.Core</PackageId>
+    <OutputType>Library</OutputType>
+    <Authors>Bloqr</Authors>
+    <Company>Bloqr</Company>
+    <AssemblyTitle>Bloqr Compiler Core</AssemblyTitle>
+    <Description>Common .NET library for Bloqr's filter-rules compilers and Dashboard: multi-format (JSON/YAML/TOML) configuration reading and validation, chunked parallel compilation support, file locking, the compilation event pipeline, and the plugin system. Extracted from RulesCompiler so it can be shared across compiler-specific projects.</Description>
+    <Copyright>Copyright 2024</Copyright>
+    <RootNamespace>Bloqr.Compiler.Core</RootNamespace>
+    <Version>1.0.0</Version>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Bloqr.Compiler.Core.xml</DocumentationFile>
+    <RepositoryUrl>https://github.com/BloqrAI/bloqr-lists.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.Options" />
+    <PackageReference Include="YamlDotNet" />
+    <PackageReference Include="Tomlyn" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Bloqr.Compiler.Abstractions\Bloqr.Compiler.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>

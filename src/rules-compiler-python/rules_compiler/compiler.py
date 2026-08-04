@@ -72,7 +72,7 @@ class VersionInfo:
         return self.node_version is not None
 
     def has_compiler(self) -> bool:
-        """Check if hostlist-compiler is available."""
+        """Check if the compiler (adblock-compiler-core, via Deno) is available."""
         return self.hostlist_compiler_version is not None
 
     @classmethod
@@ -148,12 +148,13 @@ def get_version_info() -> VersionInfo:
         platform=get_platform_info(),
     )
 
-    # Check Node.js
-    node_path = find_command("node")
-    if node_path:
+    # Check Deno (reported via node_version for backward compatibility with
+    # existing consumers of VersionInfo)
+    deno_path = find_command("deno")
+    if deno_path:
         try:
             result = subprocess.run(
-                [node_path, "--version"],
+                [deno_path, "--version"],
                 capture_output=True,
                 text=True,
                 timeout=10,
@@ -163,13 +164,10 @@ def get_version_info() -> VersionInfo:
         except Exception:
             pass
 
-    # Check hostlist-compiler
-    compiler_path = find_command("hostlist-compiler")
-    if compiler_path:
-        info.hostlist_compiler_path = compiler_path
+        info.hostlist_compiler_path = f"{deno_path} run {_JSR_PACKAGE_SPECIFIER}"
         try:
             result = subprocess.run(
-                [compiler_path, "--version"],
+                [deno_path, "run", *_DENO_PERMISSIONS, _JSR_PACKAGE_SPECIFIER, "--version"],
                 capture_output=True,
                 text=True,
                 timeout=10,
@@ -178,11 +176,6 @@ def get_version_info() -> VersionInfo:
                 info.hostlist_compiler_version = result.stdout.strip().split("\n")[0]
         except Exception:
             pass
-    else:
-        # Check npx
-        npx_path = find_command("npx")
-        if npx_path:
-            info.hostlist_compiler_path = f"{npx_path} @adguard/hostlist-compiler"
 
     return info
 
@@ -313,32 +306,47 @@ def format_elapsed(elapsed_ms: int) -> str:
     return f"{elapsed_ms}ms"
 
 
+_JSR_PACKAGE_SPECIFIER = "jsr:@jk-com/adblock-compiler/cli"
+_DENO_PERMISSIONS = (
+    "--allow-read",
+    "--allow-write",
+    "--allow-env",
+    "--allow-net",
+    "--allow-run",
+)
+
+
 def _get_compiler_command(config_path: str, output_path: str) -> tuple[list[str], str]:
     """
     Get the compiler command and working directory.
+
+    Runs adblock-compiler-core (published as @jk-com/adblock-compiler on
+    JSR) via Deno.
 
     Returns:
         Tuple of (command args, working directory).
 
     Raises:
-        CompilerNotFoundError: If hostlist-compiler is not found.
+        CompilerNotFoundError: If deno is not found.
     """
-    compiler_path = find_command("hostlist-compiler")
+    deno_path = find_command("deno")
 
-    if compiler_path:
+    if deno_path:
         return (
-            [compiler_path, "--config", config_path, "--output", output_path],
+            [
+                deno_path,
+                "run",
+                *_DENO_PERMISSIONS,
+                _JSR_PACKAGE_SPECIFIER,
+                "--config",
+                config_path,
+                "--output",
+                output_path,
+            ],
             str(Path(config_path).parent),
         )
 
-    npx_path = find_command("npx")
-    if npx_path:
-        return (
-            [npx_path, "@adguard/hostlist-compiler", "--config", config_path, "--output", output_path],
-            str(Path(config_path).parent),
-        )
-
-    raise CompilerNotFoundError(["hostlist-compiler", "npx"])
+    raise CompilerNotFoundError(["deno"])
 
 
 class RulesCompiler:
@@ -495,7 +503,7 @@ def compile_rules(
     fail_on_warnings: bool = False,
 ) -> CompilerResult:
     """
-    Compile filter rules using hostlist-compiler.
+    Compile filter rules using adblock-compiler-core (via Deno).
 
     Args:
         config_path: Path to configuration file.
@@ -546,7 +554,7 @@ def compile_rules(
 
         result.output_path = str(actual_output)
 
-        # Convert to JSON if needed (hostlist-compiler only supports JSON)
+        # Convert to JSON if needed (adblock-compiler-core only supports JSON)
         detected_format = format or config._source_format
         if detected_format != ConfigurationFormat.JSON:
             temp_config_path = tempfile.NamedTemporaryFile(
@@ -657,7 +665,7 @@ async def compile_rules_async(
     fail_on_warnings: bool = False,
 ) -> CompilerResult:
     """
-    Asynchronously compile filter rules using hostlist-compiler.
+    Asynchronously compile filter rules using adblock-compiler-core (via Deno).
 
     This async version provides better performance for I/O-bound operations
     and allows compilation to be integrated into async applications.
@@ -711,7 +719,7 @@ async def compile_rules_async(
 
         result.output_path = str(actual_output)
 
-        # Convert to JSON if needed (hostlist-compiler only supports JSON)
+        # Convert to JSON if needed (adblock-compiler-core only supports JSON)
         detected_format = format or config._source_format
         if detected_format != ConfigurationFormat.JSON:
             temp_config_path = tempfile.NamedTemporaryFile(

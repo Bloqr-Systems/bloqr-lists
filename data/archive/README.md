@@ -136,7 +136,7 @@ Archives older than the retention period are automatically deleted.
 
 ```bash
 # Automatic archiving (default)
-cd src/rules-compiler-typescript
+cd src/adblock-compiler-core
 deno task compile
 
 # Interactive mode
@@ -188,7 +188,7 @@ To restore a previous compilation state:
 ```bash
 # Example: Restore from specific archive
 cp data/archive/2024-12-26_09-15-22/*.txt data/input/
-cd src/rules-compiler-typescript
+cd src/adblock-compiler-core
 deno task compile
 ```
 

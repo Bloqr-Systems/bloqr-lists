@@ -1,0 +1,65 @@
+name: Publish adblock-compiler-core to JSR
+
+# Publishes src/adblock-compiler-core (the @jk-com/adblock-compiler package)
+# to JSR whenever its version changes on main. `deno publish` is idempotent —
+# it no-ops if the current deno.json version is already published — so this
+# is safe to run on every push that touches the package.
+#
+# ONE-TIME SETUP REQUIRED (cannot be automated from this workflow): the JSR
+# package `@jk-com/adblock-compiler` must be linked to this GitHub repository
+# via the JSR web UI (https://jsr.io) before OIDC publishing below will work.
+# Until that's done, this workflow will fail at the `deno publish` step with
+# an authorization error — that's expected, not a bug in the workflow.
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "src/adblock-compiler-core/**"
+      - ".github/workflows/publish-jsr.yml"
+  workflow_dispatch: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Publish to JSR
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # required for JSR's OIDC-based publishing (no token needed)
+
+    defaults:
+      run:
+        working-directory: src/adblock-compiler-core
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      - name: Cache Deno dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/deno
+          key: ${{ runner.os }}-deno-jsr-publish-${{ hashFiles('src/adblock-compiler-core/deno.json') }}
+
+      - name: Type check
+        run: deno task check
+
+      - name: Run tests
+        run: deno task test
+
+      - name: Lint
+        run: deno task lint
+
+      - name: Dry-run publish (validates package, catches slow types)
+        run: deno publish --dry-run
+
+      - name: Publish to JSR
+        run: deno publish

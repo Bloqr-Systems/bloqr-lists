@@ -187,7 +187,7 @@ function Show-RulesMenu {
         switch ($choice) {
             "1" {
                 if (Get-Command deno -ErrorAction SilentlyContinue) {
-                    Push-Location "$Script:RootDir\src\rules-compiler-typescript"
+                    Push-Location "$Script:RootDir\src\adblock-compiler-core"
                     try {
                         deno task compile
                     }
@@ -252,7 +252,7 @@ function Show-RulesMenu {
                 $testChoice = Show-Menu -Title "Test Which Compiler?" -Options @("TypeScript", "Rust", ".NET", "Python", "← Cancel")
                 switch ($testChoice) {
                     "1" {
-                        Push-Location "$Script:RootDir\src\rules-compiler-typescript"
+                        Push-Location "$Script:RootDir\src\adblock-compiler-core"
                         try { deno task test } finally { Pop-Location }
                     }
                     "2" { cargo test -p rules-compiler }

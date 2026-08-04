@@ -11,14 +11,14 @@ on:
   push:
     branches: ["main"]
     paths:
-      - 'src/rules-compiler-typescript/**'
+      - 'src/adblock-compiler-core/**'
       - 'src/adguard-api-typescript/**'
       - 'src/linear/**'
       - '.github/workflows/typescript.yml'
   pull_request:
     branches: ["main"]
     paths:
-      - 'src/rules-compiler-typescript/**'
+      - 'src/adblock-compiler-core/**'
       - 'src/adguard-api-typescript/**'
       - 'src/linear/**'
       - '.github/workflows/typescript.yml'
@@ -32,7 +32,7 @@ jobs:
       matrix:
         include:
           - name: Rules Compiler (Deno)
-            path: src/rules-compiler-typescript
+            path: src/adblock-compiler-core
             has_tests: true
           - name: AdGuard API Client (Deno)
             path: src/adguard-api-typescript

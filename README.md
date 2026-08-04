@@ -58,7 +58,7 @@ All compilers use **[@jk-com/adblock-compiler](https://github.com/jaypatrick/hos
 
 **Compilation Features:**
 - **All 11 transformations**: Deduplicate, Validate, RemoveComments, Compress, RemoveModifiers, etc.
-- **Multi-format config**: JSON, YAML, and TOML configuration files
+- **JSON config**: schema-validated; YAML/TOML remain supported for backward compatibility
 - **Source-specific settings**: Per-source transformations, inclusions, exclusions
 - **Pattern matching**: Wildcards, regex, file-based patterns
 - **🔒 SHA-384 hash verification**: Automatic tamper detection for all sources
@@ -128,7 +128,7 @@ bloqr-lists/
 │   │   └── .gitignore                 # Ignore archive contents
 │   └── Config/                        # Compiler configurations (optional)
 ├── src/                               # Source code
-│   ├── rules-compiler-typescript/     # TypeScript/Deno compiler
+│   ├── adblock-compiler-core/     # TypeScript/Deno compiler
 │   ├── rules-compiler-dotnet/         # C#/.NET 10 compiler
 │   ├── rules-compiler-python/         # Python 3.9+ compiler
 │   ├── rules-compiler-rust/           # Rust compiler (single binary)
@@ -237,7 +237,7 @@ git clone https://github.com/bloqr-systems/bloqr-lists.git
 cd bloqr-lists
 
 # TypeScript compiler
-cd src/rules-compiler-typescript && deno cache src/mod.ts
+cd src/adblock-compiler-core && deno cache src/mod.ts
 
 # .NET projects
 cd ../rules-compiler-dotnet && dotnet restore RulesCompiler.slnx
@@ -332,7 +332,7 @@ Tests run automatically in CI via the **Build Scripts Tests** workflow.
 
 ```bash
 # TypeScript
-cd src/rules-compiler-typescript && deno task compile
+cd src/adblock-compiler-core && deno task compile
 
 # .NET
 cd src/rules-compiler-dotnet && dotnet run --project src/RulesCompiler.Console
@@ -382,7 +382,7 @@ docker build -f Dockerfile.warp -t ad-blocking-dev .
 docker run -it -v $(pwd):/workspace ad-blocking-dev
 
 # Inside container, cache Deno dependencies
-cd /workspace/src/rules-compiler-typescript && deno cache src/mod.ts
+cd /workspace/src/adblock-compiler-core && deno cache src/mod.ts
 cd /workspace/src/rules-compiler-dotnet && dotnet restore RulesCompiler.slnx
 ```
 
@@ -574,28 +574,23 @@ See [`data/archive/README.md`](data/archive/README.md) for detailed usage and re
 
 ## Rules Compilers
 
-All compilers use [@jk-com/adblock-compiler](https://github.com/jaypatrick/adblock-compiler) and support:
+All compilers dogfood [`@jk-com/adblock-compiler`](https://jsr.io/@jk-com/adblock-compiler) (`src/adblock-compiler-core/`, this repo) and support:
 
-- **Multi-format config**: JSON, YAML, TOML
+- **JSON config** (documented format; YAML/TOML remain supported by the underlying readers, see [Configuration Reference](docs/configuration-reference.md))
 - **All 11 transformations**: Deduplicate, Validate, RemoveComments, Compress, etc.
 - **Source-specific settings**: Per-source transformations, inclusions, exclusions
 - **Pattern matching**: Wildcards, regex, file-based patterns
 - **SOLID Architecture**: Dependency injection, single responsibility, better testing
 
 📘 **[Complete @jk-com/adblock-compiler Guide](docs/guides/adblock-compiler-guide.md)** - Why it's better, CI/CD integration, API reference, migration guide
-
-**AdBlock Compiler Documentation**:
-- [Migration Guide](https://github.com/jaypatrick/adblock-compiler/blob/master/docs/MIGRATION.md) - Migrate from @adguard/hostlist-compiler
-- [Troubleshooting](https://github.com/jaypatrick/adblock-compiler/blob/master/docs/TROUBLESHOOTING.md) - Common issues and solutions
-- [Web UI](https://adblock.jaysonknight.com) - Interactive compilation with visual diff
-- [API Reference](https://adblock-compiler.jayson-knight.workers.dev/api) - REST API documentation
+📘 **[adblock-compiler-core README](src/adblock-compiler-core/README.md)** - Package architecture, how it relates to the commercial `@bloqr/compiler`
 
 ### TypeScript Compiler
 
-**Location**: `src/rules-compiler-typescript/`
+**Location**: `src/adblock-compiler-core/`
 
 ```bash
-cd src/rules-compiler-typescript
+cd src/adblock-compiler-core
 
 # Compile rules
 deno task compile                   # Default config
@@ -1231,103 +1226,18 @@ $env:ADGUARD_API_KEY="your-api-key-here"
 
 ## Configuration
 
-All compilers support the same configuration schema with JSON, YAML, or TOML syntax.
+All compilers validate against the same JSON Schema ([`schemas/compiler-config.schema.json`](schemas/compiler-config.schema.json)). JSON is the documented, recommended format; see **[Configuration Reference](docs/configuration-reference.md)** for the full property reference, all available transformations, pattern matching, and example configs.
 
-### Configuration Properties
-
-| Property | Type | Required | Description |
-|----------|------|----------|-------------|
-| `name` | string | Yes | Filter list name |
-| `description` | string | No | Description |
-| `homepage` | string | No | Homepage URL |
-| `license` | string | No | License identifier |
-| `version` | string | No | Version number |
-| `sources` | array | Yes | Filter sources |
-| `transformations` | array | No | Global transformations |
-| `inclusions` | array | No | Include patterns |
-| `exclusions` | array | No | Exclude patterns |
-
-### Source Properties
-
-| Property | Type | Required | Description |
-|----------|------|----------|-------------|
-| `source` | string | Yes | URL or file path |
-| `name` | string | No | Source identifier |
-| `type` | string | No | `adblock` or `hosts` |
-| `transformations` | array | No | Source transformations |
-| `inclusions` | array | No | Source include patterns |
-| `exclusions` | array | No | Source exclude patterns |
-
-### Available Transformations
-
-| Transformation | Description |
-|---------------|-------------|
-| `RemoveComments` | Remove comment lines |
-| `Compress` | Convert hosts to adblock syntax |
-| `RemoveModifiers` | Remove unsupported modifiers |
-| `Validate` | Remove dangerous rules |
-| `ValidateAllowIp` | Validate with IP rules allowed |
-| `Deduplicate` | Remove duplicates |
-| `InvertAllow` | Convert exceptions to blocking |
-| `RemoveEmptyLines` | Remove blank lines |
-| `TrimLines` | Trim whitespace |
-| `InsertFinalNewLine` | Add final newline |
-| `ConvertToAscii` | Convert IDN to punycode |
-
-### Example Configurations
-
-#### YAML
-
-```yaml
-name: My Filter List
-description: Custom ad-blocking filter
-version: "1.0.0"
-
-sources:
-  - name: Local Rules
-    source: data/local.txt
-    type: adblock
-
-  - name: EasyList
-    source: https://easylist.to/easylist/easylist.txt
-    transformations:
-      - RemoveModifiers
-      - Validate
-
-transformations:
-  - Deduplicate
-  - RemoveEmptyLines
-  - InsertFinalNewLine
-
-exclusions:
-  - "*.google.com"
-  - "/analytics/"
-```
-
-#### JSON
+Quick example:
 
 ```json
 {
   "name": "My Filter List",
   "sources": [
-    {
-      "name": "EasyList",
-      "source": "https://easylist.to/easylist/easylist.txt"
-    }
+    { "name": "EasyList", "source": "https://easylist.to/easylist/easylist.txt" }
   ],
   "transformations": ["Deduplicate", "InsertFinalNewLine"]
 }
-```
-
-#### TOML
-
-```toml
-name = "My Filter List"
-transformations = ["Deduplicate", "InsertFinalNewLine"]
-
-[[sources]]
-name = "EasyList"
-source = "https://easylist.to/easylist/easylist.txt"
 ```
 
 ## Testing
@@ -1335,7 +1245,7 @@ source = "https://easylist.to/easylist/easylist.txt"
 ### TypeScript (Deno)
 
 ```bash
-cd src/rules-compiler-typescript
+cd src/adblock-compiler-core
 deno task test                      # Run all tests
 deno test src/cli.test.ts           # Specific file
 deno task test:coverage             # With coverage
@@ -1478,7 +1388,7 @@ The repository includes comprehensive documentation:
 ### Rules Compilers
 
 - **[@jk-com/adblock-compiler Guide](docs/guides/adblock-compiler-guide.md)** - Core package documentation with CI/CD examples
-- [TypeScript Compiler](src/rules-compiler-typescript/) - Deno compiler with JSR integration
+- [TypeScript Compiler](src/adblock-compiler-core/) - Deno compiler with JSR integration
 - [.NET Compiler README](src/rules-compiler-dotnet/README.md) - C# library and CLI
 - [Python Compiler README](src/rules-compiler-python/README.md) - pip-installable package
 - [Rust Compiler README](src/rules-compiler-rust/README.md) - Single binary distribution

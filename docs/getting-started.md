@@ -26,7 +26,7 @@ This guide will help you get up and running with the ad-blocking toolkit.
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/jaypatrick/ad-blocking.git
+git clone https://github.com/BloqrAI/bloqr-lists.git
 cd ad-blocking
 ```
 
@@ -57,7 +57,7 @@ Pick the compiler that best fits your workflow:
 #### TypeScript (Deno)
 
 ```bash
-cd src/rules-compiler-typescript
+cd src/adblock-compiler-core
 deno task compile
 ```
 
@@ -240,7 +240,7 @@ docker build -f Dockerfile.warp -t ad-blocking-dev .
 docker run -it -v $(pwd):/workspace ad-blocking-dev
 
 # Inside the container
-cd /workspace/src/rules-compiler-typescript
+cd /workspace/src/adblock-compiler-core
 deno task compile
 ```
 
@@ -311,5 +311,5 @@ rustup update stable
 
 ## Getting Help
 
-- [GitHub Issues](https://github.com/jaypatrick/ad-blocking/issues)
+- [GitHub Issues](https://github.com/BloqrAI/bloqr-lists/issues)
 - [Security Policy](../SECURITY.md)

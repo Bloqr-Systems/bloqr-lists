@@ -8,7 +8,7 @@ This project uses different testing frameworks for each language implementation:
 
 | Component | Framework | Test Location | Test Command |
 |-----------|-----------|---------------|--------------|
-| TypeScript (Rules Compiler) | Deno Test | `src/rules-compiler-typescript/tests/` | `deno task test` |
+| TypeScript (Rules Compiler) | Deno Test | `src/adblock-compiler-core/tests/` | `deno task test` |
 | TypeScript (API Client) | Deno Test | `src/adguard-api-typescript/tests/` | `deno task test` |
 | .NET (Rules Compiler) | xUnit | `src/rules-compiler-dotnet/src/RulesCompiler.Tests/` | `dotnet test` |
 | .NET (API Client) | xUnit | `src/adguard-api-dotnet/src/AdGuard.ApiClient.Test/` | `dotnet test` |
@@ -22,7 +22,7 @@ This project uses different testing frameworks for each language implementation:
 ### Rules Compiler Tests
 
 ```bash
-cd src/rules-compiler-typescript
+cd src/adblock-compiler-core
 
 # Run all tests
 deno task test
@@ -477,7 +477,7 @@ jobs:
           deno-version: v2.x
       - name: Run TypeScript tests
         run: |
-          cd src/rules-compiler-typescript
+          cd src/adblock-compiler-core
           deno task test
           cd ../adguard-api-typescript
           deno task test
@@ -541,7 +541,7 @@ jobs:
 
 #### Deno
 ```bash
-cd src/rules-compiler-typescript
+cd src/adblock-compiler-core
 deno task test:coverage
 # View coverage report at coverage/html/index.html
 ```
@@ -691,7 +691,7 @@ Create this script to automate testing:
 set -e
 
 echo "Running TypeScript tests..."
-cd src/rules-compiler-typescript && deno task test && cd ../..
+cd src/adblock-compiler-core && deno task test && cd ../..
 cd src/adguard-api-typescript && deno task test && cd ../..
 
 echo "Running .NET tests..."

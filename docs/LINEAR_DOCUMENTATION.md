@@ -259,7 +259,7 @@ ad-blocking/
 
 | Workflow | File | Purpose | Triggers |
 |----------|------|---------|----------|
-| TypeScript | `typescript.yml` | Build rules-compiler-typescript, type-check, lint | Push to main, PRs |
+| TypeScript | `typescript.yml` | Build adblock-compiler-core, type-check, lint | Push to main, PRs |
 | .NET | `dotnet.yml` | Build API client, run tests | Push to main, PRs |
 | Gatsby | `gatsby.yml` | Build website, deploy to GitHub Pages | Push to main |
 | CodeQL | `codeql.yml` | Security static analysis | Push to main, schedule |
@@ -342,7 +342,7 @@ Full API documentation available in `/docs/api/`.
 
 ### Filter Compiler
 ```bash
-cd src/rules-compiler-typescript
+cd src/adblock-compiler-core
 deno task compile
 ```
 
@@ -367,7 +367,7 @@ npm run develop
 
 ### TypeScript Tests
 ```bash
-cd src/rules-compiler-typescript
+cd src/adblock-compiler-core
 deno task test
 ```
 

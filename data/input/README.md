@@ -247,7 +247,7 @@ https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts#sha384=def456..
 
 ```bash
 # TypeScript compiler
-cd src/rules-compiler-typescript
+cd src/adblock-compiler-core
 deno task compile
 
 # .NET compiler
