@@ -114,7 +114,7 @@ Workspace-wide lints are configured in `Cargo.toml`:
 ## Workspace Structure
 
 ```
-ad-blocking/
+bloqr-lists/
 ├── Cargo.toml                      # Workspace root configuration
 ├── Cargo.lock                      # Locked dependencies
 ├── rust-toolchain.toml             # Rust version specification
