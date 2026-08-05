@@ -922,7 +922,7 @@ deno run --allow-read --allow-write --allow-env --allow-net --allow-run jsr:@jk-
 - **Source Code**: [`src/adblock-compiler-core/`](../../src/adblock-compiler-core/) in this repo
 - **Issue Tracker**: https://github.com/BloqrAI/bloqr-lists/issues
 - **This Repository**: https://github.com/BloqrAI/bloqr-lists
-- **Documentation Website**: https://bloqr-systems.github.io/bloqr-lists/
+- **Documentation Website**: https://bloqrai.github.io/bloqr-lists/
 - **ADR 0001**: [Canonical Rules Compilation Engine](../adr/0001-canonical-rules-compilation-engine.md)
 - **Backporting Policy**: [docs/backporting-policy.md](../backporting-policy.md)
 

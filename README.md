@@ -235,7 +235,7 @@ The `@jk-com/adblock-compiler` package is accessed via Deno's JSR integration.
 ### Clone and Setup
 
 ```bash
-git clone https://github.com/bloqr-systems/bloqr-lists.git
+git clone https://github.com/BloqrAI/bloqr-lists.git
 cd bloqr-lists
 
 # TypeScript compiler

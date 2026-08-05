@@ -27,7 +27,7 @@ This guide will help you get up and running with the ad-blocking toolkit.
 
 ```bash
 git clone https://github.com/BloqrAI/bloqr-lists.git
-cd ad-blocking
+cd bloqr-lists
 ```
 
 ### 2. Install Deno

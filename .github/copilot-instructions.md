@@ -60,7 +60,7 @@ Program.cs → ConsoleApplication → [DeviceMenu, DnsServerMenu, StatisticsMenu
 ## Project Structure
 
 ```
-ad-blocking/
+bloqr-lists/
 ├── .github/              # GitHub configuration and workflows
 ├── docs/                 # Documentation (API docs, guides)
 ├── data/                  # Filter rules and compilation data

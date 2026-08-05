@@ -50,31 +50,31 @@ const AdBlockCompilerPage = () => {
       </section>
 
       <section style={{ marginTop: "2rem" }}>
-        <h2>✨ Key Features</h2>
+        <h2>Key Features</h2>
         <div className="features">
           <div className="feature">
-            <h3>🎯 Multi-Source Compilation</h3>
+            <h3>Multi-Source Compilation</h3>
             <p>
               Combine filter lists from URLs and local files with automatic
               format detection and validation.
             </p>
           </div>
           <div className="feature">
-            <h3>🪶 Dependency-Free Core</h3>
+            <h3>Dependency-Free Core</h3>
             <p>
               No <code>@adguard/agtree</code> or other third-party AdGuard
               library — rule classification is string/regex-based.
             </p>
           </div>
           <div className="feature">
-            <h3>⚡ Chunked Parallel Compilation</h3>
+            <h3>Chunked Parallel Compilation</h3>
             <p>
               For large rule lists (10M+ entries), with SHA-384 hash
               consistency preserved across chunks.
             </p>
           </div>
           <div className="feature">
-            <h3>🔧 Dependency Injection</h3>
+            <h3>Dependency Injection</h3>
             <p>
               Inject a custom logger and compilation event hooks into{" "}
               <code>FilterCompiler</code> for testability and custom
@@ -82,28 +82,28 @@ const AdBlockCompilerPage = () => {
             </p>
           </div>
           <div className="feature">
-            <h3>🧪 Thoroughly Tested</h3>
+            <h3>Thoroughly Tested</h3>
             <p>
               1008 passing tests, clean type-check, lint, and format checks
               on every change.
             </p>
           </div>
           <div className="feature">
-            <h3>🖥️ Interactive Console</h3>
+            <h3>Interactive Console</h3>
             <p>
               Menu-driven interactive mode alongside full CLI support — no
               separate web UI needed.
             </p>
           </div>
           <div className="feature">
-            <h3>📦 JSR Distribution</h3>
+            <h3>JSR Distribution</h3>
             <p>
               Installable with <code>deno add jsr:@jk-com/adblock-compiler</code>,
               or run directly with <code>deno run</code> — no npm required.
             </p>
           </div>
           <div className="feature">
-            <h3>🎨 11 Transformations</h3>
+            <h3>11 Transformations</h3>
             <p>
               Deduplicate, compress, validate, remove comments, and more—all
               applied in a fixed, documented order.
@@ -113,7 +113,7 @@ const AdBlockCompilerPage = () => {
       </section>
 
       <section style={{ marginTop: "2rem" }}>
-        <h2>🚀 Quick Start</h2>
+        <h2>Quick Start</h2>
 
         <h3>Installation</h3>
         <pre style={{ marginTop: "0.5rem", marginBottom: "1.5rem" }}>
@@ -159,7 +159,7 @@ console.log(\`Compiled \${rules.length} rules\`);`}
       </section>
 
       <section style={{ marginTop: "2rem" }}>
-        <h2>🧩 How the Other Compilers Use It</h2>
+        <h2>How the Other Compilers Use It</h2>
         <p>
           The TypeScript compiler (<code>src/adblock-compiler-core/</code>)
           compiles in-process — it <em>is</em> this package. The .NET,
@@ -187,7 +187,7 @@ console.log(\`Compiled \${rules.length} rules\`);`}
       </section>
 
       <section style={{ marginTop: "2rem" }}>
-        <h2>🔧 Configuration</h2>
+        <h2>Configuration</h2>
         <p>
           <code>@jk-com/adblock-compiler</code> supports the same
           configuration schema as AdGuard's <code>hostlist-compiler</code>,
@@ -234,7 +234,7 @@ console.log(\`Compiled \${rules.length} rules\`);`}
       </section>
 
       <section style={{ marginTop: "2rem" }}>
-        <h2>📚 Documentation & Resources</h2>
+        <h2>Documentation & Resources</h2>
         <div className="features">
           <div className="feature">
             <h3>
@@ -281,7 +281,7 @@ console.log(\`Compiled \${rules.length} rules\`);`}
       </section>
 
       <section style={{ marginTop: "2rem" }}>
-        <h2>🆚 Comparison with AdGuard's hostlist-compiler</h2>
+        <h2>Comparison with AdGuard's hostlist-compiler</h2>
         <p>
           <code>@jk-com/adblock-compiler</code> superseded{" "}
           <code>@adguard/hostlist-compiler</code> across every compiler in
@@ -291,7 +291,7 @@ console.log(\`Compiled \${rules.length} rules\`);`}
 
         <table style={{ width: "100%", marginTop: "1rem", borderCollapse: "collapse" }}>
           <thead>
-            <tr style={{ borderBottom: "2px solid #ccc" }}>
+            <tr style={{ borderBottom: "2px solid var(--border-color)" }}>
               <th style={{ padding: "0.75rem", textAlign: "left" }}>Feature</th>
               <th style={{ padding: "0.75rem", textAlign: "center" }}>@adguard/hostlist-compiler</th>
               <th style={{ padding: "0.75rem", textAlign: "center" }}>@jk-com/adblock-compiler</th>
@@ -310,28 +310,28 @@ console.log(\`Compiled \${rules.length} rules\`);`}
             </tr>
             <tr style={{ borderBottom: "1px solid #eee" }}>
               <td style={{ padding: "0.75rem" }}>11 Transformations</td>
-              <td style={{ padding: "0.75rem", textAlign: "center" }}>✅</td>
-              <td style={{ padding: "0.75rem", textAlign: "center" }}>✅</td>
+              <td style={{ padding: "0.75rem", textAlign: "center" }}>✓</td>
+              <td style={{ padding: "0.75rem", textAlign: "center" }}>✓</td>
             </tr>
             <tr style={{ borderBottom: "1px solid #eee" }}>
               <td style={{ padding: "0.75rem" }}>Chunked parallel compilation</td>
-              <td style={{ padding: "0.75rem", textAlign: "center" }}>❌</td>
-              <td style={{ padding: "0.75rem", textAlign: "center" }}>✅</td>
+              <td style={{ padding: "0.75rem", textAlign: "center" }}>✕</td>
+              <td style={{ padding: "0.75rem", textAlign: "center" }}>✓</td>
             </tr>
             <tr style={{ borderBottom: "1px solid #eee" }}>
               <td style={{ padding: "0.75rem" }}>Dependency injection</td>
-              <td style={{ padding: "0.75rem", textAlign: "center" }}>❌</td>
-              <td style={{ padding: "0.75rem", textAlign: "center" }}>✅</td>
+              <td style={{ padding: "0.75rem", textAlign: "center" }}>✕</td>
+              <td style={{ padding: "0.75rem", textAlign: "center" }}>✓</td>
             </tr>
             <tr style={{ borderBottom: "1px solid #eee" }}>
               <td style={{ padding: "0.75rem" }}>Interactive console mode</td>
-              <td style={{ padding: "0.75rem", textAlign: "center" }}>❌</td>
-              <td style={{ padding: "0.75rem", textAlign: "center" }}>✅</td>
+              <td style={{ padding: "0.75rem", textAlign: "center" }}>✕</td>
+              <td style={{ padding: "0.75rem", textAlign: "center" }}>✓</td>
             </tr>
             <tr>
               <td style={{ padding: "0.75rem" }}>We can fix/extend it ourselves</td>
-              <td style={{ padding: "0.75rem", textAlign: "center" }}>❌</td>
-              <td style={{ padding: "0.75rem", textAlign: "center" }}>✅</td>
+              <td style={{ padding: "0.75rem", textAlign: "center" }}>✕</td>
+              <td style={{ padding: "0.75rem", textAlign: "center" }}>✓</td>
             </tr>
           </tbody>
         </table>
@@ -378,4 +378,4 @@ console.log(\`Compiled \${rules.length} rules\`);`}
 
 export default AdBlockCompilerPage
 
-export const Head = () => <title>@jk-com/adblock-compiler - AdGuard Tools and Utilities</title>
+export const Head = () => <title>@jk-com/adblock-compiler - Bloqr List Utils</title>

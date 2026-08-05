@@ -41,7 +41,7 @@ deno --version
 
 ```bash
 git clone https://github.com/BloqrAI/bloqr-lists.git
-cd ad-blocking/src/adblock-compiler-core
+cd bloqr-lists/src/adblock-compiler-core
 
 # Cache dependencies
 deno cache src/mod.ts

@@ -255,8 +255,8 @@ For [Warp](https://www.warp.dev/) terminal users, a pre-built environment is ava
 
 ```bash
 # The environment automatically runs these setup commands:
-cd ad-blocking/src/adblock-compiler-core && deno cache src/mod.ts
-cd ad-blocking/src/adguard-api-dotnet && dotnet restore
+cd bloqr-lists/src/adblock-compiler-core && deno cache src/mod.ts
+cd bloqr-lists/src/adguard-api-dotnet && dotnet restore
 ```
 
 ## CI/CD with Docker
