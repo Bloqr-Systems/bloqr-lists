@@ -124,7 +124,7 @@ def generate_filter_list(num_rules: int) -> list[str]:
     lines.append("! Title: Synthetic Benchmark Filter")
     lines.append(f"! Rules: {num_rules}")
     lines.append(f"! Generated: {datetime.now().isoformat()}")
-    lines.append("! Homepage: https://github.com/jaypatrick/ad-blocking")
+    lines.append("! Homepage: https://github.com/BloqrAI/bloqr-lists")
     lines.append("!")
     lines.append("")
 
@@ -191,7 +191,7 @@ def create_config_files(output_dir: Path, filter_files: list[dict]) -> None:
             "name": f"Synthetic Benchmark - {name.title()}",
             "description": f"Synthetic {filter_info['rules']:,} rule filter list for benchmarking",
             "version": "1.0.0",
-            "homepage": "https://github.com/jaypatrick/ad-blocking",
+            "homepage": "https://github.com/BloqrAI/bloqr-lists",
             "license": "MIT",
             "sources": [
                 {

@@ -1,13 +1,15 @@
 //! Syntax validation for filter rules.
 
 use regex::Regex;
+use serde::Serialize;
 use std::fs;
 use std::path::Path;
 
 use crate::error::Result;
 
 /// Filter format type.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "lowercase")]
 pub enum FilterFormat {
     /// AdBlock format.
     Adblock,
@@ -18,7 +20,7 @@ pub enum FilterFormat {
 }
 
 /// Syntax validation result.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize)]
 pub struct SyntaxValidationResult {
     /// Whether syntax is valid.
     pub is_valid: bool,

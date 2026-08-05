@@ -18,9 +18,9 @@ BeforeAll {
     Import-Module $modulePath -Force
 
     # Set up test paths
-    $script:TestConfigPath = Join-Path $PSScriptRoot '..' '..' '..' 'src' 'rules-compiler-typescript' 'compiler-config.json'
-    $script:TestYamlConfigPath = Join-Path $PSScriptRoot '..' '..' '..' 'src' 'rules-compiler-typescript' 'compiler-config.yaml'
-    $script:TestTomlConfigPath = Join-Path $PSScriptRoot '..' '..' '..' 'src' 'rules-compiler-typescript' 'compiler-config.toml'
+    $script:TestConfigPath = Join-Path $PSScriptRoot '..' '..' '..' 'src' 'adblock-compiler-core' 'compiler-config.json'
+    $script:TestYamlConfigPath = Join-Path $PSScriptRoot '..' '..' '..' 'src' 'adblock-compiler-core' 'compiler-config.yaml'
+    $script:TestTomlConfigPath = Join-Path $PSScriptRoot '..' '..' '..' 'src' 'adblock-compiler-core' 'compiler-config.toml'
     $script:TestOutputDir = Join-Path $PSScriptRoot 'TestOutput'
 }
 

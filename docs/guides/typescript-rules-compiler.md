@@ -40,8 +40,8 @@ deno --version
 ### Clone and Setup
 
 ```bash
-git clone https://github.com/jaypatrick/ad-blocking.git
-cd ad-blocking/src/rules-compiler-typescript
+git clone https://github.com/BloqrAI/bloqr-lists.git
+cd ad-blocking/src/adblock-compiler-core
 
 # Cache dependencies
 deno cache src/mod.ts
@@ -166,7 +166,7 @@ See [Configuration Reference](../configuration-reference.md) for complete docume
 ### Project Structure
 
 ```
-src/rules-compiler-typescript/
+src/adblock-compiler-core/
 ├── src/
 │   ├── mod.ts              # Main entry point
 │   ├── cli.ts              # CLI argument parsing
@@ -403,7 +403,7 @@ deno task compile -- -c config.txt -f yaml
 
 - name: Compile Rules
   run: |
-    cd src/rules-compiler-typescript
+    cd src/adblock-compiler-core
     deno task compile -- -c config.yaml -r
 ```
 
@@ -413,7 +413,7 @@ deno task compile -- -c config.txt -f yaml
 FROM denoland/deno:2.0.0
 
 WORKDIR /app
-COPY src/rules-compiler-typescript .
+COPY src/adblock-compiler-core .
 
 RUN deno cache src/mod.ts
 
@@ -427,8 +427,8 @@ If you're in a Node.js project, you can add to `package.json`:
 ```json
 {
   "scripts": {
-    "compile-rules": "cd src/rules-compiler-typescript && deno task compile",
-    "compile-interactive": "cd src/rules-compiler-typescript && deno task interactive"
+    "compile-rules": "cd src/adblock-compiler-core && deno task compile",
+    "compile-interactive": "cd src/adblock-compiler-core && deno task interactive"
   }
 }
 ```

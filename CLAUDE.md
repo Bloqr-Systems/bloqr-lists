@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 This repository is a comprehensive multi-language toolkit for ad-blocking, network protection, and AdGuard DNS management:
 
 ### Rules Compilers (4 languages)
-- **TypeScript** (`src/rules-compiler-typescript/`) - Deno 2.0+ with npm compatibility
+- **TypeScript** (`src/adblock-compiler-core/`) - Deno 2.0+ with npm compatibility
 - **C#/.NET 10** (`src/rules-compiler-dotnet/`) - Library and Spectre.Console CLI with DI support
 - **Python 3.9+** (`src/rules-compiler-python/`) - pip-installable package with CLI and API
 - **Rust** (`src/rules-compiler-rust/`) - High-performance single binary with zero runtime deps
@@ -64,9 +64,9 @@ Warp Environment: `jaysonknight/warp-env:ad-blocking` (ID: `Egji4sZU4TNIOwNasFU7
 
 ## Common Commands
 
-### TypeScript Rules Compiler (`src/rules-compiler-typescript/`)
+### TypeScript Rules Compiler (`src/adblock-compiler-core/`)
 ```bash
-cd src/rules-compiler-typescript
+cd src/adblock-compiler-core
 
 # Deno tasks
 deno task start                # Start (auto-detect interactive or CLI mode)
@@ -255,7 +255,7 @@ Invoke-ScriptAnalyzer -Path src/adguard-api-powershell -Recurse
 
 ### TypeScript (Deno)
 ```bash
-cd src/rules-compiler-typescript
+cd src/adblock-compiler-core
 deno test src/cli.test.ts                  # By file
 deno test --filter "parseArgs"             # By test name
 deno task test:coverage                    # With coverage
@@ -308,7 +308,7 @@ cargo test config::                       # Tests in module
 ### Filter Rules (`data/output/`)
 - `data/output/adguard_user_filter.txt` - Main tracked filter list consumed by AdGuard DNS
 
-### Rules Compiler - TypeScript (`src/rules-compiler-typescript/`)
+### Rules Compiler - TypeScript (`src/adblock-compiler-core/`)
 - TypeScript compiler using @jk-com/adblock-compiler
 - Deno 2.0+ runtime with npm compatibility
 - Supports JSON, YAML, and TOML configuration formats
@@ -339,7 +339,9 @@ cargo test config::                       # Tests in module
 ### Rules Compiler - .NET (`src/rules-compiler-dotnet/`)
 - .NET 10 library for filter compilation
 - Supports JSON, YAML, and TOML configuration formats
-- `RulesCompiler` - Core library with abstractions, models, and services
+- `Bloqr.Compiler.Abstractions` - Interfaces, event-args, and model/DTO types shared across the compiler stack
+- `Bloqr.Compiler.Core` - Configuration reading/validation, chunking, file-locking, plugin management, and the compilation pipeline, built on `Bloqr.Compiler.Abstractions`
+- `RulesCompiler` - Thin library referencing `Bloqr.Compiler.Abstractions`/`Bloqr.Compiler.Core`, plus compiler-specific services (e.g. `FilterCompiler`)
 - `RulesCompiler.Console` - Spectre.Console interactive and CLI frontend
 - `RulesCompiler.Tests` - xUnit tests
 - Key interfaces: `IRulesCompilerService`, `IConfigurationReader`, `IFilterCompiler`

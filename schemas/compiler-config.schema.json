@@ -1,0 +1,212 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/BloqrAI/bloqr-lists/schemas/compiler-config.schema.json",
+  "title": "Compiler Configuration Schema",
+  "description": "JSON Schema for @jk-com/adblock-compiler filter list compilation configuration",
+  "type": "object",
+  "required": ["name", "sources"],
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Filter list name (required)",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string",
+      "description": "Filter list description"
+    },
+    "homepage": {
+      "type": "string",
+      "description": "Homepage URL",
+      "format": "uri"
+    },
+    "license": {
+      "type": "string",
+      "description": "License identifier (e.g., MIT, Apache-2.0, ISC)"
+    },
+    "version": {
+      "type": "string",
+      "description": "Version number",
+      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
+    },
+    "output": {
+      "type": "object",
+      "description": "Output configuration",
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "Output file path",
+          "minLength": 1
+        },
+        "conflictStrategy": {
+          "type": "string",
+          "description": "Strategy when output file already exists",
+          "enum": ["rename", "overwrite", "error"],
+          "default": "rename"
+        }
+      }
+    },
+    "hashVerification": {
+      "type": "object",
+      "description": "Hash verification configuration",
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "type": "string",
+          "description": "Hash verification mode",
+          "enum": ["strict", "warning", "disabled"],
+          "default": "warning"
+        },
+        "requireHashesForRemote": {
+          "type": "boolean",
+          "description": "Require hashes for remote sources",
+          "default": false
+        },
+        "failOnMismatch": {
+          "type": "boolean",
+          "description": "Fail compilation on hash mismatch",
+          "default": false
+        },
+        "hashDatabasePath": {
+          "type": "string",
+          "description": "Path to hash database file"
+        }
+      }
+    },
+    "archiving": {
+      "type": "object",
+      "description": "Archiving configuration",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable output archiving",
+          "default": false
+        },
+        "mode": {
+          "type": "string",
+          "description": "Archiving mode",
+          "enum": ["automatic", "interactive", "disabled"],
+          "default": "automatic"
+        },
+        "retentionDays": {
+          "type": "integer",
+          "description": "Archive retention period in days",
+          "minimum": 1,
+          "default": 90
+        }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "description": "Filter sources (required)",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["source"],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Source identifier"
+          },
+          "source": {
+            "type": "string",
+            "description": "URL or file path (required)",
+            "minLength": 1
+          },
+          "type": {
+            "type": "string",
+            "description": "Source type",
+            "enum": ["adblock", "hosts"],
+            "default": "adblock"
+          },
+          "transformations": {
+            "type": "array",
+            "description": "Source-specific transformations",
+            "items": {
+              "type": "string",
+              "enum": [
+                "RemoveComments",
+                "Compress",
+                "RemoveModifiers",
+                "Validate",
+                "ValidateAllowIp",
+                "Deduplicate",
+                "InvertAllow",
+                "RemoveEmptyLines",
+                "TrimLines",
+                "InsertFinalNewLine",
+                "ConvertToAscii"
+              ]
+            }
+          },
+          "inclusions": {
+            "type": "array",
+            "description": "Source-specific inclusion patterns",
+            "items": {
+              "type": "string"
+            }
+          },
+          "exclusions": {
+            "type": "array",
+            "description": "Source-specific exclusion patterns",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "transformations": {
+      "type": "array",
+      "description": "Global transformations applied to all sources",
+      "items": {
+        "type": "string",
+        "enum": [
+          "RemoveComments",
+          "Compress",
+          "RemoveModifiers",
+          "Validate",
+          "ValidateAllowIp",
+          "Deduplicate",
+          "InvertAllow",
+          "RemoveEmptyLines",
+          "TrimLines",
+          "InsertFinalNewLine",
+          "ConvertToAscii"
+        ]
+      }
+    },
+    "inclusions": {
+      "type": "array",
+      "description": "Global inclusion patterns",
+      "items": {
+        "type": "string"
+      }
+    },
+    "inclusions_sources": {
+      "type": "array",
+      "description": "Files containing inclusion patterns",
+      "items": {
+        "type": "string"
+      }
+    },
+    "exclusions": {
+      "type": "array",
+      "description": "Global exclusion patterns",
+      "items": {
+        "type": "string"
+      }
+    },
+    "exclusions_sources": {
+      "type": "array",
+      "description": "Files containing exclusion patterns",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

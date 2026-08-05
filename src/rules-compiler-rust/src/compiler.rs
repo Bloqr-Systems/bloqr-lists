@@ -1,7 +1,8 @@
 //! Core compiler functionality for AdGuard filter rules.
 //!
-//! This module provides the main compilation logic, wrapping the hostlist-compiler
-//! tool and providing statistics, hashing, and file management.
+//! This module provides the main compilation logic, wrapping the
+//! adblock-compiler-core tool (published as `@jk-com/adblock-compiler` on
+//! JSR, run via Deno) and providing statistics, hashing, and file management.
 
 use chrono::{DateTime, Utc};
 use sha2::{Digest, Sha384};
@@ -17,6 +18,19 @@ use crate::events::{
     EventDispatcher, EventTimestamp, HashComputedEventArgs, HashMismatchEventArgs,
     HashVerifiedEventArgs,
 };
+
+/// JSR package specifier for the compiler CLI, run via `deno run`.
+const JSR_PACKAGE_SPECIFIER: &str = "jsr:@jk-com/adblock-compiler/cli";
+
+/// Deno permission flags required to run the compiler CLI.
+const DENO_PERMISSIONS: &[&str] = &[
+    "run",
+    "--allow-read",
+    "--allow-write",
+    "--allow-env",
+    "--allow-net",
+    "--allow-run",
+];
 
 /// Platform-specific information.
 #[derive(Debug, Clone, Default)]
@@ -59,9 +73,9 @@ pub struct VersionInfo {
     pub rust_version: String,
     /// Node.js version (if available).
     pub node_version: Option<String>,
-    /// hostlist-compiler version (if available).
+    /// adblock-compiler-core version (if available).
     pub hostlist_compiler_version: Option<String>,
-    /// Path to hostlist-compiler.
+    /// Path to the compiler command (deno).
     pub hostlist_compiler_path: Option<String>,
     /// Platform information.
     pub platform: PlatformInfo,
@@ -78,27 +92,23 @@ impl VersionInfo {
             ..Default::default()
         };
 
-        // Check Node.js
-        if let Some(node_path) = find_command("node") {
-            info.node_version =
-                get_command_version(node_path.to_str().unwrap_or("node"), &["--version"]);
-        }
+        // Check Deno (reported via node_version for backward compatibility
+        // with existing consumers of VersionInfo)
+        if let Some(deno_path) = find_command("deno") {
+            let deno_str = deno_path.to_str().unwrap_or("deno");
+            info.node_version = get_command_version(deno_str, &["--version"]);
 
-        // Check hostlist-compiler
-        if let Some(compiler_path) = find_command("hostlist-compiler") {
-            info.hostlist_compiler_path = Some(compiler_path.display().to_string());
-            info.hostlist_compiler_version = get_command_version(
-                compiler_path.to_str().unwrap_or("hostlist-compiler"),
-                &["--version"],
-            );
-        } else if find_command("npx").is_some() {
-            info.hostlist_compiler_path = Some("npx @adguard/hostlist-compiler".to_string());
+            info.hostlist_compiler_path = Some(format!("{deno_str} run {JSR_PACKAGE_SPECIFIER}"));
+            let mut version_args: Vec<&str> = DENO_PERMISSIONS.to_vec();
+            version_args.push(JSR_PACKAGE_SPECIFIER);
+            version_args.push("--version");
+            info.hostlist_compiler_version = get_command_version(deno_str, &version_args);
         }
 
         info
     }
 
-    /// Check if hostlist-compiler is available.
+    /// Check if the compiler (adblock-compiler-core, via Deno) is available.
     #[must_use]
     pub fn has_compiler(&self) -> bool {
         self.hostlist_compiler_path.is_some()
@@ -545,29 +555,15 @@ pub fn verify_hash_with_events<P: AsRef<Path>>(
 
 /// Get compiler command and arguments.
 fn get_compiler_command(config_path: &str, output_path: &str) -> Result<(String, Vec<String>)> {
-    if let Some(compiler_path) = find_command("hostlist-compiler") {
-        return Ok((
-            compiler_path.display().to_string(),
-            vec![
-                "--config".to_string(),
-                config_path.to_string(),
-                "--output".to_string(),
-                output_path.to_string(),
-            ],
-        ));
-    }
+    if let Some(deno_path) = find_command("deno") {
+        let mut args: Vec<String> = DENO_PERMISSIONS.iter().map(|s| s.to_string()).collect();
+        args.push(JSR_PACKAGE_SPECIFIER.to_string());
+        args.push("--config".to_string());
+        args.push(config_path.to_string());
+        args.push("--output".to_string());
+        args.push(output_path.to_string());
 
-    if let Some(npx_path) = find_command("npx") {
-        return Ok((
-            npx_path.display().to_string(),
-            vec![
-                "@adguard/hostlist-compiler".to_string(),
-                "--config".to_string(),
-                config_path.to_string(),
-                "--output".to_string(),
-                output_path.to_string(),
-            ],
-        ));
+        return Ok((deno_path.display().to_string(), args));
     }
 
     Err(CompilerError::CompilerNotFound)
@@ -597,7 +593,7 @@ fn get_rules_directory(config_path: &Path, custom: Option<&Path>) -> PathBuf {
     })
 }
 
-/// Compile filter rules using hostlist-compiler.
+/// Compile filter rules using adblock-compiler-core (via Deno).
 ///
 /// # Arguments
 ///
@@ -641,7 +637,7 @@ pub fn compile_rules<P: AsRef<Path>>(
         .unwrap_or_else(|| generate_output_path(&config_path));
     result.output_path = output_path.clone();
 
-    // Convert to JSON if needed (hostlist-compiler only accepts JSON)
+    // Convert to JSON if needed (adblock-compiler-core only accepts JSON)
     let (compile_config_path, temp_config_path) = if config.format() != Some(ConfigFormat::Json) {
         let temp_path =
             std::env::temp_dir().join(format!("compiler-config-{}.json", uuid::Uuid::new_v4()));
@@ -806,7 +802,7 @@ pub fn compile_rules_with_events<P: AsRef<Path>>(
         .unwrap_or_else(|| generate_output_path(&config_path));
     result.output_path = output_path.clone();
 
-    // Convert to JSON if needed (hostlist-compiler only accepts JSON)
+    // Convert to JSON if needed (adblock-compiler-core only accepts JSON)
     let (compile_config_path, temp_config_path) = if config.format() != Some(ConfigFormat::Json) {
         let temp_path =
             std::env::temp_dir().join(format!("compiler-config-{}.json", uuid::Uuid::new_v4()));
@@ -921,7 +917,7 @@ pub fn compile_rules_with_events<P: AsRef<Path>>(
     Ok(result)
 }
 
-/// Asynchronously compile filter rules using hostlist-compiler.
+/// Asynchronously compile filter rules using adblock-compiler-core (via Deno).
 ///
 /// This async version provides better performance for I/O-bound operations
 /// and allows compilation to be integrated into async applications.
@@ -970,7 +966,7 @@ pub async fn compile_rules_async<P: AsRef<Path>>(
         .unwrap_or_else(|| generate_output_path(&config_path));
     result.output_path = output_path.clone();
 
-    // Convert to JSON if needed (hostlist-compiler only accepts JSON)
+    // Convert to JSON if needed (adblock-compiler-core only accepts JSON)
     let (compile_config_path, temp_config_path) = if config.format() != Some(ConfigFormat::Json) {
         let temp_path =
             std::env::temp_dir().join(format!("compiler-config-{}.json", uuid::Uuid::new_v4()));

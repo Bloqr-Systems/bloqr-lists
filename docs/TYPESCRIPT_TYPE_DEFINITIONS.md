@@ -26,7 +26,7 @@ Each TypeScript project has a `generate-types.ts` script that:
 - Places all output in a `dist/` directory
 
 **Location**: 
-- `src/rules-compiler-typescript/generate-types.ts`
+- `src/adblock-compiler-core/generate-types.ts`
 - `src/adguard-api-typescript/generate-types.ts`
 - `src/linear/generate-types.ts`
 
@@ -62,7 +62,7 @@ deno task generate:types
 ```
 
 This command is available in:
-- `src/rules-compiler-typescript/`
+- `src/adblock-compiler-core/`
 - `src/adguard-api-typescript/`
 - `src/linear/`
 
@@ -121,7 +121,7 @@ This ensures that type definitions are always validated in CI but are not commit
 
 ## Project-Specific Details
 
-### rules-compiler-typescript
+### adblock-compiler-core
 - **Files**: 17 `.d.ts` files
 - **Entry Point**: `dist/index.d.ts`
 - **Main Exports**: RulesCompiler, ConfigurationBuilder, types

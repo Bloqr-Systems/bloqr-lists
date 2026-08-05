@@ -44,7 +44,7 @@ transformations:
 ```bash
 # TypeScript (Deno)
 curl -fsSL https://deno.land/install.sh | sh
-cd src/rules-compiler-typescript
+cd src/adblock-compiler-core
 deno cache src/mod.ts
 
 # .NET

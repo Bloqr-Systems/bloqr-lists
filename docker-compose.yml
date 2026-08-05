@@ -44,7 +44,7 @@ services:
     volumes:
       - .:/workspace
       - deno_cache:/root/.deno
-    working_dir: /workspace/src/rules-compiler-typescript
+    working_dir: /workspace/src/adblock-compiler-core
     command: deno task compile
     depends_on:
       - dev
@@ -135,7 +135,7 @@ services:
     command: >
       bash -c "
         echo '=== Running TypeScript Tests ===' &&
-        cd /workspace/src/rules-compiler-typescript && deno task test &&
+        cd /workspace/src/adblock-compiler-core && deno task test &&
         echo '=== Running .NET Tests ===' &&
         cd /workspace/src/rules-compiler-dotnet && dotnet test RulesCompiler.slnx &&
         echo '=== Running Python Tests ===' &&

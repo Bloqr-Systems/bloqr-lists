@@ -42,7 +42,7 @@ git push origin v1.0.0
 Once the tag is pushed:
 
 1. The **Release Binaries** workflow will automatically start
-2. Monitor the workflow progress at: `https://github.com/jaypatrick/ad-blocking/actions/workflows/release.yml`
+2. Monitor the workflow progress at: `https://github.com/BloqrAI/bloqr-lists/actions/workflows/release.yml`
 3. The workflow will:
    - Build .NET executables for Windows, Linux, and macOS
    - Build Rust binaries for Windows, Linux, and macOS
@@ -55,7 +55,7 @@ The complete workflow typically takes **15-20 minutes** to complete all builds.
 
 After the workflow completes:
 
-1. Go to the [Releases page](https://github.com/jaypatrick/ad-blocking/releases)
+1. Go to the [Releases page](https://github.com/BloqrAI/bloqr-lists/releases)
 2. Find your new release (e.g., `v1.0.0`)
 3. Verify that all binaries are attached:
    - `AdGuard.ConsoleUI-windows.zip`
@@ -169,7 +169,7 @@ python -m build
 
 ### Create Release Manually
 
-1. Go to [Create a new release](https://github.com/jaypatrick/ad-blocking/releases/new)
+1. Go to [Create a new release](https://github.com/BloqrAI/bloqr-lists/releases/new)
 2. Choose your tag
 3. Add release notes
 4. Upload all the built binaries
@@ -198,6 +198,6 @@ python -m build
 
 If you encounter issues with releases, please:
 
-1. Check existing [GitHub Issues](https://github.com/jaypatrick/ad-blocking/issues)
-2. Review the [Actions workflow runs](https://github.com/jaypatrick/ad-blocking/actions)
+1. Check existing [GitHub Issues](https://github.com/BloqrAI/bloqr-lists/issues)
+2. Review the [Actions workflow runs](https://github.com/BloqrAI/bloqr-lists/actions)
 3. Create a new issue with detailed logs if needed

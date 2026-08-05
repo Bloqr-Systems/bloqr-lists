@@ -1,7 +1,8 @@
 namespace RulesCompiler.Services;
 
 /// <summary>
-/// Compiles filter rules using the hostlist-compiler CLI.
+/// Compiles filter rules using the adblock-compiler-core CLI
+/// (published as @jk-com/adblock-compiler on JSR), run via Deno.
 /// </summary>
 public class FilterCompiler : IFilterCompiler
 {
@@ -10,9 +11,8 @@ public class FilterCompiler : IFilterCompiler
     private readonly CommandHelper _commandHelper;
     private readonly IChunkingService? _chunkingService;
 
-    private const string CompilerCommand = "hostlist-compiler";
-    private const string NpxCommand = "npx";
-    private const string NodeCommand = "node";
+    private const string DenoCommand = "deno";
+    private const string JsrPackageSpecifier = "jsr:@jk-com/adblock-compiler/cli";
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FilterCompiler"/> class.
@@ -89,7 +89,7 @@ public class FilterCompiler : IFilterCompiler
 
             if (actualFormat != ConfigurationFormat.Json)
             {
-                // hostlist-compiler only supports JSON, create temp file
+                // adblock-compiler-core only supports JSON, create temp file
                 tempConfigPath = Path.Combine(Path.GetTempPath(), $"compiler-config-{Guid.NewGuid()}.json");
                 var jsonContent = _configurationReader.ToJson(config);
                 await File.WriteAllTextAsync(tempConfigPath, jsonContent, cancellationToken);
@@ -119,7 +119,7 @@ public class FilterCompiler : IFilterCompiler
             if (string.IsNullOrEmpty(command))
             {
                 result.Success = false;
-                result.ErrorMessage = "hostlist-compiler not found. Install with: npm install -g @adguard/hostlist-compiler";
+                result.ErrorMessage = "deno not found. Install from: https://deno.com/";
                 return result;
             }
 
@@ -198,33 +198,17 @@ public class FilterCompiler : IFilterCompiler
             Platform = PlatformHelper.GetPlatformInfo()
         };
 
-        // Get Node.js version
-        var nodePath = _commandHelper.FindCommand(NodeCommand);
-        if (nodePath != null)
+        // Get Deno runtime version (reported via the NodeVersion field for
+        // backward compatibility with existing consumers of VersionInfo)
+        var denoPath = _commandHelper.FindCommand(DenoCommand);
+        if (denoPath != null)
         {
-            info.NodeVersion = await _commandHelper.GetVersionAsync(nodePath, "--version", cancellationToken);
-        }
-
-        // Get hostlist-compiler version
-        var compilerPath = _commandHelper.FindCommand(CompilerCommand);
-        if (compilerPath != null)
-        {
-            info.HostlistCompilerPath = compilerPath;
-            info.HostlistCompilerVersion = await _commandHelper.GetVersionAsync(compilerPath, "--version", cancellationToken);
-        }
-        else
-        {
-            // Check if available via npx
-            var npxPath = _commandHelper.FindCommand(NpxCommand);
-            if (npxPath != null)
-            {
-                info.HostlistCompilerPath = $"{npxPath} @adguard/hostlist-compiler";
-                var version = await _commandHelper.GetVersionAsync(
-                    npxPath,
-                    "@adguard/hostlist-compiler --version",
-                    cancellationToken);
-                info.HostlistCompilerVersion = version;
-            }
+            info.NodeVersion = await _commandHelper.GetVersionAsync(denoPath, "--version", cancellationToken);
+            info.HostlistCompilerPath = $"{denoPath} run {JsrPackageSpecifier}";
+            info.HostlistCompilerVersion = await _commandHelper.GetVersionAsync(
+                denoPath,
+                $"run --allow-read --allow-write --allow-env --allow-net --allow-run {JsrPackageSpecifier} --version",
+                cancellationToken);
         }
 
         return info;
@@ -233,13 +217,8 @@ public class FilterCompiler : IFilterCompiler
     /// <inheritdoc/>
     public async Task<bool> IsCompilerAvailableAsync()
     {
-        var compilerPath = _commandHelper.FindCommand(CompilerCommand);
-        if (compilerPath != null)
-            return true;
-
-        // Check if npx is available as fallback
-        var npxPath = _commandHelper.FindCommand(NpxCommand);
-        return npxPath != null;
+        var denoPath = _commandHelper.FindCommand(DenoCommand);
+        return denoPath != null;
     }
 
     private async Task<(string Command, string Args)> GetCompilerCommandAsync(
@@ -250,19 +229,12 @@ public class FilterCompiler : IFilterCompiler
     {
         var verboseFlag = verbose ? " --verbose" : "";
 
-        // Try global hostlist-compiler first
-        var compilerPath = _commandHelper.FindCommand(CompilerCommand);
-        if (compilerPath != null)
+        var denoPath = _commandHelper.FindCommand(DenoCommand);
+        if (denoPath != null)
         {
-            return (compilerPath, $"--config \"{configPath}\" --output \"{outputPath}\"{verboseFlag}");
-        }
-
-        // Fall back to npx
-        var npxPath = _commandHelper.FindCommand(NpxCommand);
-        if (npxPath != null)
-        {
-            _logger.LogDebug("Using npx to run hostlist-compiler");
-            return (npxPath, $"@adguard/hostlist-compiler --config \"{configPath}\" --output \"{outputPath}\"{verboseFlag}");
+            return (denoPath,
+                $"run --allow-read --allow-write --allow-env --allow-net --allow-run {JsrPackageSpecifier} " +
+                $"--config \"{configPath}\" --output \"{outputPath}\"{verboseFlag}");
         }
 
         return (string.Empty, string.Empty);

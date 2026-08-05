@@ -14,7 +14,7 @@ dotnet:
 typescript:
   - changed-files:
       - any-glob-to-any-file:
-          - 'src/rules-compiler-typescript/**'
+          - 'src/adblock-compiler-core/**'
           - 'src/adguard-api-typescript/**'
           - 'src/linear/**'
           - '**/*.ts'

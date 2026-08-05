@@ -1,4 +1,4 @@
-name: jaypatrick/ad-blocking-csharp
+name: BloqrAI/bloqr-lists-csharp
 version: 0.0.0
 library: true
 extensionTargets:

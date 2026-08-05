@@ -23,7 +23,7 @@ Each Deno project has its own `deno.json` file that extends the base configurati
 
 1. **`src/adguard-api-typescript/deno.json`** - AdGuard API TypeScript SDK
 2. **`src/linear/deno.json`** - Linear import tool
-3. **`src/rules-compiler-typescript/deno.json`** - Rules compiler
+3. **`src/adblock-compiler-core/deno.json`** - Rules compiler
 
 These files only contain:
 - Project metadata (`name`, `version`)

@@ -2,6 +2,7 @@
 
 use regex::Regex;
 use reqwest::blocking::Client;
+use serde::Serialize;
 use std::time::Duration;
 use url::Url;
 
@@ -9,7 +10,7 @@ use crate::error::{Result, ValidationError};
 use crate::hash::compute_hash;
 
 /// URL validation result.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize)]
 pub struct UrlValidationResult {
     /// Whether the URL passed validation.
     pub is_valid: bool,

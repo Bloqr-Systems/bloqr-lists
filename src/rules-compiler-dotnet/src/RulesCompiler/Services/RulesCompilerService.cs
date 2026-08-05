@@ -156,7 +156,7 @@ public class RulesCompilerService : IRulesCompilerService
     }
 
     /// <inheritdoc/>
-    public async Task<ConfigurationValidator.ValidationResult> ValidateConfigurationAsync(
+    public async Task<ValidationResult> ValidateConfigurationAsync(
         string? configPath = null,
         ConfigurationFormat? format = null,
         CancellationToken cancellationToken = default)
@@ -166,7 +166,7 @@ public class RulesCompilerService : IRulesCompilerService
     }
 
     /// <inheritdoc/>
-    public ConfigurationValidator.ValidationResult ValidateConfiguration(CompilerConfiguration configuration)
+    public ValidationResult ValidateConfiguration(CompilerConfiguration configuration)
     {
         return ConfigurationValidator.Validate(configuration);
     }

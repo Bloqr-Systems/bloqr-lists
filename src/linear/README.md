@@ -108,7 +108,7 @@ Becomes:
 Each documented component creates a detailed documentation issue:
 
 - Filter Rules (`/data/output/`)
-- Rules Compiler TypeScript (`/src/rules-compiler-typescript/`)
+- Rules Compiler TypeScript (`/src/adblock-compiler-core/`)
 - API Client (`/src/adguard-api-dotnet/`)
 - etc.
 
