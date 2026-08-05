@@ -114,7 +114,7 @@ dotnet run --project src/RulesCompiler.Console
     "compile": "node compile.js"
   },
   "dependencies": {
-    "@jk-com/adblock-compiler": "^0.6.0"
+    "@jk-com/adblock-compiler": "^1.0.0"
   }
 }
 ```
@@ -126,7 +126,7 @@ dotnet run --project src/RulesCompiler.Console
     "compile": "deno run --allow-all src/mod.ts"
   },
   "imports": {
-    "@jk-com/adblock-compiler": "jsr:@jk-com/adblock-compiler@^0.6.0"
+    "@jk-com/adblock-compiler": "jsr:@jk-com/adblock-compiler@^1.0.0"
   }
 }
 ```
@@ -738,8 +738,8 @@ jsonlint config.json  # For JSON
 # Check transformation order
 # Transformations are applied in fixed order regardless of config
 
-# Check for version differences in hostlist-compiler
-deno run jsr:@jk-com/adblock-compiler --version
+# Check for version differences in the underlying @jk-com/adblock-compiler engine
+deno run jsr:@jk-com/adblock-compiler/cli --version
 
 # Enable debug output
 new-compiler -c config.yaml -d

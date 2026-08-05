@@ -112,9 +112,9 @@ const IndexPage = () => {
           </div>
           <div className="feature">
             <h3>
-              <Link to="/adblock-compiler">AdBlock Compiler</Link>
+              <Link to="/adblock-compiler">@jk-com/adblock-compiler</Link>
             </h3>
-            <p>Modern TypeScript compiler-as-a-service with real-time progress, visual diff, and production features.</p>
+            <p>The open-source, dependency-free TypeScript engine that powers every compiler in this repository.</p>
           </div>
         </div>
       </section>

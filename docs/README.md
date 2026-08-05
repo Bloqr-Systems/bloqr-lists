@@ -86,6 +86,7 @@ Auto-generated API documentation for the AdGuard DNS API Client (v1.15).
 | .NET API Client | [src/adguard-api-dotnet/README.md](../src/adguard-api-dotnet/README.md) |
 | TypeScript API Client | [src/adguard-api-typescript/README.md](../src/adguard-api-typescript/README.md) |
 | Rust API Client | [src/adguard-api-rust/README.md](../src/adguard-api-rust/README.md) |
+| TypeScript Compiler (`@jk-com/adblock-compiler`) | [src/adblock-compiler-core/README.md](../src/adblock-compiler-core/README.md) |
 | .NET Compiler | [src/rules-compiler-dotnet/README.md](../src/rules-compiler-dotnet/README.md) |
 | Python Compiler | [src/rules-compiler-python/README.md](../src/rules-compiler-python/README.md) |
 | Rust Compiler | [src/rules-compiler-rust/README.md](../src/rules-compiler-rust/README.md) |
@@ -139,6 +140,6 @@ All URIs are relative to `https://api.adguard-dns.io`
 
 - [AdGuard DNS](https://adguard-dns.io/)
 - [AdGuard DNS API Documentation](https://api.adguard-dns.io/static/swagger/swagger.json)
-- [@jk-com/adblock-compiler](https://github.com/jaypatrick/hostlistcompiler)
+- [@jk-com/adblock-compiler on JSR](https://jsr.io/@jk-com/adblock-compiler)
 - [AdBlock Tester](https://adblock-tester.com/)
 - [AdGuard Tester](https://d3ward.github.io/toolz/adblock.html)

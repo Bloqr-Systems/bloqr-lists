@@ -75,9 +75,10 @@ const GettingStartedPage = () => {
           </li>
         </ul>
         <p>
-          All compilers wrap either <code>@adguard/hostlist-compiler</code> or{" "}
-          <Link to="/adblock-compiler">AdBlock Compiler</Link> (a modern TypeScript rewrite
-          with production features).
+          All compilers dogfood{" "}
+          <Link to="/adblock-compiler">@jk-com/adblock-compiler</Link>, this
+          repository's own open-source, dependency-free compilation engine
+          published to JSR.
         </p>
       </section>
 
@@ -117,7 +118,7 @@ const GettingStartedPage = () => {
             <pre style={{ marginTop: "0.5rem" }}>
               # TypeScript
               <br />
-              cd src/rules-compiler-typescript && deno task compile
+              cd src/adblock-compiler-core && deno task compile
               <br />
               <br />
               # .NET
@@ -171,10 +172,11 @@ const GettingStartedPage = () => {
           </div>
           <div className="feature">
             <h3>
-              <Link to="/adblock-compiler">Try AdBlock Compiler</Link>
+              <Link to="/adblock-compiler">@jk-com/adblock-compiler</Link>
             </h3>
             <p>
-              Modern compiler-as-a-service with web UI, batch processing, and visual diff.
+              Learn about the open-source compilation engine that powers every
+              compiler in this repository.
             </p>
           </div>
         </div>

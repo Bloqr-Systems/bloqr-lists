@@ -9,7 +9,7 @@ This guide will help you get up and running with the ad-blocking toolkit.
 | Requirement | Version | Purpose | Installation |
 |-------------|---------|---------|--------------|
 | Deno | 2.0+ | TypeScript compilers and tools | [deno.land](https://deno.land/) |
-| adblock-compiler | 0.6.0 | Filter compilation | `deno run jsr:@jk-com/adblock-compiler` |
+| adblock-compiler | 1.0.0 | Filter compilation | `deno run jsr:@jk-com/adblock-compiler/cli` |
 
 ### Language-Specific Requirements
 
@@ -270,18 +270,18 @@ See [Docker Guide](docker-guide.md) for more details.
 
 ## Common Issues
 
-### hostlist-compiler not found
+### @jk-com/adblock-compiler not found
 
-The hostlist-compiler is accessed via Deno's npm compatibility. Make sure Deno is installed:
+The .NET, Python, and Rust compilers all shell out to `@jk-com/adblock-compiler` via Deno. Make sure Deno is installed:
 
 ```bash
 deno --version
 ```
 
-You can run hostlist-compiler directly with:
+You can run the compiler CLI directly with:
 
 ```bash
-deno run --allow-all jsr:@jk-com/adblock-compiler --version
+deno run --allow-read --allow-write --allow-env --allow-net --allow-run jsr:@jk-com/adblock-compiler/cli --version
 ```
 
 ### Permission denied on Linux/macOS
